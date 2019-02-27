@@ -20,7 +20,7 @@ export const ApibindingPhone = async (data) => {
   try {
     const res = await Axios.post(URLbindingPhone, data)
     return res
-  } catch (err) {
-    console.log(err)
+  } catch (errr) {
+    console.log(errr)
   }
 }
