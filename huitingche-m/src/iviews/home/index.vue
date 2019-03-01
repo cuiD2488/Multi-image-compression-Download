@@ -37,8 +37,16 @@
     <div>
       <!-- 停车方式 -->
       <div class="doubleBox">
-        <div class="leftBox"></div>
-        <div class="rightBox"></div>
+        <div class="leftBox">
+          <div class="inside">
+            <img src="../../assets/earlyWarning.png" alt=""><div>预付费停车</div>
+          </div>
+        </div>
+        <div class="rightBox">
+          <div class="inside">
+            <img src="../../assets/after.png" alt=""><div>后付费停车</div>
+          </div>
+        </div>
       </div>
     </div>
     <div>
@@ -224,5 +232,33 @@ export default {
     margin:20px 20px;
   }
 }
-
+.doubleBox{
+  height: 146px;
+  display: flex;
+  padding: 10px 20px;
+  font-size: 28px;
+  .leftBox{
+    width: 339px;
+    background: #effbff;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .rightBox{
+    width: 339px;
+    background: #effbff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .inside{
+    display: flex;
+    img{
+      padding-right: 24px;
+      width: 42px;
+      height: 42px;
+    }
+  }
+}
 </style>
