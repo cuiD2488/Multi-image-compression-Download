@@ -8,6 +8,7 @@ import bindTel from '@/iviews/mine/bindTel'
 import mine from '@/iviews/mine'
 import myWallet from '@/iviews/mine/myWallet'
 import parkingRecord from '@/iviews/mine/parkingRecord'
+import carMessage from '@/iviews/mine/carMessage'
 // const home = () => import('@/iviews/home')
 
 Vue.use(Router)
@@ -75,6 +76,14 @@ export default new Router({
             title: '智能停车'
           },
           component: Intelligence
+        },
+        {
+          path: '/mine/carMessage',
+          name: 'carMessage',
+          meta: {
+            title: '智能停车'
+          },
+          component: carMessage
         }
       ]
     }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="height: 3.5rem;">
+    <div class="searchLine">
       <!-- 搜索栏 -->
       <search
       @result-click="resultClick"
@@ -36,11 +36,15 @@
     </div>
     <div>
       <!-- 停车方式 -->
+      <div class="doubleBox">
+        <div class="leftBox"></div>
+        <div class="rightBox"></div>
+      </div>
     </div>
     <div>
       <!-- 信息中心 -->
       <div class="messageHead">
-        <img src="" alt=""><span>信息中心</span>
+        <img src="../../assets/gonggao.png" alt=""><span>信息中心</span>
       </div>
       <div class="messageContent">
         <p v-for="(item, index) in noticeList" :key="index">
@@ -64,7 +68,7 @@ export default {
       muenList: [
         {
           icon: require('../../assets/stop.png'),
-          text: '智能停车',
+          text: '我要停车',
           routeName: 'Intelligence'
         },
         {
@@ -163,8 +167,12 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.searchLine{
+  height: 58px;
+  padding: 20px 0;
+}
 .bannerContent{
-  height: 13.75rem;
+  height: 274px;
   img{
     width:100%;
     height:100%;
@@ -174,18 +182,18 @@ export default {
   display:flex;
   justify-content: flex-start;
   flex-wrap:wrap;
-  margin-bottom: 1rem;
+  // margin-bottom: 1rem;
   >div{
     width:21%;
-    height: 5rem;
+    // height: 5rem;
     margin: 0 2%;
-    padding: 1.2rem 0;
-    font-size: 1.4rem;
+    padding: 40px 0;
+    // font-size: 1.4rem;
     .navImgContent{
-      width: 2.3rem;
-      height: 2.3rem;
+      width: 60px;
+      height: 60px;
       margin: 0 auto;
-      margin-bottom:.5rem;
+      margin-bottom:30px;
       img{
         width:100%;
         height:100%;
@@ -195,18 +203,26 @@ export default {
 }
 .messageHead{
   text-align: left;
-  padding-left: 1rem;
+  padding: 20px;
+  border-bottom: 1px solid #e5e5e5;
+  img{
+    width: 27px;
+    height: 23px;
+    padding-right: 20px;
+  }
 }
 .messageContent{
   text-align: left;
-  font-size: 1.2rem;
-  padding: 0 1rem;
-  max-height: 15rem;
+  // font-size: 1.2rem;
+  padding: 0 20px;
+  // max-height: 15rem;
+  height: 124px;
   overflow: auto;
   p{
     display: flex;
     justify-content: space-between;
-    padding: .4rem;
+    margin:20px 20px;
   }
 }
+
 </style>

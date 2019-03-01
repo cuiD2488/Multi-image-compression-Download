@@ -48,7 +48,7 @@ export default {
         {
           navImg: require('../../assets/carMessage.png'),
           navText: '车辆信息',
-          routeName: 2
+          routeName: 'carMessage'
         },
         {
           navImg: require('../../assets/parking.png'),
