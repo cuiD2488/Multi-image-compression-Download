@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+import 'lib-flexible/flexible.js'
 import { WechatPlugin, ToastPlugin, LoadingPlugin, ConfirmPlugin } from 'vux'
 
 Vue.config.productionTip = false
