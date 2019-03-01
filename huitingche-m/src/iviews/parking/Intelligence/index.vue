@@ -1,8 +1,8 @@
 <template>
-  <div style="text-align:left;background:#f6f6f6">
-    <div style="height:.5rem;"></div>
+  <div style="text-align:left;background:#f6f6f6;">
+    <div style="height:.5px;"></div>
     <!-- 智能停车 -->
-    <div class="locationContent bgcontent">
+    <div class="locationContent bgcontent defaultClass">
       <span>您已到达宝名二路（西乡东段）停车场</span>
     </div>
     <div class="payFn bgcontent">
@@ -16,7 +16,7 @@
     </div>
     <div class="bgcontent">
       <!-- 泊位号 -->
-      <div style="margin-bottom: .6rem;">泊位编号号</div>
+      <div style="margin-bottom: .6px;">泊位编号号</div>
       <div class="parkingSpaceContent">
         <input maxlength="1" v-focus="focusStatus === index" v-model="item.key" :ref="'input' + index" type="text" @keyup="changeInput(index)" v-for="(item, index) in inputList" :key="index">
       </div>
@@ -24,11 +24,11 @@
         请输入地面上标记的6位泊位数字
       </div>
     </div>
-    <div class="bgcontent" style="margin-top:1rem;">
+    <div class="bgcontent" style="margin-top:1px;">
       <div v-if="+payVal === 1">
         <!-- 预付费选择时间 -->
-        <group>
-          <popup-picker title="购买时长" :data="timeList" v-model="timeVal" @on-hide="confirm"></popup-picker>
+        <group class="popupPickerContent">
+          <popup-picker class="popupPickerContent" title="购买时长" :data="timeList" v-model="timeVal" @on-hide="confirm"></popup-picker>
         </group>
         <div class="beforeParkingMessage">
           <h5>预付费停车信息</h5>
@@ -39,10 +39,10 @@
       </div>
       <div v-else class="afterParkingMessage">
         <!-- 后付费，查询钱包余额是否够一个小时，如果够则允许，超时为继续支付，就给管理人员发送消息。如果钱包不够就提示他无法后付费，并说明后付费需要满足的条件-->
-        <p style="margin-bottom: 1rem;">您钱包余额不足50元，无法使用后付费方式停车</p>
+        <p style="margin-bottom: 1px;">您钱包余额不足50元，无法使用后付费方式停车</p>
         <x-button mini>立即充值</x-button>
       </div>
-      <x-button type="primary" @click.native="1">确认</x-button>
+      <x-button type="primary" @click.native="1" class="defaultClass">确认</x-button>
     </div>
   </div>
 </template>
@@ -137,30 +137,30 @@ export default {
 
 <style lang="less" scoped>
   .bgcontent{
-    padding: .5rem 2.4rem;
+    padding: 10px 48px;
     background: #fff;
-    font-size: 1.4rem;
+    font-size: 28px;
   }
   .locationContent{
-    padding: .5rem 2.4rem;
+    padding: 20px 48px;
     background: #fff;
-    font-size: 1.4rem;
-    margin: 1rem 0;
+    font-size: 24px;
+    margin: 1px 0;
   }
   // 支付方式
   .payFn{
-    margin-bottom: 1rem;
+    margin-bottom: 1px;
     .payFnTitle{
-      margin-bottom: .6rem;
+      margin-bottom: 12px;
     }
   }
   .parkingSpaceContent{
     position: relative;
     background-size: 100%;
-    height: 5rem;
+    height: 100px;
     input{
       width: 16%;
-      height:4rem;
+      height: 80px;
       text-align:center;
       border: 1px solid #ddd;
     }
@@ -170,13 +170,13 @@ export default {
       border:1px solid #ddd;
       border-right: none;
       justify-content: space-between;
-      margin: 0 2.5rem;
+      margin: 0 50px;
       li {
         // width: 16.6%;
-        height: 3rem;
+        height: 60px;
         border-right: 1px solid #ddd;
         flex: 1;
-        line-height: 3rem;
+        line-height: 60px;
       }
       .parkingListItem{
         border: 1px solid green;
@@ -185,24 +185,34 @@ export default {
   }
   .demo1-item {
     border: 1px solid #ececec;
-    padding: 5px 15px;
+    padding: 10px 30px;
   }
   .demo1-item-selected {
     border: 1px solid green;
   }
   .beforeParkingMessage{
-    margin-top: 1rem;
+    margin-top: 20px;
     h5{
-      font-size: 1.6rem;
-      padding-top: 2.75rem;
+      font-size: 32px;
+      padding-top: 50px;
     }
     p{
-      font-size: 1.4rem;
-      padding: .75rem 0;
+      font-size: 28px;
+      padding: 15px 0;
     }
   }
   .afterParkingMessage{
-    min-height: 15rem;
+    min-height: 15px;
     text-align: center;
   }
+</style>
+<style>
+.defaultClass{
+  font-size: 24px !important;
+}
+.popupPickerContent{
+  height: 60px;
+  line-height: 60px;
+  font-size: 28px;
+}
 </style>

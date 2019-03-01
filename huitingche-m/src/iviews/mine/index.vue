@@ -97,11 +97,11 @@ export default {
 .navContent{
     display:flex;
     justify-content: space-between;
-    padding: 17px 0;
+    padding: 20px 0;
     .navItem{
       .navImg{
-        width : 46px;
-        height: 46px;
+        width : 50px;
+        height: 50px;
         margin: 0 auto;
         margin-bottom: 1px;
         img{
@@ -120,7 +120,7 @@ export default {
   p{
     width: 100%;
     padding: 30px 42px;
-    font-size: 32px;
+    font-size: 28px;
     text-align: left;
     margin: 0;
     box-sizing: border-box;
