@@ -69,11 +69,11 @@ export default {
 .headerContent{
   background: linear-gradient(#6abedb, #b3ecff);
   position: relative;
-  // height: 4rem;
-  height: 15rem;
+  // height: 4px;
+  height: 300px;
   .headImg{
-    width: 7.5rem;
-    height: 7.5rem;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     position: absolute;
     top: 0;
@@ -90,20 +90,20 @@ export default {
   .headPhone{
     width: 100%;
     position: absolute;
-    bottom: 2rem;
+    bottom: 20px;
     text-align: center;
   }
 }
 .navContent{
     display:flex;
     justify-content: space-between;
-    padding: 1.7rem 0;
+    padding: 17px 0;
     .navItem{
       .navImg{
-        width : 2.3rem;
-        height: 2.3rem;
+        width : 46px;
+        height: 46px;
         margin: 0 auto;
-        margin-bottom: 1rem;
+        margin-bottom: 1px;
         img{
           width:100%;
           height:100%;
@@ -119,8 +119,8 @@ export default {
   flex-direction: column;
   p{
     width: 100%;
-    padding: 1.5rem 2.1rem;
-    font-size: 1.6rem;
+    padding: 30px 42px;
+    font-size: 32px;
     text-align: left;
     margin: 0;
     box-sizing: border-box;
