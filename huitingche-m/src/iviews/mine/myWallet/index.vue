@@ -12,13 +12,16 @@
       <!-- <img src="" alt=""> -->
     </div>
     <div class="navContent">
-      <p>充值</p>
+      <p><router-link to="recharge">充值</router-link></p>
       <p>提现</p>
       <p>账单明细</p>
     </div>
   </div>
 </template>
 <style lang="less" scoped>
+a{
+  color: #000;
+}
 .headerContent{
   background: linear-gradient(#6abedb, #b3ecff);
   position: relative;
@@ -31,7 +34,7 @@
   margin-bottom: 1rem;
 }
 .navContent{
-  background: #fff;
+  // background: #fff;
   display: flex;
   flex-direction: column;
   p{
@@ -42,6 +45,7 @@
     margin: 0;
     box-sizing: border-box;
     margin-bottom: 1rem;
+    background: #fff;
   }
 }
 </style>

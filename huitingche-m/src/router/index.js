@@ -8,6 +8,7 @@ import bindTel from '@/iviews/mine/bindTel'
 import mine from '@/iviews/mine'
 import myWallet from '@/iviews/mine/myWallet'
 import parkingRecord from '@/iviews/mine/parkingRecord'
+import recharge from '@/iviews/mine/recharge'
 // const home = () => import('@/iviews/home')
 
 Vue.use(Router)
@@ -59,6 +60,14 @@ export default new Router({
             title: '我的钱包'
           },
           component: myWallet
+        },
+        {
+          path: '/mine/recharge',
+          name: 'recharge',
+          meta: {
+            title: '充值'
+          },
+          component: recharge
         },
         {
           path: '/mine/parkingRecord',
