@@ -38,7 +38,14 @@ export default {
 }
 </script>
 <style>
+  .weui-tabbar{
+    height: 120px;
+  }
+  .weui-tabbar__icon{
+    padding-top: 20px;
+  }
   .weui-tabbar__icon img{
-    width: 22px!important;
+    width: 30px!important;
+    height: 34px!important;
   }
 </style>
