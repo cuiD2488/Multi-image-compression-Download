@@ -1,19 +1,27 @@
 <template>
   <div>
+    <!-- style="background:#f5f5f5;" -->
     <!-- 车辆信息 -->
-    <div class="plateNumberDiv">
-      <!-- 车牌前两位 -->
-      <div class="plateNumberFirst">
-        <input maxlength="1" v-focus="focusStatus === index" v-model="item.key" :ref="'input' + index" type="text" @keyup="changeInput(index)" v-for="(item, index) in inputListFirst" :key="index">
-      </div>
-      <!-- 分割点 -->
-      <div class="point">•</div>
-      <!-- 车牌后五位 -->
-      <div class="plateNumberLast">
-        <input maxlength="1" v-focus="focusStatus === index" v-model="item.key" :ref="'input' + index" type="text" @keyup="changeInput(index)" v-for="(item, index) in inputListLast" :key="index">
+    <div class="plateNumberMessage">
+      <div class="titleLine">请输入车牌号</div>
+      <div class="plateNumberDiv">
+        <!-- 车牌前两位 -->
+        <div class="plateNumberFirst">
+          <!-- <input maxlength="1" v-focus="focusStatusFirst === index" v-model="item.key" :ref="'input' + index" type="text" @keyup="changeInput(index, 1)" v-for="(item, index) in inputListFirst" :key="index"> -->
+          <div class="insideInput">
+            <input style="border-right:1px solid #cfcfd1;" type="text">
+            <input type="text">
+          </div>
+        </div>
+        <!-- 分割点 -->
+        <div class="point">•</div>
+        <!-- 车牌后五位 -->
+        <div class="plateNumberLast">
+          <input maxlength="1" v-focus="focusStatus === index" v-model="item.key" :ref="'input' + index" type="text" @keyup="changeInput(index, 2)" v-for="(item, index) in inputList" :key="index">
+        </div>
       </div>
     </div>
-    <x-button class="sureBtn">确定</x-button>
+    <x-button class="sureBtn">保存</x-button>
     <div class="remark">请绑定真实有效的车牌号,否则将无法正常使用车牌付费功能</div>
   </div>
 </template>
@@ -26,15 +34,7 @@ export default {
   data () {
     return {
       focusStatus: 0,
-      inputListFirst: [
-        {
-          key: ''
-        },
-        {
-          key: ''
-        }
-      ],
-      inputListLast: [
+      inputList: [
         {
           key: ''
         },
@@ -65,38 +65,86 @@ export default {
   methods: {
     // 车牌号输入计算
     changeInput (index) {
+      // let inputList
       if (this.inputList[index].key && this.inputList[index].key.length > 0) {
         this.focusStatus = index + 1
       } else {
         this.focusStatus = index - 1
       }
-      if (index === 5) {
+      if (index === 4) {
         // 如果是最后一位，就查询是否有该车位
         console.log('最后一位')
       }
+      console.log(this.focusStatus)
     }
   }
 }
 </script>
+<style>
+.plateNumberFirst input:focus{
+  outline: none;
+}
+</style>
+
 <style lang="less" scoped>
-.plateNumberDiv{
+.plateNumberMessage{
   padding: 75px 30px;
+  .titleLine{
+    text-align: left;
+    font-size: 26px;
+    color: #c7c7c7;
+    padding-bottom: 10px;
+  }
+}
+.plateNumberDiv{
   display: flex;
   align-items: center;
   justify-content: center;
   .point{
-    padding: 0 10px;
+    padding: 0 20px;
+    color: #c8c8c8;
+    font-weight: bold;
   }
-  .plateNumberFirst, .plateNumberLast{
+  input{
+    // background-color: #f5f5f5;
+  }
+  .plateNumberFirst{
+    height: 86px;
+    // width: 146px;
+    border: 1px solid #cfcfd1;
+    display: flex;
+    position: relative;
+    background-size: 100%;
+    .insideInput{
+      padding: 13px;
+    }
+    input{
+      text-align: center;
+      font-size: 40px;
+      width: 80px;
+      height: 60px;
+      border: none;
+    }
+  }
+  .plateNumberLast{
     position: relative;
     background-size: 100%;
     height: 86px;
     input{
-      width: 74px;
+      font-size: 40px;
+      width: 80px;
       height:86px;
       text-align:center;
-      border: 1px solid #ddd;
+      border: 1px solid #cfcfd1;
     }
   }
+}
+.sureBtn{
+  height: 82px;
+  width: 691px;
+  margin: 0 14px;
+  color: #fff;
+  background-color: #7cd1ef;
+  font-size: 34px;
 }
 </style>
