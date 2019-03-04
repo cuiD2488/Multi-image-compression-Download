@@ -3,6 +3,7 @@
     <div class="searchLine">
       <!-- 搜索栏 -->
       <search
+      class="searchClass"
       @result-click="resultClick"
       @on-change="getResult"
       :results="results"
@@ -177,7 +178,7 @@ export default {
 <style lang="less" scoped>
 .searchLine{
   height: 58px;
-  padding: 20px 0;
+  // padding: 20px 0;
 }
 .bannerContent{
   height: 274px;
@@ -260,5 +261,25 @@ export default {
       height: 42px;
     }
   }
+}
+</style>
+<style>
+.searchLine{
+  font-size: 24px !important;
+}
+.searchLine form input, .searchLine form i{
+    font-size: 24px !important;
+}
+.searchLine form .weui-search-bar__label span{
+   font-size: 24px !important;
+}
+.weui-search-bar__box{
+    padding-left: 0.6rem !important;
+}
+.weui-search-bar__cancel-btn{
+  line-height: 0.6rem !important;
+}
+.weui-search-bar__box .weui-icon-search{
+      top: .1rem !important;
 }
 </style>
