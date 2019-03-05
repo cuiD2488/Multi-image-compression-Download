@@ -10,7 +10,7 @@
         <x-input title="手机号" class="weui-vcode" v-model="phoneNo">
         </x-input>
         <x-input title="验证码" class="weui-vcode" v-model="verificationCode">
-          <x-button slot="right" type="primary" mini>发送验证码</x-button>
+          <x-button slot="right" @click.native="sendCode" type="primary" mini >发送验证码</x-button>
         </x-input>
       </group>
       <div class="agreement">
@@ -18,7 +18,7 @@
         <br>
         <check-icon :value.sync="agreement2">我已阅读并同意<router-link to="/">>销户退费说明</router-link></check-icon>
       </div>
-       <x-button type="primary" style="margin-top: 1rem;" @click="submitFn">确定</x-button>
+       <x-button type="primary" style="margin-top: 1rem;" @click.native="submitFn">确定</x-button>
     </div>
     <div class="footMessg">
       <p>技术支持：深圳市云天数字科技有限公司</p>
@@ -27,7 +27,7 @@
 </template>
 <script>
 import { XInput, Group, XButton, Cell, CheckIcon } from 'vux'
-import {ApibindingPhone} from '@/api'
+import {ApiGetVerificationCode, ApiUpdatePhone} from '@/api'
 export default {
   components: {
     XInput,
@@ -45,40 +45,63 @@ export default {
     }
   },
   methods: {
-    async submitFn () {
-      const data = {
-        phoneNo: this.phoneNo,
-        verificationCode: this.verificationCode
+    async sendCode () {
+      if (!(/^1(3|4|5|7|8)\d{9}$/.test(this.phoneNo))) {
+        this.$vux.toast.text('输入的手机号有误,请核对后再试')
+        return
       }
-      const res = await ApibindingPhone(data)
-      console.log(res)
+      const data = {
+        phone: this.phoneNo
+        // verificationCode: this.verificationCode
+      }
+      const res = await ApiGetVerificationCode(data)
+      if (res.code === 200) {
+        // 存储获得的验证码
+        this.getCode = res.data
+      } else {
+        this.$vux.toast.text('短信发送失败请稍后再试')
+      }
+    },
+    // 注册手机号
+    async submitFn () {
+      if (this.getCode === this.verificationCode) {
+        let data = {
+          id: 2,
+          userId: this.phoneNo
+        }
+        const res = await ApiUpdatePhone(data)
+        console.log(res)
+      } else {
+        this.$vux.toast.text('验证码不正确,请核对后再试')
+      }
+      console.log(1)
     }
-  },
-  mounted () {
-    this.submitFn()
   }
+  // mounted () {
+  //   this.submitFn()
+  // }
 }
 </script>
 <style lang="less" scoped>
   .bindTelTitle{
-    height: 3rem;
-    line-height: 3rem;
-    font-size: 1.6rem;
+    height: 160px;
+    line-height: 160px;
+    font-size: 30px;
     background: #fff;
     text-align: left;
-    padding-left: 2rem;
+    padding-left: 30px;
 }
 .agreement{
   text-align: left;
-  padding-left: 1rem;
-  padding: 2rem 0;
+  padding-left: 30px;
+  padding: 60px 0;
 }
   .footMessg{
     position: absolute;
-    bottom: 10rem;
+    bottom: 150px;
     text-align: center;
     width: 100%;
     color: #999;
-    font-size: 1.2rem;
+    font-size: 30px;
   }
 </style>

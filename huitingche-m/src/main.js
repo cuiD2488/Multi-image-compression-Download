@@ -5,13 +5,14 @@ import App from './App'
 import router from './router'
 import store from './store'
 import 'lib-flexible/flexible.js'
-import { WechatPlugin, ToastPlugin, LoadingPlugin, ConfirmPlugin } from 'vux'
+import { WechatPlugin, ToastPlugin, LoadingPlugin, ConfirmPlugin, Toast } from 'vux'
 
 Vue.config.productionTip = false
 Vue.use(WechatPlugin)
 Vue.use(ToastPlugin)
 Vue.use(LoadingPlugin)
 Vue.use(ConfirmPlugin)
+Vue.use(Toast)
 
 // 登陆控制
 router.beforeEach((to, from, next) => {
