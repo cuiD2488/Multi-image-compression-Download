@@ -10,9 +10,7 @@
         </span>
       <span v-else>正在定位</span>
     </div>
-    <div
-      v-on:click="req_post()"
-    >
+    <div v-on:click="req_post()">
       查询周边
     </div>
   </div>
@@ -41,9 +39,9 @@ export default {
         pName: 'Geolocation',
         events: {
           init (o) {
-            // o 是高德地图定位插件实例
+            console.log(o)
             o.getCurrentPosition((status, result) => {
-              console.log(result)
+              console.log(status, result)
               if (result && result.position) {
                 self.lng = result.position.lng
                 self.lat = result.position.lat

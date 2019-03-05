@@ -4,6 +4,7 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const vuxLoader = require('vux-loader')
+const webpack = require('webpack')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -81,8 +82,21 @@ let webpackConfig = {
         }
       }
     ]
-  }
+  },
+  performance: {
+    hints: false
+  },
+  devServer: {
+    historyApiFallback: true,
+    noInfo: true
+  },
+  devtool: '#eval-source-map'
 }
+
+module.exports = vuxLoader.merge(webpackConfig, {
+  plugins: ['vux-ui', 'progress-bar', 'duplicate-style', {name: 'less-theme', path: 'src/style/vux_theme.less'}]
+})
+
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
   // http://vue-loader.vuejs.org/en/workflow/production.html
@@ -99,7 +113,3 @@ if (process.env.NODE_ENV === 'production') {
     })
   ])
 }
-
-module.exports = vuxLoader.merge(webpackConfig, {
-  plugins: ['vux-ui', 'progress-bar', 'duplicate-style', {name: 'less-theme', path: 'src/style/vux_theme.less'}]
-})
