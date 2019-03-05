@@ -6,13 +6,14 @@ import router from './router'
 import store from './store'
 import VueAMap from 'vue-amap'
 import 'lib-flexible/flexible.js'
-import { WechatPlugin, ToastPlugin, LoadingPlugin, ConfirmPlugin } from 'vux'
+import { WechatPlugin, ToastPlugin, LoadingPlugin, ConfirmPlugin, Toast } from 'vux'
 
 Vue.config.productionTip = false
 Vue.use(WechatPlugin)
 Vue.use(ToastPlugin)
 Vue.use(LoadingPlugin)
 Vue.use(ConfirmPlugin)
+Vue.use(Toast)
 Vue.use(VueAMap)
 VueAMap.initAMapApiLoader({
   key: 'yd7fa7e13c45f02c5ab606f328c6bf2b7',
