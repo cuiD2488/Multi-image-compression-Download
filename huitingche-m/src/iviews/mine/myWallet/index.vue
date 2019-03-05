@@ -12,9 +12,35 @@
       <!-- <img src="" alt=""> -->
     </div>
     <div class="navContent">
-      <p><router-link to="recharge">充值</router-link></p>
-      <p>提现</p>
-      <p>账单明细</p>
+      <router-link to="recharge">
+        <div class="navContentItem">
+          <div class="imgDiv">
+            <img src="@/assets/saveMoney.png" alt="">
+          </div>
+          <div class="wordDiv">
+            充值
+          </div>
+        </div>
+      </router-link>
+      <div class="navContentItem">
+        <div class="imgDiv">
+          <img src="@/assets/drawMoney.png" alt="">
+        </div>
+        <div class="wordDiv">
+          提现
+        </div>
+      </div>
+      <div class="navContentItem">
+        <div class="imgDiv">
+          <img src="@/assets/drawMoney.png" alt="">
+        </div>
+        <div class="wordDiv">
+          账单明细
+        </div>
+      </div>
+      <!-- <p><router-link to="recharge"><img src="@/assets/saveMoney.png">充值</router-link></p>
+      <p><img src="@/assets/drawMoney.png">提现</p>
+      <p><img src="@/assets/countList.png">账单明细</p> -->
     </div>
   </div>
 </template>
@@ -25,27 +51,43 @@ a{
 .headerContent{
   background: linear-gradient(#6abedb, #b3ecff);
   position: relative;
-  height: 15rem;
+  height: 243px;
   text-align: center;
   color:#fff;
-  font-size: 1.8rem;
-  padding-top: 5rem;
+  font-size: 40px;
+  padding-top: 70px;
   box-sizing: border-box;
-  margin-bottom: 1rem;
+  margin-bottom: 15px;
 }
 .navContent{
   // background: #fff;
   display: flex;
   flex-direction: column;
-  p{
+  // p{
+  //   width: 100%;
+  //   padding: 27px 24px;
+  //   font-size: 28px;
+  //   text-align: left;
+  //   margin: 0;
+  //   box-sizing: border-box;
+  //   margin-bottom: 15px;
+  //   background: #fff;
+  // }
+  .navContentItem{
     width: 100%;
-    padding: 1.5rem 2.1rem;
-    font-size: 1.6rem;
+    padding: 27px 24px;
+    font-size: 28px;
     text-align: left;
-    margin: 0;
-    box-sizing: border-box;
-    margin-bottom: 1rem;
+    display: flex;
     background: #fff;
+    margin-bottom: 15px;
+    .imgDiv{
+      margin-right: 15px;
+      img{
+        width: 35px;
+        height: 35px;
+      }
+    }
   }
 }
 </style>
