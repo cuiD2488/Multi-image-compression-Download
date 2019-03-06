@@ -51,3 +51,23 @@ export const ApiUpdatePhone = async (data) => {
     console.log(err)
   }
 }
+// 查询用户范围内的车位坐标
+export const URLfindPkLotListByLngLat = '/findPkLotListByLngLat.json'
+export const ApifindPkLotListByLngLat = async (data) => {
+  try {
+    const res = await Axios.post(URLfindPkLotListByLngLat, {params: data})
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}
+// 根据条件查询停车场信息接口
+export const URLfindParkingLotByCondition = '/findParkingLotByCondition.json'
+export const ApifindParkingLotByCondition = async (data) => {
+  try {
+    const res = await Axios.post(URLfindParkingLotByCondition, data)
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}
