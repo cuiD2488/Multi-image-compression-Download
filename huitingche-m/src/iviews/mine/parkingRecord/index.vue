@@ -40,12 +40,12 @@ export default {
 <style lang="less" scoped>
   .parkingRecordContent{
     text-align: left;
-    padding: 1rem 0;
-    font-size: 1.4rem;
+    padding: 20px 0;
+    font-size: 28px;
     >div {
-      margin-bottom: .6rem;
+      margin-bottom: 20px;
       background: #fff;
-      padding: 1.9rem 1.5rem;
+      padding: 40px 30px;
     }
     .date{
       display: flex;

@@ -1,7 +1,7 @@
 import Axios from 'axios'
 
 export const env = process.env.NODE_ENV
-Axios.defaults.baseURL = env === 'development' ? '/api' : '/'
+Axios.defaults.baseURL = env === 'development' ? '/api' : '/park'
 Axios.interceptors.response.use((response) => {
   if (response.status === 200 || response.status === 304) {
     return response.data
@@ -46,6 +46,37 @@ export const updatePhone = '/updatePhone.json'
 export const ApiUpdatePhone = async (data) => {
   try {
     const res = await Axios.post(updatePhone, data)
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// 微信登录
+export const wxLogin = '/wxLogin.json'
+/**
+ * code 微信登录参数 String
+ * state 厂商ID Integer
+ */
+export const ApiWxLogin = async (data) => {
+  try {
+    const res = await Axios.get(wxLogin, {params: data})
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+// 绑定车牌号
+export const insertPkCar = '/insertPkCar.json'
+/**
+ * userNumber 进入系统时分配的id
+ * frameNumber 车架号
+ * carNumber 车牌号
+ */
+export const ApiInsertPkCar = async (data) => {
+  try {
+    const res = await Axios.post(insertPkCar, data)
     return res
   } catch (err) {
     console.log(err)

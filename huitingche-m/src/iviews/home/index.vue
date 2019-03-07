@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="homePage">
     <div class="searchLine">
       <!-- 搜索栏 -->
       <search
@@ -65,13 +65,19 @@
   </div>
 </template>
 <script>
+import {ApiWxLogin} from '@/api'
 import {Search} from 'vux'
+
 export default {
   components: {
     Search
   },
   data () {
     return {
+      // 微信登录code
+      // code: null,
+      // 厂商id
+      state: null,
       results: [],
       searchValu: '',
       muenList: [
@@ -153,6 +159,18 @@ export default {
     }
   },
   methods: {
+    // 微信登录接口
+    async wxLogin (code, state) {
+      let data = {
+        code: code,
+        state: state
+      }
+      const res = await ApiWxLogin(data)
+      if (res.code === 200) {
+        // 通过接口获取用户信息并存储至缓存中
+        sessionStorage.setItem('userInform', JSON.stringify(res.data))
+      }
+    },
     // 导航跳转
     toLocation (routeName) {
       if (!Number(routeName)) {
@@ -172,10 +190,35 @@ export default {
     },
     resultClick () {
     }
+  },
+  created () {
+    // 从字符串中截取相关参数
+    let url = location.search // 获取url中"?"符后的字串
+    let theRequest = {}
+    if (url.indexOf('?') !== -1) {
+      let str = url.substr(1)
+      // alert(str);
+      let strs = str.split('&')
+      for (let i = 0; i < strs.length; i++) {
+        theRequest[strs[i].split('=')[0]] = decodeURI(strs[i].split('=')[1])
+        // 获取中文参数转码<span style="font-family: Arial, Helvetica, sans-serif;">decodeURI</span>，（unescape只针对数字，中文乱码)
+      }
+    }
+    // 根据url中的参数获取用户信息
+    this.wxLogin(theRequest.code, theRequest.state)
+    // this.code = theRequest.code
+    // this.state = theRequest.state
+    // // 在本地缓存中存入code
+    // sessionStorage.setItem('code', theRequest.code)
+    // 在本地缓存中存入厂商id
+    sessionStorage.setItem('state', theRequest.state)
   }
 }
 </script>
 <style lang="less" scoped>
+.homePage{
+  padding-bottom: 120px;
+}
 .searchLine{
   height: 58px;
   // padding: 20px 0;

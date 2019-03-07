@@ -31,6 +31,7 @@
   </div>
 </template>
 <script>
+import {ApiInsertPkCar} from '@/api'
 import {XButton} from 'vux'
 export default {
   components: {
@@ -38,6 +39,7 @@ export default {
   },
   data () {
     return {
+      userInform: JSON.parse(sessionStorage.getItem('userInform')),
       focusStatus: 0,
       inputList: [
         {
@@ -72,10 +74,18 @@ export default {
   // },
   methods: {
     // 点击保存按钮验证车牌号和车架号
-    sure () {
+    async sure () {
       // console.log(1)
       if (this.beforNumber && this.afterNumber && this.VINumber) {
-        this.$vux.toast.text('hello')
+        let data = {
+          // carCreateTime: ,
+          carNumber: this.beforNumber + this.afterNumber,
+          frameNumber: this.VINumber,
+          userNumber: this.userInform.data.userNumber
+        }
+        const res = await ApiInsertPkCar(data)
+        console.log(res)
+        // this.$vux.toast.text('hello')
       } else {
         this.$vux.toast.text('输入的车牌号和车架号有误请核对后再试')
       }
