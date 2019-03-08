@@ -81,7 +81,7 @@ export default {
           // carCreateTime: ,
           carNumber: this.beforNumber + this.afterNumber,
           frameNumber: this.VINumber,
-          userNumber: this.userInform.data.userNumber
+          userNumber: this.userInform.userNumber
         }
         const res = await ApiInsertPkCar(data)
         console.log(res)

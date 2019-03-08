@@ -102,3 +102,19 @@ export const ApifindParkingLotByCondition = async (data) => {
     console.log(err)
   }
 }
+
+// 微信充值到钱包
+/**
+ * money 充值金额
+ * openId 用户openID
+ * userNumber 用户编号
+ */
+export const URLweiXinPay = '/weiXinPay.json'
+export const ApiWeiXinPay = async (data) => {
+  try {
+    const res = await Axios.post(URLweiXinPay, data)
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}

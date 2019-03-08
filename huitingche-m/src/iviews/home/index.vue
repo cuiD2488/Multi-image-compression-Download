@@ -161,6 +161,9 @@ export default {
   methods: {
     // 微信登录接口
     async wxLogin (code, state) {
+      if (sessionStorage.getItem('userInform')) {
+        return
+      }
       let data = {
         code: code,
         state: state
