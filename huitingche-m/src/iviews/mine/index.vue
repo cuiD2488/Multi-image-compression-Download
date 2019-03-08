@@ -1,5 +1,5 @@
 <template>
-  <div style="background: #f8f8f8">
+  <div class="page">
     <!-- 个人中心 -->
     <div class="headerContent">
       <!-- 头部 -->
@@ -29,6 +29,7 @@
         <p>消息中心</p>
         <p>联系我们</p>
         <p @click="$router.push({name: 'bindTel'})">绑定手机</p>
+        <p @click="$router.push({name: 'safety'})">账号与安全</p>
       </div>
     </div>
   </div>
@@ -67,12 +68,16 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.page{
+  background: #f8f8f8;
+  padding-bottom: 120px;
+}
 .headerContent{
   background: linear-gradient(#6abedb, #b3ecff);
   position: relative;
   // height: 4px;
   height: 300px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   .headImg{
     width: 150px;
     height: 150px;
@@ -101,7 +106,7 @@ export default {
     justify-content: space-between;
     padding: 43px 0;
     background: #fff;
-    margin: 20px 0;
+    // margin: 5px 0;
     .navItem{
       .navImg{
         width : 50px;
@@ -126,7 +131,7 @@ export default {
     padding: 30px 42px;
     font-size: 28px;
     text-align: left;
-    margin: 20px 0;
+    margin: 5px 0;
     box-sizing: border-box;
     background: #fff;
   }

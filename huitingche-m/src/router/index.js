@@ -10,6 +10,7 @@ import myWallet from '@/iviews/mine/myWallet'
 import parkingRecord from '@/iviews/mine/parkingRecord'
 import recharge from '@/iviews/mine/recharge'
 import carMessage from '@/iviews/mine/carMessage'
+import safety from '@/iviews/mine/safety'
 // const home = () => import('@/iviews/home')
 
 Vue.use(Router)
@@ -93,6 +94,14 @@ export default new Router({
             title: '智能停车'
           },
           component: carMessage
+        },
+        {
+          path: '/mine/safety',
+          name: 'safety',
+          meta: {
+            title: '智能停车'
+          },
+          component: safety
         }
       ]
     }

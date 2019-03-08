@@ -118,3 +118,18 @@ export const ApiWeiXinPay = async (data) => {
     console.log(err)
   }
 }
+
+// 获取原支付密码用于修改支付密码时校验
+/**
+ * payPassword 原支付密码(前端MD5加密)
+ * userNumber 用户编号
+ */
+export const URLupdatePassword = '/updatePassword.json'
+export const ApiUpdatePassword = async (data) => {
+  try {
+    const res = await Axios.post(URLupdatePassword, data)
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}
