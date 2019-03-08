@@ -137,3 +137,13 @@ export const ApiWeiXinPay = async (data) => {
     console.log(err)
   }
 }
+// 根据条件查询停车位信息接口
+export const URLfindPositionByCondition = '/findPositionByCondition.json'
+export const ApifindPositionByCondition = async (data) => {
+  try {
+    const res = await Axios.post(URLfindPositionByCondition, data)
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}
