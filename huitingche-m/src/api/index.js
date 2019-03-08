@@ -71,3 +71,23 @@ export const ApifindParkingLotByCondition = async (data) => {
     console.log(err)
   }
 }
+// 查询
+export const URLqueryChargingRules = '/queryChargingRules.json'
+export const ApiqueryChargingRules = async (data) => {
+  try {
+    const res = await Axios.get(URLqueryChargingRules, {params: data})
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}
+// 钱包支付车费
+export const URLpayFree = '/payFree.json'
+export const ApipayFree = async (data) => {
+  try {
+    const res = await Axios.post(URLpayFree, data)
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}

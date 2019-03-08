@@ -34,7 +34,7 @@
           <h5>预付费停车信息</h5>
           <p><span>泊位编号：</span>{{parkingNo}}</p>
           <p><span>停车时长：</span>{{timeVal[0] + timeVal[1]}}</p>
-          <p><span>费用合计：</span>{{1}}</p>
+          <p><span>费用合计：</span>{{parkingMoney}}</p>
         </div>
       </div>
       <div v-else class="afterParkingMessage">
@@ -42,12 +42,13 @@
         <p style="margin-bottom: 1px;">您钱包余额不足50元，无法使用后付费方式停车</p>
         <x-button mini>立即充值</x-button>
       </div>
-      <x-button type="primary" @click.native="1" class="defaultClass">确认</x-button>
+      <x-button type="primary" @click.native="pay" class="defaultClass">确认</x-button>
     </div>
   </div>
 </template>
 <script>
 import {CheckIcon, Checker, CheckerItem, XInput, Group, Picker, PopupPicker, XButton} from 'vux'
+import {ApiqueryChargingRules, ApipayFree} from '@/api'
 export default {
   components: {
     CheckIcon,
@@ -64,16 +65,18 @@ export default {
       targetParkingNo: 0,
       payFn: false,
       payVal: '1',
-      timeVal: ['1小时', '00分钟'],
+      timeVal: ['', ''],
       timeList: [['1小时', '2小时', '3小时', '4小时', '5小时', '6小时', '7小时', '8小时', '9小时', '10小时', '11小时', '12小时'], ['00分钟', '30分钟']],
       focusStatus: 0,
-      items1: [{
-        key: '1',
-        value: '预付费'
-      }, {
-        key: '2',
-        value: '后付费'
-      }],
+      items1: [
+        {
+          key: '1',
+          value: '预付费'
+        }, {
+          key: '2',
+          value: '后付费'
+        }
+      ],
       inputList: [
         {
           key: ''
@@ -95,7 +98,9 @@ export default {
         }
       ],
       year4: ['2002', '4'],
-      parkingNo: '-'
+      parkingNo: '',
+      parkingMesaage: null,
+      parkingMoney: 0
     }
   },
   directives: {
@@ -110,14 +115,18 @@ export default {
   methods: {
     // 关闭选择时长弹框
     confirm (v) {
-      console.log(v)
       // this.timeVal
-      let parkingNo = ''
+      this.parkingNo = ''
       for (let i in this.inputList) {
-        parkingNo += this.inputList[i].key
+        this.parkingNo += this.inputList[i].key
       }
-      console.log(parkingNo)
-      this.parkingNo = parkingNo
+      if (!this.parkingNo) {
+        this.timeVal = ['', '']
+        this.$vux.toast.text('请填写泊位编号')
+        return false
+      }
+      console.log(this.timeVal)
+      this.getChargingRules()
     },
     // 泊位号计算
     changeInput (index) {
@@ -130,7 +139,43 @@ export default {
         // 如果是最后一位，就查询是否有该车位
         console.log('最后一位')
       }
+    },
+    // 获取时间停车时间
+    async getChargingRules () {
+      const data = {
+        parkingLotNumber: this.parkingNo
+      }
+      const res = await ApiqueryChargingRules(data)
+      if (res.code === 200) {
+        this.parkingMesaage = res.data
+        let targetHouse = this.timeVal[0].replace('小时', '')
+        let targetMine = this.timeVal[1].replace('分钟', '') === 0 ? 0 : 0.5
+        let targetTime = Number(targetHouse + targetMine)
+        console.log(targetTime)
+        if (targetTime === 0.5) {
+          this.parkingMoney = res.data.pkChargingRulesVoList[0].ruleValue * targetTime
+        } else if (targetTime > 0.5) {
+          this.parkingMoney = res.data.pkChargingRulesVoList[1].ruleValue * targetTime
+        }
+        console.log(this.parkingMoney)
+      } else {
+        this.$vux.toast.text('网络请求失败')
+      }
+    },
+    // 调用钱包支付
+    async pay () {
+      const data = {
+        openId: 'string',
+        payType: 0,
+        positionNumber: 'string',
+        time: 0,
+        userNumber: 'string'
+      }
+      const res = await ApipayFree(data)
+      console.log(res)
     }
+  },
+  mounted () {
   }
 }
 </script>
