@@ -5,10 +5,10 @@
       <!-- 头部 -->
       <!-- <img src="" alt=""> -->
       <div class="headImg">
-        <img src="../../assets/logo.png" alt="">
+        <img :src="userInform.headImgUrl" alt="">
       </div>
       <div class="headPhone">
-        <span>13622389007</span>
+        <span>{{userInform.nickName}}</span>
       </div>
     </div>
     <div class="navContent">
@@ -55,7 +55,8 @@ export default {
           navText: '停车记录',
           routeName: 'parkingRecord'
         }
-      ]
+      ],
+      userInform: JSON.parse(sessionStorage.getItem('userInform'))
     }
   },
   methods: {
@@ -71,6 +72,7 @@ export default {
   position: relative;
   // height: 4px;
   height: 300px;
+  margin-bottom: 20px;
   .headImg{
     width: 150px;
     height: 150px;
@@ -97,7 +99,9 @@ export default {
 .navContent{
     display:flex;
     justify-content: space-between;
-    padding: 20px 0;
+    padding: 43px 0;
+    background: #fff;
+    margin: 20px 0;
     .navItem{
       .navImg{
         width : 50px;
@@ -122,8 +126,9 @@ export default {
     padding: 30px 42px;
     font-size: 28px;
     text-align: left;
-    margin: 0;
+    margin: 20px 0;
     box-sizing: border-box;
+    background: #fff;
   }
 }
 </style>

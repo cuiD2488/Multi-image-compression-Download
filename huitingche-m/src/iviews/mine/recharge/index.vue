@@ -11,7 +11,7 @@
       <x-button class="buttonContent" :class="{buttonBox: index === targetInde}" mini plain type="primary" @click.native="chooseMoney(index)" v-for="(item, index) in moneyButtonList" :key="index">{{item.value}}元</x-button>
     </div>
     <div style="margin-top: 2rem;">
-      <x-button type="primary" :disabled="disabledBl">确定</x-button>
+      <x-button type="primary" :disabled="disabledBl" @click.native="wxPay">确定</x-button>
     </div>
   </div>
 </template>
@@ -30,6 +30,7 @@
 </style>
 
 <script>
+import {ApiWeiXinPay} from '@/api'
 import { XInput, Group, XButton } from 'vux'
 export default {
   components: {
@@ -74,6 +75,39 @@ export default {
       console.log(index)
       this.targetInde = index
       this.moneyVal = this.moneyButtonList[index].value
+    },
+    // 调用微信充值接口
+    async wxPay () {
+      let data = {
+        money: +this.moneyVal * 100,
+        openId: JSON.parse(sessionStorage.getItem('userInform')).openId,
+        userNumber: JSON.parse(sessionStorage.getItem('userInform')).userNumber
+      }
+      const res = await ApiWeiXinPay(data)
+      if (res.code === 200) {
+        let wxPayData = JSON.parse(res.data).data
+        try {
+          // 微信支付接口
+          window.WeixinJSBridge.invoke('getBrandWCPayRequest', {
+            appId: wxPayData.appid, // 公众号名称，由商户传入
+            timeStamp: wxPayData.timeStamp, // 时间戳
+            nonceStr: wxPayData.nonce_str, // 随机串
+            package: wxPayData.packageStr,
+            signType: wxPayData.signType, // 微信签名方式
+            paySign: wxPayData.sign // 微信签名
+          }, res => {
+            if (res.err_msg === 'get_brand_wcpay_request:ok') {
+              this.$vux.toast.text('支付成功')
+              // 修改订单状态
+              // this.updateOrder()
+            } else {
+              this.$vux.toast.text('支付失败')
+            }
+          })
+        } catch (error) {
+        }
+      }
+      console.log(res)
     }
   }
 }

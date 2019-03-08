@@ -18,7 +18,7 @@
         <br>
         <check-icon :value.sync="agreement2">我已阅读并同意<router-link to="/">>销户退费说明</router-link></check-icon>
       </div>
-       <x-button type="primary" style="margin-top: 1rem;" @click.native="submitFn">确定</x-button>
+      <x-button type="primary" style="margin-top: 1rem;" @click.native="submitFn">确定</x-button>
     </div>
     <div class="footMessg">
       <p>技术支持：深圳市云天数字科技有限公司</p>
@@ -66,7 +66,7 @@ export default {
     async submitFn () {
       if (this.getCode === this.verificationCode) {
         let data = {
-          id: 2,
+          id: +sessionStorage.getItem('state'),
           userId: this.phoneNo
         }
         const res = await ApiUpdatePhone(data)
@@ -82,6 +82,16 @@ export default {
   // }
 }
 </script>
+<style>
+.weui-cell{
+  padding: 30px 20px!important;
+  font-size: 24px!important;
+}
+.bindTelContent > .weui-btn{
+  margin: 20px;
+  width: 680px;
+}
+</style>
 <style lang="less" scoped>
   .bindTelTitle{
     height: 160px;
