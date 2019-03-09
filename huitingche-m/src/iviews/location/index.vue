@@ -15,6 +15,48 @@
       </div>
     </div>
     <div id="container" class="map"></div>
+    <div v-transfer-dom>
+      <popup v-model="show15" height="270px" is-transparent :show-mask="false">
+        <div class="popupNav" style="">
+          <span style="position: absolute;right: 8px;top:5px" @click="show15 = false">
+            X
+          </span>
+          <div class="popupNav_title">
+            <img src="../../assets/stop.png" alt="">
+            <span>路边停车</span>
+          </div>
+          <div class="popupNav_distance"><span>宝名二路</span><span>距离</span></div>
+          <div class="popupNav_parkingLot">
+            <div>
+              <span>空车位：<span style="color: red;">1</span></span>
+              <span>总车位</span>
+            </div>
+            <div>
+              <span>五分钟空出车位：1</span>
+              <span>十分钟空出车位：2</span>
+            </div>
+            <div>
+              <span>半小时空出车位：<span style="color: green;">2</span></span>
+              <span></span>
+            </div>
+          </div>
+          <div class="popoupNav_operation">
+            <div>
+              <img src="../../assets/stop.png" alt="">
+              <span>路线</span>
+            </div>
+             <div @click="planRouteNav">
+              <img src="../../assets/stop.png" alt="">
+              <span>导航</span>
+            </div>
+             <div>
+              <img src="../../assets/stop.png" alt="">
+              <span>周边车库</span>
+            </div>
+          </div>
+        </div>
+      </popup>
+    </div>
     <div id="panel"></div>
     <h4 id='status'></h4><hr>
     <p id='result'></p><hr>
@@ -23,54 +65,37 @@
 <script>
 import AMap from 'AMap'
 import {ApifindPkLotListByLngLat, ApifindParkingLotByCondition} from '@/api'
-import {Search} from 'vux'
+import {TransferDom, Search, Group, XSwitch, Popup} from 'vux'
+// import ToggleText from './ToggleText'
 var map
 export default {
+  directives: {
+    TransferDom
+  },
   components: {
-    Search
+    Search,
+    Group,
+    XSwitch,
+    Popup
   },
   data () {
-    const self = this
     return {
+      show15: false,
       center: [121.59996, 31.197646],
       lng: 0,
       lat: 0,
       loaded: false,
-      plugin: [{
-        enableHighAccuracy: true, // 是否使用高精度定位，默认:true
-        timeout: 100, // 超过10秒后停止定位，默认：无穷大
-        maximumAge: 0, // 定位结果缓存0毫秒，默认：0
-        convert: true, // 自动偏移坐标，偏移后的坐标为高德坐标，默认：true
-        showButton: true, // 显示定位按钮，默认：true
-        buttonPosition: 'RB', // 定位按钮停靠位置，默认：'LB'，左下角
-        showMarker: true, // 定位成功后在定位到的位置显示点标记，默认：true
-        showCircle: true, // 定位成功后用圆圈表示定位精度范围，默认：true
-        panToLocation: true, // 定位成功后将定位到的位置作为地图中心点，默认：true
-        zoomToAccuracy: true, // 定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：f
-        extensions: 'all',
-        pName: 'Geolocation',
-        events: {
-          init (o) {
-            console.log(o)
-            o.getCurrentPosition((status, result) => {
-              console.log(status, result)
-              if (result && result.position) {
-                self.lng = result.position.lng
-                self.lat = result.position.lat
-                self.center = [self.lng, self.lat]
-                self.loaded = true
-                self.$nextTick()
-              }
-            })
-          }
-        }
-      }],
       distance: 1, // 查询范围
       results: [],
-      values: ''
+      values: '',
+      targetPllanData: null
     }
   },
   methods: {
+    // 点击导航
+    planRouteNav () {
+      this.planningRoute(this.targetPllanData.startPosition, this.targetPllanData.endPostion)
+    },
     // 初始化地图
     initMap () {
       map = new AMap.Map('container', {
@@ -87,6 +112,7 @@ export default {
         var geolocation = new AMap.Geolocation({
           enableHighAccuracy: true,
           timeout: 10000,
+          showCircle: true,
           buttonPosition: 'RB', // 定位按钮的停靠位置
           buttonOffset: new AMap.Pixel(10, 20), // 定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
           zoomToAccuracy: true // 定位成功后是否自动调整地图视野到定位点
@@ -96,11 +122,22 @@ export default {
         // 获取用户当前的精确位置信息，当回调函数中的status为complete的时候表示定位成功，result为GeolocationResult对象;
         // 当回调函数中的status为error的时候表示定位失败，result为GeolocationError对象；
         geolocation.getCurrentPosition(function (status, result) {
+          alert(JSON.stringify(result))
+          document.getElementById('tip').innerHTML = '定位失败'
           if (status === 'complete') {
             _this.onComplete(result)
             _this.center = result.position
-            console.log(_this.center)
-            console.log(55555555)
+            // 查询周边
+            AMap.service(['AMap.PlaceSearch'], function () {
+              // 构造地点查询类 这里只是用到周边搜索的范围，所以实例属性里的type填写的是高德未录入的，不然会默认查出相关markr
+              var placeSearch = new AMap.PlaceSearch({
+                type: '停车位',
+                map: map, // 展现结果的地图实例
+                autoFitView: true // 是否自动调整地图视野使绘制的 Marker点都处于视口的可见范围
+              })
+              placeSearch.searchNearBy('', _this.center, (_this.distance * 1000), (status, result) => {
+              })
+            })
             // _this.center = result.position
           } else {
             alert('定位失败')
@@ -112,17 +149,19 @@ export default {
     onComplete (data) {
       this.markerS(data.position)
       document.getElementById('status').innerHTML = '定位成功'
-      var str = []
-      str.push('定位结果：' + data.position)
-      str.push('定位类别：' + data.location_type)
-      if (data.accuracy) {
-        str.push('精度：' + data.accuracy + ' 米')
-      } // 如为IP精确定位结果则没有精度信息
-      str.push('是否经过偏移：' + (data.isConverted ? '是' : '否'))
-      document.getElementById('result').innerHTML = str.join('<br>')
+      // var str = []
+      // str.push('定位结果：' + data.position)
+      // str.push('定位类别：' + data.location_type)
+      // if (data.accuracy) {
+      //   str.push('精度：' + data.accuracy + ' 米')
+      // } // 如为IP精确定位结果则没有精度信息
+      // str.push('是否经过偏移：' + (data.isConverted ? '是' : '否'))
+      // document.getElementById('result').innerHTML = str.join('<br>')
     },
     // 查询默认3公里范围内的车位坐标数组
     async findPosition (position) {
+      console.log(this.distance)
+      console.log('查询范围')
       const data = {
         longitude: position.lng,
         latitude: position.lat,
@@ -133,7 +172,6 @@ export default {
     },
     // 设置点标记
     markerS (position) {
-      const _this = this
       let positionList = []
       this.findPosition(position).then((res) => {
         for (let i in res) {
@@ -148,9 +186,13 @@ export default {
             anchor: 'center',
             clickable: true
           })
-          console.log()
           marker.on('click', (res) => {
-            _this.planningRoute(position, [res.lnglat.lng, res.lnglat.lat])
+            this.show15 = true
+            this.targetPllanData = {
+              startPosition: position,
+              endPostion: [res.lnglat.lng, res.lnglat.lat]
+            }
+            // _this.planningRoute(position, [res.lnglat.lng, res.lnglat.lat])
           })
           marker.setMap(map)
         }
@@ -253,6 +295,85 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.popupNav{
+  width: 95%;
+  background-color:#fff;
+  height:410;
+  margin:0 auto;
+  border-radius:5px;
+  padding: 20px;
+  box-sizing: border-box;
+  font-size: 24px;
+  padding-bottom: 0;
+  position: relative;
+  .popupNav_title{
+    width: 100%;
+    height: 40px;
+    color: #42afe2;
+    line-height: 40px;
+    display: flex;
+    align-items: center;
+    margin: 14px;
+    img{
+      height: 40px;
+      width: 40px;
+    }
+    span{
+      display: inline-block;
+      margin-left: 10px;
+      font-size: 28px;
+    }
+  }
+  .popupNav_distance{
+    height: 40px;
+    display: flex;
+    justify-content: space-around;
+    margin: 14px;
+    color: #000;
+    span{
+      width: 50%;
+      display: inline-block;
+    }
+  }
+  .popupNav_parkingLot{
+    >div{
+      margin: 14px;
+      color: #adadad;
+      display: flex;
+      justify-content: space-around;
+      height: 40px;
+      text-align: left;
+      >span{
+        width: 50%;
+        display: inline-block;
+      }
+    }
+  }
+  .popoupNav_operation{
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    border-top: 1px solid #ddd;
+    >div{
+      width: 33.33%;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      >span{
+        font-size:28px;
+      }
+      >img{
+        height:45px;
+      }
+    }
+    >div:nth-child(2){
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+      }
+  }
+}
+// 地图
 #container{
   height: 80vh;
   width: 100%;

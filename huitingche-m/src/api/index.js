@@ -102,7 +102,26 @@ export const ApifindParkingLotByCondition = async (data) => {
     console.log(err)
   }
 }
-
+// 查询
+export const URLqueryChargingRules = '/queryChargingRules.json'
+export const ApiqueryChargingRules = async (data) => {
+  try {
+    const res = await Axios.get(URLqueryChargingRules, {params: data})
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}
+// 钱包支付车费
+export const URLpayFree = '/payFree.json'
+export const ApipayFree = async (data) => {
+  try {
+    const res = await Axios.post(URLpayFree, data)
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}
 // 微信充值到钱包
 /**
  * money 充值金额
@@ -128,6 +147,17 @@ export const URLupdatePassword = '/updatePassword.json'
 export const ApiUpdatePassword = async (data) => {
   try {
     const res = await Axios.post(URLupdatePassword, data)
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// 根据条件查询停车位信息接口
+export const URLfindPositionByCondition = '/findPositionByCondition.json'
+export const ApifindPositionByCondition = async (data) => {
+  try {
+    const res = await Axios.post(URLfindPositionByCondition, data)
     return res
   } catch (err) {
     console.log(err)

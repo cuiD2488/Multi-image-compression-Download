@@ -6,6 +6,7 @@ import router from './router'
 import store from './store'
 import VueAMap from 'vue-amap'
 import 'lib-flexible/flexible.js'
+// import '@/style/publick.css'
 import { WechatPlugin, ToastPlugin, LoadingPlugin, ConfirmPlugin, Toast } from 'vux'
 
 Vue.config.productionTip = false
