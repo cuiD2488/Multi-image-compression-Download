@@ -2,7 +2,7 @@
   <div class="page">
     <div class="showNow">
       <div class="showItem" @click="showEditPhone">
-        <div class="left">手机号</div>
+        <div class="left">修改手机号</div>
         <div class="right"><img :src="imgThrow1" alt=""></div>
       </div>
       <div class="phoneEdit" v-show="showPhone">
@@ -18,7 +18,7 @@
         <x-button type="primary" style="margin-top: 10px;" @click.native="submitFn">确定</x-button>
       </div>
       <div class="showItem" @click="showEditPassword">
-        <div class="left">支付密码</div>
+        <div class="left">修改支付密码</div>
         <div class="right"><img :src="imgThrow2" alt=""></div>
       </div>
       <div class="passwordEdit" v-show="showPassword">
@@ -61,6 +61,7 @@
 </style>
 
 <script>
+import md5 from 'js-md5'
 import {ApiGetVerificationCode, ApiUpdatePhone} from '@/api'
 import {XButton, XInput, PopupHeader, Popup, TransferDom, Group, Radio} from 'vux'
 export default {
@@ -82,8 +83,7 @@ export default {
       showPhone: false,
       showPassword: false,
       // 输入的手机号码
-      phoneNo1: null,
-      phoneNo2: null,
+      phoneNo: null,
       // 验证码
       verificationCode: null,
       // 接口请求到的验证码
@@ -104,17 +104,25 @@ export default {
       if (this.showPhone) {
         this.imgThrow1 = require('@/assets/downThrow.png')
         this.showPhone = false
+        this.imgThrow2 = require('@/assets/upThrow.png')
+        this.showPassword = true
       } else {
         this.imgThrow1 = require('@/assets/upThrow.png')
         this.showPhone = true
+        this.imgThrow2 = require('@/assets/downThrow.png')
+        this.showPassword = false
       }
     },
     showEditPassword () {
       // 箭头图片翻转判断
       if (this.showPassword) {
+        this.imgThrow1 = require('@/assets/upThrow.png')
+        this.showPhone = true
         this.imgThrow2 = require('@/assets/downThrow.png')
         this.showPassword = false
       } else {
+        this.imgThrow1 = require('@/assets/downThrow.png')
+        this.showPhone = false
         this.imgThrow2 = require('@/assets/upThrow.png')
         this.showPassword = true
       }
@@ -125,16 +133,26 @@ export default {
         this.$vux.toast.text('输入的手机号有误,请核对后再试')
         return
       }
-      const data = {
-        phone: this.phoneNo1 ? this.phoneNo1 : this.phoneNo2
-        // verificationCode: this.verificationCode
+      let data = {
+        phone: this.phoneNo
       }
+      // if (this.phoneNo1 !== null) {
+      //   data.phone = this.phoneNo1
+      // } else if (this.phoneNo2 !== null) {
+      //   data.phone = this.phoneNo2
+      // }
+      // const data = {
+      //   phone: this.phoneNo1 ? this.phoneNo1 : this.phoneNo2
+      //   // verificationCode: this.verificationCode
+      // }
       const res = await ApiGetVerificationCode(data)
       if (res.code === 200) {
         // 存储获得的验证码
         this.getCode = res.data
         // 展示新手机号码的输入框
         this.newPhoneInput = true
+        // 展示新支付密码的输入框
+        this.newPayCodeInput = true
       } else {
         this.$vux.toast.text('短信发送失败请稍后再试')
       }
@@ -155,7 +173,7 @@ export default {
         if (this.phoneNoNew !== null) {
           data.userId = this.phoneNoNew
         } else if (this.newPayCode !== null) {
-          data.payPassword = this.newPayCode
+          data.payPassword = md5(this.newPayCode)
         } else {
           this.$vux.toast.text('您输入的信息有误请核对后再试')
         }
@@ -164,6 +182,8 @@ export default {
         // 清空所有输入的数据
         this.phoneNoNew = null
         this.newPayCode = null
+        this.phoneNo = null
+        this.verificationCode = null
       } else {
         this.$vux.toast.text('验证码不正确,请核对后再试')
       }

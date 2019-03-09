@@ -66,10 +66,15 @@ export default {
     async submitFn () {
       if (this.getCode === this.verificationCode) {
         let data = {
-          id: +sessionStorage.getItem('state'),
+          id: +JSON.parse(sessionStorage.getItem('userInform')).id,
           userId: this.phoneNo
         }
         const res = await ApiUpdatePhone(data)
+        if (res.code === 200) {
+          this.$vux.toast.text('注册成功')
+        } else {
+          this.$vux.toast.text('注册失败')
+        }
         console.log(res)
       } else {
         this.$vux.toast.text('验证码不正确,请核对后再试')
