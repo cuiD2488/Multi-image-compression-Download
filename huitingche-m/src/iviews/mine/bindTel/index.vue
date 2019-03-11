@@ -10,7 +10,11 @@
         <x-input title="手机号" class="weui-vcode" v-model="phoneNo">
         </x-input>
         <x-input title="验证码" class="weui-vcode" v-model="verificationCode">
-          <x-button slot="right" @click.native="sendCode" type="primary" mini >发送验证码</x-button>
+          <x-button slot="right" @click.native="sendCode" type="primary" mini :text="btnMessage"></x-button>
+        </x-input>
+        <x-input title="支付密码" class="weui-vcode" type="password" v-model="payCode">
+        </x-input>
+        <x-input title="再次输入支付密码" class="weui-vcode" type="password" v-model="payCodeAgain">
         </x-input>
       </group>
       <div class="agreement">
@@ -26,6 +30,7 @@
   </div>
 </template>
 <script>
+import md5 from 'js-md5'
 import { XInput, Group, XButton, Cell, CheckIcon } from 'vux'
 import {ApiGetVerificationCode, ApiUpdatePhone} from '@/api'
 export default {
@@ -41,7 +46,12 @@ export default {
       agreement1: false,
       agreement2: false,
       phoneNo: '',
-      verificationCode: ''
+      verificationCode: '',
+      // 输入支付密码
+      payCode: '',
+      payCodeAgain: '',
+      // 发送验证码文字
+      btnMessage: '发送验证码'
     }
   },
   methods: {
@@ -54,32 +64,50 @@ export default {
         phone: this.phoneNo
         // verificationCode: this.verificationCode
       }
-      const res = await ApiGetVerificationCode(data)
-      if (res.code === 200) {
-        // 存储获得的验证码
-        this.getCode = res.data
-      } else {
-        this.$vux.toast.text('短信发送失败请稍后再试')
+      if (this.btnMessage === '发送验证码' || this.btnMessage === '重新获取') {
+        // 调用发送短信接口
+        const res = await ApiGetVerificationCode(data)
+        // 倒计时定时器
+        let time = 60
+        let interval = setInterval(() => {
+          if (time === 1) {
+            clearInterval(interval)
+            this.btnMessage = '重新获取'
+            return
+          }
+          this.btnMessage = --time + 's'
+        }, 1000)
+        if (res.code === 200) {
+          // 存储获得的验证码
+          this.getCode = res.data
+          this.$vux.toast.text('短信发送成功')
+        } else {
+          this.$vux.toast.text('短信发送失败请稍后再试')
+        }
       }
     },
     // 注册手机号
     async submitFn () {
+      if (this.payCode !== this.payCodeAgain) {
+        this.$vux.toast.text('两次输入的支付密码不同,请核对后再试')
+        return
+      }
       if (this.getCode === this.verificationCode) {
         let data = {
           id: +JSON.parse(sessionStorage.getItem('userInform')).id,
-          userId: this.phoneNo
+          userId: this.phoneNo,
+          payPassword: md5(this.payCode)
         }
         const res = await ApiUpdatePhone(data)
         if (res.code === 200) {
           this.$vux.toast.text('注册成功')
+          this.$router.push({name: 'mine'})
         } else {
           this.$vux.toast.text('注册失败')
         }
-        console.log(res)
       } else {
         this.$vux.toast.text('验证码不正确,请核对后再试')
       }
-      console.log(1)
     }
   }
   // mounted () {

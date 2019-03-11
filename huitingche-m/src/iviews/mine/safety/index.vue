@@ -12,7 +12,7 @@
           <x-input title="验证码" class="weui-vcode" v-model="verificationCode">
             <x-button slot="right" @click.native="sendCode" type="primary" mini >发送验证码</x-button>
           </x-input>
-          <x-input v-show="newPhoneInput" title="新手机号" class="weui-vcode" v-model="phoneNoNew" @focus="compareCode">
+          <x-input v-show="newPhoneInput" title="新手机号" class="weui-vcode" v-model="phoneNoNew">
           </x-input>
         </group>
         <x-button type="primary" style="margin-top: 10px;" @click.native="submitFn">确定</x-button>
@@ -26,9 +26,9 @@
           <x-input title="手机号" class="weui-vcode" v-model="phoneNo">
           </x-input>
           <x-input title="验证码" class="weui-vcode" v-model="verificationCode">
-            <x-button slot="right" @click.native="sendCode" type="primary" mini >发送验证码</x-button>
+            <x-button slot="right" @click.native="sendCode" type="primary" mini :text="btnMessage"></x-button>
           </x-input>
-          <x-input v-show="newPayCodeInput" title="新支付密码" class="weui-vcode" v-model="newPayCode" @focus="compareCode">
+          <x-input v-show="newPayCodeInput" title="新支付密码" class="weui-vcode" v-model="newPayCode">
           </x-input>
         </group>
         <x-button type="primary" style="margin-top: 10px;" @click.native="submitFn">确定</x-button>
@@ -95,7 +95,9 @@ export default {
       // 输入的新支付密码
       newPayCode: null,
       // 输入新支付密码的输入框
-      newPayCodeInput: false
+      newPayCodeInput: false,
+      // 发送验证码文字
+      btnMessage: '发送验证码'
     }
   },
   methods: {
@@ -104,8 +106,7 @@ export default {
       if (this.showPhone) {
         this.imgThrow1 = require('@/assets/downThrow.png')
         this.showPhone = false
-        this.imgThrow2 = require('@/assets/upThrow.png')
-        this.showPassword = true
+        this.imgThrow2 = require('@/assets/downThrow.png')
       } else {
         this.imgThrow1 = require('@/assets/upThrow.png')
         this.showPhone = true
@@ -116,8 +117,7 @@ export default {
     showEditPassword () {
       // 箭头图片翻转判断
       if (this.showPassword) {
-        this.imgThrow1 = require('@/assets/upThrow.png')
-        this.showPhone = true
+        this.imgThrow1 = require('@/assets/downThrow.png')
         this.imgThrow2 = require('@/assets/downThrow.png')
         this.showPassword = false
       } else {
@@ -136,33 +136,37 @@ export default {
       let data = {
         phone: this.phoneNo
       }
-      // if (this.phoneNo1 !== null) {
-      //   data.phone = this.phoneNo1
-      // } else if (this.phoneNo2 !== null) {
-      //   data.phone = this.phoneNo2
-      // }
-      // const data = {
-      //   phone: this.phoneNo1 ? this.phoneNo1 : this.phoneNo2
-      //   // verificationCode: this.verificationCode
-      // }
-      const res = await ApiGetVerificationCode(data)
-      if (res.code === 200) {
-        // 存储获得的验证码
-        this.getCode = res.data
-        // 展示新手机号码的输入框
-        this.newPhoneInput = true
-        // 展示新支付密码的输入框
-        this.newPayCodeInput = true
-      } else {
-        this.$vux.toast.text('短信发送失败请稍后再试')
+      if (this.btnMessage === '发送验证码' || this.btnMessage === '重新获取') {
+        // 调用发送短信接口
+        const res = await ApiGetVerificationCode(data)
+        // 倒计时定时器
+        let time = 60
+        let interval = setInterval(() => {
+          if (time === 1) {
+            clearInterval(interval)
+            this.btnMessage = '重新获取'
+            return
+          }
+          this.btnMessage = --time + 's'
+        }, 1000)
+        if (res.code === 200) {
+          // 存储获得的验证码
+          this.getCode = res.data
+          // 展示新手机号码的输入框
+          this.newPhoneInput = true
+          // 展示新支付密码的输入框
+          this.newPayCodeInput = true
+        } else {
+          this.$vux.toast.text('短信发送失败请稍后再试')
+        }
       }
     },
-    // 比较验证码是否正确
-    compareCode () {
-      if (this.getCode !== this.verificationCode) {
-        this.$vux.toast.text('您输入的验证码有误请核对后再试')
-      }
-    },
+    // 比较验证码是否正确 (略多于可以去掉,提前验证验证码正确)
+    // compareCode () {
+    //   if (this.getCode !== this.verificationCode) {
+    //     this.$vux.toast.text('您输入的验证码有误请核对后再试')
+    //   }
+    // },
     // 提交修改手机号码/修改支付密码
     async submitFn () {
       if (this.getCode === this.verificationCode) {
@@ -188,6 +192,16 @@ export default {
         this.$vux.toast.text('验证码不正确,请核对后再试')
       }
     }
+    // 获取用户支付密码用于校验
+    // async getPassword () {
+    //   let data = {
+    //     userNumber: JSON.parse(sessionStorage.getItem('userInform')).userNumber,
+    //   }
+    // }
+  },
+  created () {
+    // 调用获取用户支付密码接口
+    // this.getPassword()
   }
 }
 </script>
