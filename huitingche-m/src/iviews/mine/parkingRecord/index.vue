@@ -60,9 +60,7 @@ export default {
       const res = await ApiQueryPkOrder(data)
       if (res.code === 200) {
         let data = res.data.data
-        let 
         for (let index in data) {
-          
           this.recordList.push(data[index])
         }
       }
