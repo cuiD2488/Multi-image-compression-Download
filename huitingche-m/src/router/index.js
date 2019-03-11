@@ -11,6 +11,7 @@ import parkingRecord from '@/iviews/mine/parkingRecord'
 import recharge from '@/iviews/mine/recharge'
 import carMessage from '@/iviews/mine/carMessage'
 import safety from '@/iviews/mine/safety'
+import parkingRules from '@/iviews/parkingRules'
 // const home = () => import('@/iviews/home')
 
 Vue.use(Router)
@@ -38,6 +39,14 @@ export default new Router({
             title: '查询附近车位'
           },
           component: location
+        },
+        {
+          path: 'parkingRules',
+          name: 'parkingRules',
+          meta: {
+            title: '收费规则'
+          },
+          component: parkingRules
         },
         {
           path: 'mine',

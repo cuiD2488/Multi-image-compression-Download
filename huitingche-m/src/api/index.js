@@ -102,11 +102,11 @@ export const ApifindParkingLotByCondition = async (data) => {
     console.log(err)
   }
 }
-// 查询
+// 查询收费规则
 export const URLqueryChargingRules = '/queryChargingRules.json'
 export const ApiqueryChargingRules = async (data) => {
   try {
-    const res = await Axios.get(URLqueryChargingRules, {params: data})
+    const res = await Axios.post(URLqueryChargingRules, data)
     return res
   } catch (err) {
     console.log(err)

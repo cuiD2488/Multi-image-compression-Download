@@ -21,6 +21,9 @@
           <span style="position: absolute;right: 8px;top:5px" @click="show15 = false">
             X
           </span>
+          <span style="position: absolute;right: 8px;top:30px" @click="$router.push({name: 'parkingRules', query: $route.query})">
+            查看收费规则
+          </span>
           <div class="popupNav_title">
             <img src="../../assets/stop.png" alt="" class="imgIcon">
             <span>路边停车</span>
@@ -115,7 +118,7 @@ export default {
       AMap.plugin('AMap.Geolocation', function () {
         var geolocation = new AMap.Geolocation({
           enableHighAccuracy: true,
-          timeout: 1000,
+          timeout: 5000,
           showCircle: true,
           buttonPosition: 'LB', // 定位按钮的停靠位置
           buttonOffset: new AMap.Pixel(10, 350), // 定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
@@ -129,6 +132,7 @@ export default {
           if (status === 'complete') {
             _this.onComplete(result)
             _this.center = result.position
+            console.log(_this.center)
             // 查询周边
             AMap.service(['AMap.PlaceSearch'], function () {
               // 构造地点查询类 这里只是用到周边搜索的范围，所以实例属性里的type填写的是高德未录入的，不然会默认查出相关markr
@@ -150,15 +154,6 @@ export default {
     // 获取精准坐标
     onComplete (data) {
       this.markerS(data.position)
-      // document.getElementById('status').innerHTML = '定位成功'
-      // var str = []
-      // str.push('定位结果：' + data.position)
-      // str.push('定位类别：' + data.location_type)
-      // if (data.accuracy) {
-      //   str.push('精度：' + data.accuracy + ' 米')
-      // } // 如为IP精确定位结果则没有精度信息
-      // str.push('是否经过偏移：' + (data.isConverted ? '是' : '否'))
-      // document.getElementById('result').innerHTML = str.join('<br>')
     },
     // 查询默认3公里范围内的车位坐标数组
     async findPosition (position) {
