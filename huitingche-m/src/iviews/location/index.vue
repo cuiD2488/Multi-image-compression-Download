@@ -16,50 +16,44 @@
     </div>
     <div id="container" class="map"></div>
     <div v-transfer-dom>
-      <popup v-model="show15" height="270px" is-transparent :show-mask="false">
+      <popup v-model="show15" height="38vh" is-transparent :show-mask="false">
         <div class="popupNav" style="">
           <span style="position: absolute;right: 8px;top:5px" @click="show15 = false">
             X
           </span>
           <div class="popupNav_title">
-            <img src="../../assets/stop.png" alt="">
+            <img src="../../assets/stop.png" alt="" class="imgIcon">
             <span>路边停车</span>
           </div>
-          <div class="popupNav_distance"><span>宝名二路</span><span>距离</span></div>
+          <div class="popupNav_distance"><span>{{detailedAddress}}</span><span>距离：{{targetDistancd}}公里</span></div>
           <div class="popupNav_parkingLot">
             <div>
-              <span>空车位：<span style="color: red;">1</span></span>
-              <span>总车位</span>
+              <span>空车位：<span style="color: red;">{{targetEmptyPositionCount}}</span></span>
+              <span>总车位：<span>{{targetTotalPositionCount}}</span></span>
             </div>
             <div>
-              <span>五分钟空出车位：1</span>
-              <span>十分钟空出车位：2</span>
-            </div>
-            <div>
-              <span>半小时空出车位：<span style="color: green;">2</span></span>
+              <span>五分钟空出车位：{{targetAvailablePositionCount}}</span>
               <span></span>
             </div>
           </div>
           <div class="popoupNav_operation">
             <div>
-              <img src="../../assets/stop.png" alt="">
+              <img src="../../assets/luxian.png" alt="" class="imgIcon">
               <span>路线</span>
             </div>
              <div @click="planRouteNav">
-              <img src="../../assets/stop.png" alt="">
+              <img src="../../assets/daohang.png" alt="" class="imgIcon">
               <span>导航</span>
             </div>
-             <div>
-              <img src="../../assets/stop.png" alt="">
-              <span>周边车库</span>
+             <div @click="strengthenRange">
+              <img src="../../assets/round.png" alt="" class="imgIcon">
+              <span>周边五公里车库</span>
             </div>
           </div>
         </div>
       </popup>
     </div>
     <div id="panel"></div>
-    <h4 id='status'></h4><hr>
-    <p id='result'></p><hr>
   </div>
 </template>
 <script>
@@ -85,13 +79,23 @@ export default {
       lng: 0,
       lat: 0,
       loaded: false,
-      distance: 1, // 查询范围
+      distance: 3, // 查询范围
       results: [],
       values: '',
-      targetPllanData: null
+      targetPllanData: null,
+      targetAvailablePositionCount: 0, // 五分钟空出车位
+      targetEmptyPositionCount: 0, // 空闲车位
+      targetTotalPositionCount: 0, // 车位总数
+      targetDistancd: 0, // 定位地址到目标点标记地址的直线距离
+      detailedAddress: ''
     }
   },
   methods: {
+    // 增大搜索范围
+    strengthenRange () {
+      this.distance = 5
+      this.initMap()
+    },
     // 点击导航
     planRouteNav () {
       this.planningRoute(this.targetPllanData.startPosition, this.targetPllanData.endPostion)
@@ -111,10 +115,10 @@ export default {
       AMap.plugin('AMap.Geolocation', function () {
         var geolocation = new AMap.Geolocation({
           enableHighAccuracy: true,
-          timeout: 10000,
+          timeout: 1000,
           showCircle: true,
-          buttonPosition: 'RB', // 定位按钮的停靠位置
-          buttonOffset: new AMap.Pixel(10, 20), // 定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+          buttonPosition: 'LB', // 定位按钮的停靠位置
+          buttonOffset: new AMap.Pixel(10, 350), // 定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
           zoomToAccuracy: true // 定位成功后是否自动调整地图视野到定位点
         })
         // 在图面添加定位控件
@@ -122,8 +126,6 @@ export default {
         // 获取用户当前的精确位置信息，当回调函数中的status为complete的时候表示定位成功，result为GeolocationResult对象;
         // 当回调函数中的status为error的时候表示定位失败，result为GeolocationError对象；
         geolocation.getCurrentPosition(function (status, result) {
-          alert(JSON.stringify(result))
-          document.getElementById('tip').innerHTML = '定位失败'
           if (status === 'complete') {
             _this.onComplete(result)
             _this.center = result.position
@@ -140,7 +142,7 @@ export default {
             })
             // _this.center = result.position
           } else {
-            alert('定位失败')
+            this.$vux.toast.text('定位失败')
           }
         })
       })
@@ -148,7 +150,7 @@ export default {
     // 获取精准坐标
     onComplete (data) {
       this.markerS(data.position)
-      document.getElementById('status').innerHTML = '定位成功'
+      // document.getElementById('status').innerHTML = '定位成功'
       // var str = []
       // str.push('定位结果：' + data.position)
       // str.push('定位类别：' + data.location_type)
@@ -160,8 +162,6 @@ export default {
     },
     // 查询默认3公里范围内的车位坐标数组
     async findPosition (position) {
-      console.log(this.distance)
-      console.log('查询范围')
       const data = {
         longitude: position.lng,
         latitude: position.lat,
@@ -172,12 +172,12 @@ export default {
     },
     // 设置点标记
     markerS (position) {
+      const _this = this
       let positionList = []
       this.findPosition(position).then((res) => {
         for (let i in res) {
-          positionList.push([res[i].longitude, res[i].latitude])
+          positionList.push([res[i].pkLotVo.longitude, res[i].pkLotVo.latitude])
         }
-        // this.getDistance(121.59996, 114.89029, 31.197646, 21.58729)
         for (let i in positionList) {
           var marker = new AMap.Marker({
             icon: '//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png',
@@ -186,11 +186,17 @@ export default {
             anchor: 'center',
             clickable: true
           })
-          marker.on('click', (res) => {
+          marker.on('click', (res2) => {
+            _this.targetAvailablePositionCount = res[i].availablePositionCount // 五分钟空出车位
+            _this.targetEmptyPositionCount = res[i].emptyPositionCount // 空闲车位
+            _this.targetTotalPositionCount = res[i].totalPositionCount // 车位总数
+            _this.detailedAddress = res[i].pkLotVo.detailedAddress
+            // 获取距离
+            _this.targetDistancd = _this.getDistance(position.lat, position.lng, res2.lnglat.lat, res2.lnglat.lng)
             this.show15 = true
             this.targetPllanData = {
               startPosition: position,
-              endPostion: [res.lnglat.lng, res.lnglat.lat]
+              endPostion: [res2.lnglat.lng, res2.lnglat.lat]
             }
             // _this.planningRoute(position, [res.lnglat.lng, res.lnglat.lat])
           })
@@ -206,15 +212,12 @@ export default {
           panel: 'panel'
         })
         // 根据起终点经纬度规划驾车导航路线
-        console.log(positionStart)
-        console.log(positionEnd)
-        console.log(366666666666666)
         driving.search(new AMap.LngLat(positionStart.lng, positionStart.lat), new AMap.LngLat(positionEnd[0], positionEnd[1]), (status, result) => {
           // result 即是对应的驾车导航信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_DrivingResult
           if (status === 'complete') {
-            alert('绘制驾车路线完成')
+            this.$vux.toast.text('绘制驾车路线完成')
           } else {
-            alert('获取驾车数据失败：' + result)
+            this.$vux.toast.text('获取驾车数据失败：' + result)
           }
         })
       })
@@ -283,8 +286,6 @@ export default {
       s = d * (1 + fl * (h1 * sf * (1 - sg) - h2 * (1 - sf) * sg))
       s = s / 1000
       s = s.toFixed(2)
-      console.log(55555555555555555555555)
-      console.log(s)
       return s
     }
   },
@@ -399,7 +400,7 @@ export default {
   text-align: left !important;
 }
 .searchLine2 .weui-cells{
-  height: 80vh !important;
+  max-height: 80vh !important;
   overflow: auto !important;
 }
 .searchLine2 .searchClass {
@@ -419,5 +420,9 @@ export default {
 }
 .weui-search-bar__box .weui-icon-search{
       top: .1rem !important;
+}
+.imgIcon {
+  display: inline-block;
+  margin-right: 10px;
 }
 </style>

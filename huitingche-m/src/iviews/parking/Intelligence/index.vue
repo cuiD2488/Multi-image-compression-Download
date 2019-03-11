@@ -65,6 +65,7 @@
 <script>
 import {CheckIcon, Checker, CheckerItem, Popup, XInput, Group, Picker, PopupPicker, XButton, Loading, Toast} from 'vux'
 import {ApiqueryChargingRules, ApipayFree, ApifindPositionByCondition} from '@/api'
+import md5 from 'js-md5'
 export default {
   components: {
     CheckIcon,
@@ -120,7 +121,7 @@ export default {
       year4: ['2002', '4'],
       parkingNo: '',
       parkingMesaage: null,
-      parkingMoney: 0,
+      parkingMoney: null,
       userInform: JSON.parse(sessionStorage.getItem('userInform')),
       targetTime: '',
       passList: [',', ',', ',', ',', ',', ','],
@@ -146,10 +147,6 @@ export default {
     // 关闭选择时长弹框
     confirm (v) {
       // this.timeVal
-      this.parkingNo = ''
-      for (let i in this.inputList) {
-        this.parkingNo += this.inputList[i].key
-      }
       if (!this.parkingNo) {
         this.timeVal = ['', '']
         this.$vux.toast.text('请填写泊位编号')
@@ -165,6 +162,10 @@ export default {
       } else {
         this.focusStatus = index - 1
       }
+      this.parkingNo = ''
+      for (let i in this.inputList) {
+        this.parkingNo += this.inputList[i].key
+      }
       if (index === 5) {
         // 如果是最后一位，就查询是否有该车位
         console.log('最后一位')
@@ -174,7 +175,7 @@ export default {
     // 验证泊位号
     async verificationParkingNo () {
       const data = {
-        parkingLotNumber: '000002'
+        parkingLotNumber: this.parkingNo
       }
       const res = await ApifindPositionByCondition(data)
       // ；李德才说只判断code就可以了，有锅他背
@@ -189,19 +190,25 @@ export default {
     // 获取时间停车时间
     async getChargingRules () {
       const data = {
-        parkingLotNumber: this.parkingNo
+        positionNumber: this.parkingNo
       }
       const res = await ApiqueryChargingRules(data)
+      this.timeVal = ['1小时', '00分钟']
       if (res.code === 200) {
+        if (res.msg === '对不起没有数据,请您检查数据！') {
+          this.$vux.toast.text('对不起没有数据,请您检查数据！')
+          return false
+        }
         this.parkingMesaage = res.data
         let targetHouse = this.timeVal[0].replace('小时', '')
         let targetMine = this.timeVal[1].replace('分钟', '') === 0 ? 0 : 0.5
-        let targetTime = Number(targetHouse + targetMine)
+        let targetTime = Number(targetHouse) + Number(targetMine)
         console.log(targetTime)
         this.targetTime = targetTime
         if (targetTime === 0.5) {
           this.parkingMoney = res.data.pkChargingRulesVoList[0].ruleValue * targetTime
         } else if (targetTime > 0.5) {
+          alert()
           this.parkingMoney = res.data.pkChargingRulesVoList[1].ruleValue * targetTime
         }
         console.log(this.parkingMoney)
@@ -209,9 +216,13 @@ export default {
         this.$vux.toast.text('网络请求失败')
       }
     },
+    // 打开键盘
     openKeyPssword () {
       if (!this.parkingNo) {
         this.$vux.toast.text('请填写泊位编号')
+        return false
+      } else if (!this.parkingMoney) {
+        this.$vux.toast.text('未查询到该泊位号')
         return false
       }
       this.deletePass()
@@ -222,6 +233,7 @@ export default {
       const data = {
         openId: this.userInform.openId,
         payType: 0,
+        payPassword: md5(this.payPassFirst),
         positionNumber: this.parkingNo,
         time: Number(this.targetTime),
         userNumber: this.userInform.userNumber
@@ -230,9 +242,12 @@ export default {
       console.log(res)
       if (res.code === 200) {
         this.loadingShow = false
+      } else {
+        this.$vux.toast(res.msg)
       }
+      this.closePayKeyBoard = false
     },
-    // d
+    // 键盘事件
     inputPass (item, index) {
       this.touchNum = index
       this.$nextTick(() => {
@@ -250,6 +265,7 @@ export default {
           this.payPassFirst = this.payPass.join('')
           this.loadingShow = true
           this.pay()
+          console.log(this.payPassFirst)
         }
       } else if (index === 11) {
         this.deletePass()
