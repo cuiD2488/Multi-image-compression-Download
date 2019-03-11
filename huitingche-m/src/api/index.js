@@ -82,6 +82,7 @@ export const ApiInsertPkCar = async (data) => {
     console.log(err)
   }
 }
+
 // 查询用户范围内的车位坐标
 export const URLfindPkLotListByLngLat = '/findPkLotListByLngLat.json'
 export const ApifindPkLotListByLngLat = async (data) => {
@@ -92,6 +93,7 @@ export const ApifindPkLotListByLngLat = async (data) => {
     console.log(err)
   }
 }
+
 // 根据条件查询停车场信息接口
 export const URLfindParkingLotByCondition = '/findParkingLotByCondition.json'
 export const ApifindParkingLotByCondition = async (data) => {
@@ -102,6 +104,7 @@ export const ApifindParkingLotByCondition = async (data) => {
     console.log(err)
   }
 }
+
 // 查询
 export const URLqueryChargingRules = '/queryChargingRules.json'
 export const ApiqueryChargingRules = async (data) => {
@@ -112,6 +115,7 @@ export const ApiqueryChargingRules = async (data) => {
     console.log(err)
   }
 }
+
 // 钱包支付车费
 export const URLpayFree = '/payFree.json'
 export const ApipayFree = async (data) => {
@@ -158,6 +162,44 @@ export const URLfindPositionByCondition = '/findPositionByCondition.json'
 export const ApifindPositionByCondition = async (data) => {
   try {
     const res = await Axios.post(URLfindPositionByCondition, data)
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// 修改支付状态
+/**
+ * payNumber 订单编号
+ * payStatus 交易状态 (状态码未知)
+ */
+export const URLupdatePkPayStatus = '/updatePkPayStatus.json'
+export const ApiUpdatePkPayStatus = async (data) => {
+  try {
+    const res = await Axios.get(URLupdatePkPayStatus, {params: data})
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// 查询停车记录(全部，欠费与违章)
+/**
+ * 以下参数均为非必传
+ * userNumber 用户编号
+ * orderStatus 订单状态 0:待支付 1:支付成功 2:待补缴
+ * userId 手机号
+ * parkingLotNumber 停车场编号
+ * positionNumber 车位编号
+ * orderNumber 订单编号
+ * orderCreateTime 创建时间
+ * startTime 查询起始时间
+ * endTime 查询结束时间
+ */
+export const URLqueryPkOrder = '/queryPkOrder.json'
+export const ApiQueryPkOrder = async (data) => {
+  try {
+    const res = await Axios.post(URLqueryPkOrder, data)
     return res
   } catch (err) {
     console.log(err)
