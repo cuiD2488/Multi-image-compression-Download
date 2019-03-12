@@ -34,7 +34,7 @@
           <h5>预付费停车信息</h5>
           <p><span>泊位编号：</span>{{parkingNo}}</p>
           <p><span>停车时长：</span>{{timeVal[0] + timeVal[1]}}</p>
-          <p><span>费用合计：</span>{{parkingMoney}}</p>
+          <p><span>费用合计：</span>{{parkingMoney}}元</p>
         </div>
       </div>
       <div v-else class="afterParkingMessage">
@@ -177,11 +177,12 @@ export default {
       }
       const res = await ApifindPositionByCondition(data)
       // ；李德才说只判断code就可以了，有锅他背
-      if (res.code !== 200) {
+      if (res.code !== 200 && this.inputList[5].key) {
         for (let i in this.inputList) {
           this.inputList[i].key = ''
         }
         this.$vux.toast.text(res.msg)
+        this.focusStatus = 0
         return false
       }
     },
@@ -235,10 +236,11 @@ export default {
       }
       const res = await ApipayFree(data)
       if (res.code === 200) {
-        this.$vux.toast('支付成功')
+        this.$vux.toast.text('支付成功')
+        this.$router.push({name: 'parkingRecord', query: this.$route.query})
         this.loadingShow = false
       } else {
-        this.$vux.toast(res.msg)
+        this.$vux.toast.text(res.msg)
       }
       this.closePayKeyBoard = false
     },

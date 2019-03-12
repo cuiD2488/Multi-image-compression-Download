@@ -16,7 +16,7 @@
     </div>
     <div id="container" class="map"></div>
     <div v-transfer-dom>
-      <popup v-model="show15" height="39vh" is-transparent :show-mask="false">
+      <popup v-model="show15" is-transparent :show-mask="false" class="popupClass">
         <div class="popupNav" style="">
           <span style="position: absolute;right: 8px;top:5px" @click="show15 = false">
             X
@@ -40,11 +40,11 @@
             </div>
           </div>
           <div class="popoupNav_operation">
-            <div>
+            <div @click="planRouteNav">
               <img src="../../assets/luxian.png" alt="" class="imgIcon">
               <span>路线</span>
             </div>
-             <div @click="planRouteNav">
+             <div>
               <img src="../../assets/daohang.png" alt="" class="imgIcon">
               <span>导航</span>
             </div>
@@ -116,14 +116,17 @@ export default {
     geolocations () {
       let _this = this
       // 加载定位插件
+      this.$vux.loading.show({
+        text: '获取定位...'
+      })
       AMap.plugin('AMap.Geolocation', function () {
         var geolocation = new AMap.Geolocation({
           enableHighAccuracy: true,
-          timeout: 5000,
+          timeout: 10000,
           showCircle: true,
           buttonPosition: 'LB', // 定位按钮的停靠位置
           buttonOffset: new AMap.Pixel(10, 350), // 定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
-          zoomToAccuracy: true // 定位成功后是否自动调整地图视野到定位点
+          zoomToAccuracy: false // 定位成功后是否自动调整地图视野到定位点
         })
         // 在图面添加定位控件
         map.addControl(geolocation)
@@ -131,9 +134,10 @@ export default {
         // 当回调函数中的status为error的时候表示定位失败，result为GeolocationError对象；
         geolocation.getCurrentPosition(function (status, result) {
           if (status === 'complete') {
+            // 关闭loading
+            _this.$vux.loading.hide()
             _this.onComplete(result)
             _this.center = result.position
-            console.log(_this.center)
             // 查询周边
             AMap.service(['AMap.PlaceSearch'], function () {
               // 构造地点查询类 这里只是用到周边搜索的范围，所以实例属性里的type填写的是高德未录入的，不然会默认查出相关markr
@@ -142,12 +146,13 @@ export default {
                 map: map, // 展现结果的地图实例
                 autoFitView: true // 是否自动调整地图视野使绘制的 Marker点都处于视口的可见范围
               })
-              placeSearch.searchNearBy('', _this.center, (_this.distance * 1000), (status, result) => {
+              placeSearch.searchNearBy('停车位', _this.center, (_this.distance * 1000), (status, result) => {
               })
             })
             // _this.center = result.position
           } else {
-            this.$vux.toast.text('定位失败')
+            _this.$vux.loading.hide()
+            _this.$vux.toast.text('定位失败')
           }
         })
       })
@@ -389,37 +394,4 @@ export default {
 }
 </style>
 <style>
-.searchLine2{
-  font-size: 24px !important;
-}
-.searchLine2 .weui-cell_access{
-  font-size: 24px !important;
-  text-align: left !important;
-}
-.searchLine2 .weui-cells{
-  max-height: 80vh !important;
-  overflow: auto !important;
-}
-.searchLine2 .searchClass {
-  top: 0 !important;
-}
-.searchLine2 form input, .searchLine2 form i{
-    font-size: 24px !important;
-}
-.searchLine2 form .weui-search-bar__label span{
-   font-size: 24px !important;
-}
-.weui-search-bar__box{
-    padding-left: 0.6rem !important;
-}
-.weui-search-bar__cancel-btn{
-  line-height: 0.6rem !important;
-}
-.weui-search-bar__box .weui-icon-search{
-      top: .1rem !important;
-}
-.imgIcon {
-  display: inline-block;
-  margin-right: 10px;
-}
 </style>
