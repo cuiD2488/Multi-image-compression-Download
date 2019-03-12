@@ -30,14 +30,16 @@
           提现
         </div>
       </div>
-      <div class="navContentItem">
-        <div class="imgDiv">
-          <img src="@/assets/drawMoney.png" alt="">
+      <router-link to="billingDetail">
+        <div class="navContentItem">
+          <div class="imgDiv">
+            <img src="@/assets/drawMoney.png" alt="">
+          </div>
+          <div class="wordDiv">
+            账单明细
+          </div>
         </div>
-        <div class="wordDiv">
-          账单明细
-        </div>
-      </div>
+      </router-link>
       <!-- <p><router-link to="recharge"><img src="@/assets/saveMoney.png">充值</router-link></p>
       <p><img src="@/assets/drawMoney.png">提现</p>
       <p><img src="@/assets/countList.png">账单明细</p> -->

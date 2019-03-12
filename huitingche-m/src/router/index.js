@@ -12,6 +12,7 @@ import recharge from '@/iviews/mine/recharge'
 import carMessage from '@/iviews/mine/carMessage'
 import safety from '@/iviews/mine/safety'
 import parkingRules from '@/iviews/parkingRules'
+import billingDetail from '@/iviews/mine/billingDetail'
 // const home = () => import('@/iviews/home')
 
 Vue.use(Router)
@@ -100,7 +101,7 @@ export default new Router({
           path: '/mine/carMessage',
           name: 'carMessage',
           meta: {
-            title: '智能停车'
+            title: '车辆信息'
           },
           component: carMessage
         },
@@ -108,9 +109,17 @@ export default new Router({
           path: '/mine/safety',
           name: 'safety',
           meta: {
-            title: '智能停车'
+            title: '账号与安全'
           },
           component: safety
+        },
+        {
+          path: '/mine/billingDetail',
+          name: 'billingDetail',
+          meta: {
+            title: '账单明细'
+          },
+          component: billingDetail
         }
       ]
     }

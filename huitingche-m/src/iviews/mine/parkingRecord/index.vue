@@ -1,5 +1,5 @@
 <template>
-  <div style="background: #f6f6f6;height:100%">
+  <div class="page">
     <tab>
       <tab-item selected @on-item-click="getParkRecord">全部订单</tab-item>
       <tab-item @on-item-click="getParkRecord(1)">已完成</tab-item>
@@ -21,7 +21,7 @@
         <div class="delLine">
           <div>{{item.orderStatus === 0 ? '待支付' : item.orderStatus === 1 ? '支付成功' : '待补缴'}}</div>
           <div class="deleteDiv">
-            <x-button @click.native="sendCode" type="primary" mini text="删除" class="deleteBtn"></x-button>
+            <x-button @click.native="deleteOrder(item.orderNumber)" type="primary" mini text="删除" class="deleteBtn"></x-button>
           </div>
         </div>
       </div>
@@ -29,7 +29,7 @@
   </div>
 </template>
 <script>
-import {ApiQueryPkOrder} from '@/api'
+import {ApiQueryPkOrder, ApiDeletePkOrder} from '@/api'
 import { Tab, TabItem, XButton } from 'vux'
 
 export default {
@@ -47,22 +47,42 @@ export default {
     // 获取停车记录
     async getParkRecord (n) {
       let data = {
-        userNumber: JSON.parse(sessionStorage.getItem('userInform')).userNumber
+        userNumber: JSON.parse(sessionStorage.getItem('userInform')).userNumber,
+        col: 1
       }
       if (n) {
         data.orderStatus = n
       }
       const res = await ApiQueryPkOrder(data)
-      if (res.code === 200) {
+      if (res.code === 200 && res.data) {
+        // 清空展示数据重新写入
+        this.recordList = []
         let data = res.data.data
         for (let index in data) {
-          data[index].enterTime = data[index].enterTime.substring(0, data[index].enterTime.length - 5)
-          data[index].outTime = data[index].outTime.substring(0, data[index].outTime.length - 5)
-          this.recordList.push(data[index])
+          // 判断是否含有进出车时间,没有不展示
+          if (data[index].enterTime && data[index].outTime) {
+            data[index].enterTime = data[index].enterTime.substring(0, data[index].enterTime.length - 5)
+            data[index].outTime = data[index].outTime.substring(0, data[index].outTime.length - 5)
+            this.recordList.push(data[index])
+          }
         }
+      } else {
+        this.$vux.toast.text(res.msg)
+      }
+    },
+    // 删除停车记录
+    async deleteOrder (orderNumber) {
+      let data = {
+        orderNumber: orderNumber
+      }
+      const res = await ApiDeletePkOrder(data)
+      if (res.code === 200) {
+        this.$vux.toast.text('删除成功')
+        this.getParkRecord()
+      } else {
+        this.$vux.toast.text(res.msg)
       }
     }
-    // 删除停车记录
   },
   mounted () {
     // 挂载完成后调用获取停车信息接口
@@ -71,6 +91,11 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.page{
+  background: #f6f6f6;
+  height:100%;
+  padding-bottom: 120px;
+}
 .parkingRecordContent{
   text-align: left;
   padding: 20px 0;
@@ -79,6 +104,9 @@ export default {
     margin-bottom: 20px;
     background: #fff;
     padding: 40px 30px;
+  }
+  .location{
+    padding-bottom: 15px;
   }
   .date{
     display: flex;

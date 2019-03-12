@@ -182,7 +182,7 @@ export const ApiUpdatePkPayStatus = async (data) => {
   }
 }
 
-// 查询停车记录(全部，欠费与违章)
+// 查询停车记录(全部，欠费)
 /**
  * 以下参数均为非必传
  * userNumber 用户编号
@@ -199,6 +199,35 @@ export const URLqueryPkOrder = '/queryPkOrder.json'
 export const ApiQueryPkOrder = async (data) => {
   try {
     const res = await Axios.post(URLqueryPkOrder, data)
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// 移动端删除停车记录
+/**
+ * orderNumber 订单编号
+ */
+export const URLdeletePkOrder = '/deletePkOrder.json'
+export const ApiDeletePkOrder = async (data) => {
+  try {
+    const res = await Axios.post(URLdeletePkOrder, data)
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// 查询账单明细(充值/停车)
+/**
+ * userNumber  用户编号
+ * type 类型(0:停车 1:充值) 非必传
+ */
+export const URLqueryBill = '/queryBill.json'
+export const ApiQueryBill = async (data) => {
+  try {
+    const res = await Axios.post(URLqueryBill, data)
     return res
   } catch (err) {
     console.log(err)

@@ -111,7 +111,7 @@ export default {
     justify-content: space-between;
     padding: 43px 0;
     background: #fff;
-    // margin: 5px 0;
+    margin-bottom: 5px;
     .navItem{
       .navImg{
         width : 50px;
