@@ -30,11 +30,13 @@
         <p>联系我们</p>
         <p @click="$router.push({name: 'bindTel'})">绑定手机</p>
         <p @click="$router.push({name: 'safety'})">账号与安全</p>
+        <p v-if="walletMsg" @click="$router.push({name: 'report'})">违停举报</p>
       </div>
     </div>
   </div>
 </template>
 <script>
+import {ApiQueryPkUser} from '@/api'
 export default {
   compents: {
   },
@@ -57,18 +59,29 @@ export default {
           routeName: 'parkingRecord'
         }
       ],
-      userInform: sessionStorage.getItem('userInform') ? JSON.parse(sessionStorage.getItem('userInform')) : null
+      userInform: sessionStorage.getItem('userInform') ? JSON.parse(sessionStorage.getItem('userInform')) : null,
+      walletMsg: sessionStorage.getItem('walletMsg') ? JSON.parse(sessionStorage.getItem('walletMsg')) : null
     }
   },
   methods: {
     toLink (routeName) {
       this.$router.push({name: routeName})
+    },
+    // 查询余额
+    async findBalance () {
+      const data = {
+        openId: this.userInform.openId,
+        vendorId: this.userInform.vendorId
+      }
+      const res = await ApiQueryPkUser(data)
+      this.walletMsg = res.data
+      sessionStorage.setItem('walletMsg', JSON.stringify(res.data))
     }
   },
   mounted () {
-    // if (!this.userInform) {
-    //   this.$router.push({name: 'bindTel', query: this.$route.query})
-    // }
+    if (!sessionStorage.getItem('walletMsg')) {
+      this.findBalance()
+    }
   }
 }
 </script>

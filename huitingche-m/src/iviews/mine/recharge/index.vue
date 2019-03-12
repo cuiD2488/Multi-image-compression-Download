@@ -3,7 +3,7 @@
     <!-- 充值页面 -->
     <div class="balanceDiv">
       <div class="top">余额（元）</div>
-      <div class="bottom">0.00</div>
+      <div class="bottom">{{walletMsg.balance}}</div>
       <!-- <span>余额<strong style="">0.00</strong>元</span> -->
     </div>
     <group class="groupClass">
@@ -17,6 +17,7 @@
     </div>
   </div>
 </template>
+
 <style>
 .weui-cells, .vux-no-group-title{
   margin-top: 0!important;
@@ -93,7 +94,8 @@ export default {
           value: 500
         }
       ],
-      targetInde: -1
+      targetInde: -1,
+      walletMsg: sessionStorage.getItem('walletMsg') ? JSON.parse(sessionStorage.getItem('walletMsg')) : null
     }
   },
   methods: {

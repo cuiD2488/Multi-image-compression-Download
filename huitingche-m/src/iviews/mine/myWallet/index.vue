@@ -7,7 +7,7 @@
         <span>余额(元)</span>
       </div>
       <div>
-        <strong>1.00</strong>
+        <strong v-if="walletMsg">{{walletMsg.balance}}</strong>
       </div>
       <!-- <img src="" alt=""> -->
     </div>
@@ -46,6 +46,19 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  data () {
+    return {
+      userInform: sessionStorage.getItem('userInform') ? JSON.parse(sessionStorage.getItem('userInform')) : null,
+      walletMsg: sessionStorage.getItem('walletMsg') ? JSON.parse(sessionStorage.getItem('walletMsg')) : null
+    }
+  },
+  methods: {
+  }
+}
+</script>
+
 <style lang="less" scoped>
 a{
   color: #000;

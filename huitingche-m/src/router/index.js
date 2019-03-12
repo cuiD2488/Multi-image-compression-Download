@@ -13,6 +13,7 @@ import carMessage from '@/iviews/mine/carMessage'
 import safety from '@/iviews/mine/safety'
 import parkingRules from '@/iviews/parkingRules'
 import billingDetail from '@/iviews/mine/billingDetail'
+import report from '@/iviews/mine/report'
 // const home = () => import('@/iviews/home')
 
 Vue.use(Router)
@@ -64,6 +65,14 @@ export default new Router({
             title: '注册'
           },
           component: bindTel
+        },
+        {
+          path: '/mine/report',
+          name: 'report',
+          meta: {
+            title: '违停举报'
+          },
+          component: report
         },
         {
           path: '/mine/myWallet',
