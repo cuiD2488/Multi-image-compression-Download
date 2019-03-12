@@ -193,12 +193,21 @@ export const ApiUpdatePkPayStatus = async (data) => {
  * orderNumber 订单编号
  * orderCreateTime 创建时间
  * startTime 查询起始时间
- * endTime 查询结束时间
+ * endTime 查询结束时间/queryPkUser
  */
 export const URLqueryPkOrder = '/queryPkOrder.json'
 export const ApiQueryPkOrder = async (data) => {
   try {
     const res = await Axios.post(URLqueryPkOrder, data)
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}
+export const URLqueryPkUser = '/queryPkUser.json'
+export const ApiQueryPkUser = async (data) => {
+  try {
+    const res = await Axios.post(URLqueryPkUser, data)
     return res
   } catch (err) {
     console.log(err)

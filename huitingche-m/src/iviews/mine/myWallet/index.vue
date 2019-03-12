@@ -22,14 +22,14 @@
           </div>
         </div>
       </router-link>
-      <div class="navContentItem">
+      <!-- <div class="navContentItem">
         <div class="imgDiv">
           <img src="@/assets/drawMoney.png" alt="">
         </div>
         <div class="wordDiv">
           提现
         </div>
-      </div>
+      </div> -->
       <div class="navContentItem">
         <div class="imgDiv">
           <img src="@/assets/drawMoney.png" alt="">

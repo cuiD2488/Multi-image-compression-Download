@@ -22,3 +22,43 @@ align-items: center !important;
 width: 0.6rem !important;
 height: 0.6rem !important;
 }
+.button.weui-btn, input.weui-btn{
+margin-top: 20px;
+font-size: 32px !important;
+}
+.searchLine2{
+    font-size: 24px !important;
+  }
+  .searchLine2 .weui-cell_access{
+    font-size: 24px !important;
+    text-align: left !important;
+  }
+  .searchLine2 .weui-cells{
+    max-height: 80vh !important;
+    overflow: auto !important;
+  }
+  .searchLine2 .searchClass {
+    top: 0 !important;
+  }
+  .searchLine2 form input, .searchLine2 form i{
+      font-size: 24px !important;
+  }
+  .searchLine2 form .weui-search-bar__label span{
+     font-size: 24px !important;
+  }
+  .weui-search-bar__box{
+      padding-left: 0.6rem !important;
+  }
+  .weui-search-bar__cancel-btn{
+    line-height: 0.6rem !important;
+  }
+  .weui-search-bar__box .weui-icon-search{
+        top: .1rem !important;
+  }
+  .imgIcon {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .popupClass{
+    bottom: 130px !important;
+  }
