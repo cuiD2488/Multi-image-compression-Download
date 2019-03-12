@@ -9,8 +9,11 @@
     <div class="billingContent">
       <div v-for="(item, index) in billingList" :key="index">
         <div class="itemLine">
-          <div class="left">{{item.payCreateTime}}</div>
-          <div class="right">{{item.payMoney}}</div>
+          <div class="left">
+            <div class="leftTitle">{{item.type === 1 ? '充值' : '停车付费'}}</div>
+            <div class="leftTime">{{item.payCreateTime}}</div>
+          </div>
+          <div class="right" :class="item.type === 1 ? 'green' : 'red'">{{item.type === 1 ? '+' + item.payMoney : '-' + item.payMoney}}元</div>
         </div>
       </div>
     </div>
@@ -41,17 +44,13 @@ export default {
         data.type = n
       }
       const res = await ApiQueryBill(data)
-      if (res.errorCode === 200 && res.data) {
+      if (res.code === 200 && res.data) {
         // 清空展示数据重新写入
         this.billingList = []
-        let data = res.data.data
+        let data = res.data
         for (let index in data) {
-          // 判断是否含有进出车时间,没有不展示
-          if (data[index].enterTime && data[index].outTime) {
-            data[index].enterTime = data[index].enterTime.substring(0, data[index].enterTime.length - 5)
-            data[index].outTime = data[index].outTime.substring(0, data[index].outTime.length - 5)
-            this.billingList.push(data[index])
-          }
+          data[index].payCreateTime = data[index].payCreateTime.substring(0, data[index].payCreateTime.length - 5)
+          this.billingList.push(data[index])
         }
       } else {
         this.$vux.toast.text(res.msg)
@@ -67,7 +66,6 @@ export default {
 <style lang="less" scoped>
 .page{
   background: #f6f6f6;
-  height:100%;
   padding-bottom: 120px;
 }
 .parkingRecordContent{
@@ -100,6 +98,36 @@ export default {
     .deleteBtn{
       position: absolute;
       right: 0;
+    }
+  }
+}
+.billingContent{
+  .itemLine{
+    display: flex;
+    padding: 35px 30px;
+    text-align: left;
+    background: #fff;
+    margin-bottom: 10px;
+    .leftTitle{
+      font-size: 36px;
+      color: #000;
+    }
+    .leftTime{
+      font-size: 24px;
+      color: #959595;
+    }
+    .right{
+      flex-grow: 1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      font-size: 32px;
+    }
+    .red{
+      color: #f00;
+    }
+    .green{
+      color: #00b111;
     }
   }
 }
