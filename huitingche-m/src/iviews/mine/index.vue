@@ -30,7 +30,7 @@
         <p>联系我们</p>
         <p @click="$router.push({name: 'bindTel'})">绑定手机</p>
         <p @click="$router.push({name: 'safety'})">账号与安全</p>
-        <p v-if="walletMsg" @click="$router.push({name: 'report'})">违停举报</p>
+        <p v-if="+walletMsg.whetherAdmin === 1" @click="$router.push({name: 'report'})">违停举报</p>
       </div>
     </div>
   </div>
