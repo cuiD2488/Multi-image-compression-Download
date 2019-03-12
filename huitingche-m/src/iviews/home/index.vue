@@ -37,7 +37,7 @@
     </div>
     <div>
       <!-- 停车方式 -->
-      <div class="doubleBox">
+      <!-- <div class="doubleBox">
         <div class="leftBox">
           <div class="inside">
             <img src="../../assets/earlyWarning.png" alt=""><div>预付费停车</div>
@@ -48,7 +48,7 @@
             <img src="../../assets/after.png" alt=""><div>后付费停车</div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
     <div>
       <!-- 信息中心 -->
@@ -271,7 +271,7 @@ export default {
   // font-size: 1.2rem;
   padding: 0 20px;
   // max-height: 15rem;
-  height: 124px;
+  height: 300px;
   overflow: auto;
   p{
     display: flex;

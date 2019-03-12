@@ -116,6 +116,9 @@ export default {
     geolocations () {
       let _this = this
       // 加载定位插件
+      this.$vux.loading.show({
+        text: '获取定位...'
+      })
       AMap.plugin('AMap.Geolocation', function () {
         var geolocation = new AMap.Geolocation({
           enableHighAccuracy: true,
@@ -131,6 +134,7 @@ export default {
         // 当回调函数中的status为error的时候表示定位失败，result为GeolocationError对象；
         geolocation.getCurrentPosition(function (status, result) {
           if (status === 'complete') {
+            _this.$vux.loading.hide()
             _this.onComplete(result)
             _this.center = result.position
             console.log(_this.center)
