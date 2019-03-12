@@ -16,10 +16,13 @@
     </div>
     <div id="container" class="map"></div>
     <div v-transfer-dom>
-      <popup v-model="show15" height="38vh" is-transparent :show-mask="false">
+      <popup v-model="show15" height="39vh" is-transparent :show-mask="false">
         <div class="popupNav" style="">
           <span style="position: absolute;right: 8px;top:5px" @click="show15 = false">
             X
+          </span>
+          <span style="position: absolute;right: 8px;top:30px;color: #5dbeb0;" @click="$router.push({name: 'parkingRules', query: {...$route.query, ...{'targetParkingLotNumber': targetParkingLotNumber}}})">
+            查看收费规则
           </span>
           <div class="popupNav_title">
             <img src="../../assets/stop.png" alt="" class="imgIcon">
@@ -47,7 +50,7 @@
             </div>
              <div @click="strengthenRange">
               <img src="../../assets/round.png" alt="" class="imgIcon">
-              <span>周边五公里车库</span>
+              <span>扩大搜索</span>
             </div>
           </div>
         </div>
@@ -87,7 +90,8 @@ export default {
       targetEmptyPositionCount: 0, // 空闲车位
       targetTotalPositionCount: 0, // 车位总数
       targetDistancd: 0, // 定位地址到目标点标记地址的直线距离
-      detailedAddress: ''
+      detailedAddress: '',
+      targetParkingLotNumber: '' // 选择挺车场编号
     }
   },
   methods: {
@@ -115,7 +119,7 @@ export default {
       AMap.plugin('AMap.Geolocation', function () {
         var geolocation = new AMap.Geolocation({
           enableHighAccuracy: true,
-          timeout: 1000,
+          timeout: 5000,
           showCircle: true,
           buttonPosition: 'LB', // 定位按钮的停靠位置
           buttonOffset: new AMap.Pixel(10, 350), // 定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
@@ -129,6 +133,7 @@ export default {
           if (status === 'complete') {
             _this.onComplete(result)
             _this.center = result.position
+            console.log(_this.center)
             // 查询周边
             AMap.service(['AMap.PlaceSearch'], function () {
               // 构造地点查询类 这里只是用到周边搜索的范围，所以实例属性里的type填写的是高德未录入的，不然会默认查出相关markr
@@ -150,15 +155,6 @@ export default {
     // 获取精准坐标
     onComplete (data) {
       this.markerS(data.position)
-      // document.getElementById('status').innerHTML = '定位成功'
-      // var str = []
-      // str.push('定位结果：' + data.position)
-      // str.push('定位类别：' + data.location_type)
-      // if (data.accuracy) {
-      //   str.push('精度：' + data.accuracy + ' 米')
-      // } // 如为IP精确定位结果则没有精度信息
-      // str.push('是否经过偏移：' + (data.isConverted ? '是' : '否'))
-      // document.getElementById('result').innerHTML = str.join('<br>')
     },
     // 查询默认3公里范围内的车位坐标数组
     async findPosition (position) {
@@ -191,6 +187,7 @@ export default {
             _this.targetEmptyPositionCount = res[i].emptyPositionCount // 空闲车位
             _this.targetTotalPositionCount = res[i].totalPositionCount // 车位总数
             _this.detailedAddress = res[i].pkLotVo.detailedAddress
+            this.targetParkingLotNumber = res[i].pkLotVo.parkingLotNumber
             // 获取距离
             _this.targetDistancd = _this.getDistance(position.lat, position.lng, res2.lnglat.lat, res2.lnglat.lng)
             this.show15 = true
@@ -376,7 +373,7 @@ export default {
 }
 // 地图
 #container{
-  height: 80vh;
+  height: 90vh;
   width: 100%;
   float: left;
   // margin-top: 46px;

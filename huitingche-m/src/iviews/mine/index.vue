@@ -57,13 +57,18 @@ export default {
           routeName: 'parkingRecord'
         }
       ],
-      userInform: JSON.parse(sessionStorage.getItem('userInform'))
+      userInform: sessionStorage.getItem('userInform') ? JSON.parse(sessionStorage.getItem('userInform')) : null
     }
   },
   methods: {
     toLink (routeName) {
       this.$router.push({name: routeName})
     }
+  },
+  mounted () {
+    // if (!this.userInform) {
+    //   this.$router.push({name: 'bindTel', query: this.$route.query})
+    // }
   }
 }
 </script>

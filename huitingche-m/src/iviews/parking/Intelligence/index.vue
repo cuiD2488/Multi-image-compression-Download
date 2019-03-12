@@ -152,7 +152,6 @@ export default {
         this.$vux.toast.text('请填写泊位编号')
         return false
       }
-      console.log(this.timeVal)
       this.getChargingRules()
     },
     // 泊位号计算
@@ -168,14 +167,13 @@ export default {
       }
       if (index === 5) {
         // 如果是最后一位，就查询是否有该车位
-        console.log('最后一位')
         this.verificationParkingNo()
       }
     },
     // 验证泊位号
     async verificationParkingNo () {
       const data = {
-        parkingLotNumber: this.parkingNo
+        positionNumber: this.parkingNo
       }
       const res = await ApifindPositionByCondition(data)
       // ；李德才说只判断code就可以了，有锅他背
@@ -203,15 +201,12 @@ export default {
         let targetHouse = this.timeVal[0].replace('小时', '')
         let targetMine = this.timeVal[1].replace('分钟', '') === 0 ? 0 : 0.5
         let targetTime = Number(targetHouse) + Number(targetMine)
-        console.log(targetTime)
         this.targetTime = targetTime
         if (targetTime === 0.5) {
           this.parkingMoney = res.data.pkChargingRulesVoList[0].ruleValue * targetTime
         } else if (targetTime > 0.5) {
-          alert()
           this.parkingMoney = res.data.pkChargingRulesVoList[1].ruleValue * targetTime
         }
-        console.log(this.parkingMoney)
       } else {
         this.$vux.toast.text('网络请求失败')
       }
@@ -239,8 +234,8 @@ export default {
         userNumber: this.userInform.userNumber
       }
       const res = await ApipayFree(data)
-      console.log(res)
       if (res.code === 200) {
+        this.$vux.toast('支付成功')
         this.loadingShow = false
       } else {
         this.$vux.toast(res.msg)
@@ -265,14 +260,12 @@ export default {
           this.payPassFirst = this.payPass.join('')
           this.loadingShow = true
           this.pay()
-          console.log(this.payPassFirst)
         }
       } else if (index === 11) {
         this.deletePass()
       } else if (index === 9) {
         this.clearPass()
       }
-      console.log(item, index)
     },
     async clearPass () {
       this.loadingShow = false
