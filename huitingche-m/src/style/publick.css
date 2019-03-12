@@ -12,3 +12,13 @@ font-size: 28px !important;
 .weui-toast__content{
 font-size: .3rem !important;
 }
+.weui-tabbar__label{
+font-size: 24px !important;
+}
+.weui-tabbar{
+align-items: center !important;
+}
+.weui-tabbar__icon{
+width: 0.6rem !important;
+height: 0.6rem !important;
+}

@@ -235,6 +235,7 @@ export default {
       }
       const res = await ApipayFree(data)
       if (res.code === 200) {
+        this.$vux.toast('支付成功')
         this.loadingShow = false
       } else {
         this.$vux.toast(res.msg)
