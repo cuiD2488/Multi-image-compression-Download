@@ -243,3 +243,26 @@ export const ApiQueryPkUser = async (data) => {
     console.log(err)
   }
 }
+// 新增违章记录
+export const URLaddPkViolation = '/addPkViolation.json'
+export const ApiAddPkViolation = async (data) => {
+  try {
+    const res = await Axios.post(URLaddPkViolation, data)
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}
+// 图片上传
+export const URLaddPictures = 'http://cyc8.cn/addPictures.json'
+export const ApiAaddPictures = async (data) => {
+  const config = {
+    headers: {'Content-Type': 'multipart/form-data'}
+  }
+  try {
+    const res = await Axios.post(URLaddPictures, data, config)
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}
