@@ -243,3 +243,22 @@ export const ApiQueryPkUser = async (data) => {
     console.log(err)
   }
 }
+
+// 查询违停记录
+/**
+ * vendorId  厂商Id
+ * numberPlate 车牌号(移动端查询违停是输入车牌号查询，简称可不输入)
+ * positionNumber 车位编号
+ * abbreviation 简称(如：粤B)
+ * page 页
+ * num 条数
+ */
+export const URLqueryPkViolationl = '/queryPkViolation.json'
+export const ApiQueryPkViolation = async (data) => {
+  try {
+    const res = await Axios.post(URLqueryPkViolationl, data)
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}

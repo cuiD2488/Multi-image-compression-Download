@@ -29,7 +29,11 @@
         <p>消息中心</p>
         <p>联系我们</p>
         <p @click="$router.push({name: 'bindTel'})" v-if="userInform.userId === null">绑定手机</p>
-        <p @click="$router.push({name: 'safety'})">账号与安全</p>
+        <p @click="$router.push({name: 'safety'})">账号与安全
+          <span class="phoneNum" v-if="userInform.userId">
+            <img class="lockImg" src="@/assets/lock.png">{{userInform.userId.substr(0, 3) + '****' + userInform.userId.substr(7)}}
+          </span>
+        </p>
         <p v-if="+walletMsg.whetherAdmin === 1" @click="$router.push({name: 'report'})">违停举报</p>
       </div>
     </div>
@@ -154,5 +158,15 @@ export default {
     box-sizing: border-box;
     background: #fff;
   }
+}
+.phoneNum{
+  float: right;
+  display: flex;
+  align-items: center;
+}
+.lockImg{
+  width: 36px;
+  height: 36px;
+  margin-right: 10px;
 }
 </style>

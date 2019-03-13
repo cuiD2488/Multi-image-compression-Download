@@ -1,12 +1,12 @@
 <template>
   <div class="page">
     <tab>
-      <tab-item selected @on-item-click="getBillingDetail">全部</tab-item>
+      <tab-item selected @on-item-click="getBillingDetail(2)">全部</tab-item>
       <tab-item @on-item-click="getBillingDetail(1)">入账</tab-item>
       <tab-item @on-item-click="getBillingDetail(0)">支出</tab-item>
     </tab>
     <!-- 充值记录 -->
-    <div class="billingContent">
+    <div class="billingContent" v-if="billingList.length > 0">
       <div v-for="(item, index) in billingList" :key="index">
         <div class="itemLine">
           <div class="left">
@@ -16,6 +16,9 @@
           <div class="right" :class="item.type === 1 ? 'green' : 'red'">{{item.type === 1 ? '+' + item.payMoney : '-' + item.payMoney}}元</div>
         </div>
       </div>
+    </div>
+    <div v-else class="noData">
+      <img src="@/assets/noData.png" alt="">
     </div>
   </div>
 </template>
@@ -40,7 +43,7 @@ export default {
       let data = {
         userNumber: JSON.parse(sessionStorage.getItem('userInform')).userNumber
       }
-      if (n) {
+      if (n === 0 || n === 1) {
         data.type = n
       }
       const res = await ApiQueryBill(data)
@@ -63,10 +66,17 @@ export default {
   }
 }
 </script>
+<style>
+.page{
+  min-height: calc(100% - 120px);
+}
+</style>
+
 <style lang="less" scoped>
 .page{
   background: #f6f6f6;
   padding-bottom: 120px;
+  // min-height: calc(100% - 120px);
 }
 .parkingRecordContent{
   text-align: left;
@@ -102,6 +112,7 @@ export default {
   }
 }
 .billingContent{
+  margin-top: 10px;
   .itemLine{
     display: flex;
     padding: 35px 30px;
@@ -129,6 +140,15 @@ export default {
     .green{
       color: #00b111;
     }
+  }
+}
+.noData{
+  height: 100%;
+  text-align: center;
+  padding: 0 30px;
+  padding-top: 45%;
+  img{
+    width: 60%;
   }
 }
 </style>

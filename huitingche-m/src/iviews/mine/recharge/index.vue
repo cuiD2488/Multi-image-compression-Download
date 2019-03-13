@@ -25,6 +25,13 @@
 .weui-btn + .weui-btn{
   margin-top: 0!important;
 }
+.btnLine .buttonContent{
+  margin-top: 0 !important;
+}
+.weui-btn_plain-primary{
+  color: #7cd1ef !important;
+  border-color: #7cd1ef !important;
+}
 </style>
 
 <style lang="less" scoped>
@@ -101,7 +108,7 @@ export default {
   methods: {
     // 监听输入框变化
     changeMoney () {
-      console.log(this.moneyVal)
+      // console.log(this.moneyVal)
       if (this.moneyVal) {
         this.disabledBl = false
       } else {
@@ -111,12 +118,16 @@ export default {
     },
     // 选择金额
     chooseMoney (index) {
-      console.log(index)
+      // console.log(index)
       this.targetInde = index
       this.moneyVal = this.moneyButtonList[index].value
     },
     // 调用微信充值接口
     async wxPay () {
+      if (+this.moneyVal < 20) {
+        this.$vux.toast.text('单笔充值金额不得小于20元')
+        return
+      }
       let data = {
         money: +this.moneyVal,
         openId: JSON.parse(sessionStorage.getItem('userInform')).openId,
