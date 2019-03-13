@@ -17,7 +17,7 @@
           <!-- <x-input v-show="newPhoneInput" title="新手机号" class="weui-vcode" v-model="phoneNoNew">
           </x-input> -->
         </group>
-        <x-button type="primary" style="margin-top: 10px;" @click.native="submitFnPhone">确定</x-button>
+        <x-button type="primary" class="sureBtn" @click.native="submitFnPhone">确定</x-button>
       </div>
       <div class="showItem" @click="showEditPassword">
         <div class="left">修改支付密码</div>
@@ -33,11 +33,21 @@
           <x-input v-show="newPayCodeInput" title="新支付密码" class="weui-vcode" v-model="newPayCode">
           </x-input>
         </group>
-        <x-button type="primary" style="margin-top: 10px;" @click.native="submitFn">确定</x-button>
+        <x-button type="primary" class="sureBtn" @click.native="submitFn">确定</x-button>
       </div>
     </div>
   </div>
 </template>
+<style>
+.weui-cells{
+  padding: 30px 20px !important;
+  margin-top: 0 !important;
+}
+.sureBtn{
+  margin: 30px 20px !important;
+  width: 680px !important;
+}
+</style>
 
 <style lang="less" scoped>
 .page{

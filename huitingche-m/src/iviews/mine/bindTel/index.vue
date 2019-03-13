@@ -20,9 +20,9 @@
       <div class="agreement">
         <check-icon :value.sync="agreement1">我已阅读并同意<router-link to="/">路内停车服务协议</router-link></check-icon>
         <br>
-        <check-icon :value.sync="agreement2">我已阅读并同意<router-link to="/">>销户退费说明</router-link></check-icon>
+        <check-icon :value.sync="agreement2">我已阅读并同意<router-link to="/">销户退费说明</router-link></check-icon>
       </div>
-      <x-button type="primary" style="margin-top: 1rem;" @click.native="submitFn">确定</x-button>
+      <x-button type="primary" style="margin-top: 1rem;" :disabled="!(agreement1 && agreement2)" @click.native="submitFn">确定</x-button>
     </div>
     <div class="footMessg">
       <p>技术支持：深圳市云天数字科技有限公司</p>
@@ -118,11 +118,20 @@ export default {
 <style>
 .weui-cell{
   padding: 30px 20px!important;
-  font-size: 24px!important;
+  /* font-size: 24px!important; */
 }
 .bindTelContent > .weui-btn{
   margin: 20px;
   width: 680px;
+}
+.weui-btn{
+  margin-top: 0 !important;
+}
+.weui-icon{
+  font-size: 40px !important;
+}
+.vux-check-icon > .weui-icon-success:before, .vux-check-icon > .weui-icon-success-circle:before{
+  color: #7cd1ef !important;
 }
 </style>
 <style lang="less" scoped>
@@ -138,6 +147,7 @@ export default {
   text-align: left;
   padding-left: 30px;
   padding: 60px 0;
+  font-size: 28px;
 }
   .footMessg{
     position: absolute;

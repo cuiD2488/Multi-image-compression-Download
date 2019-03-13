@@ -166,13 +166,10 @@ export default {
     },
     // 泊位号计算
     changeInput (v) {
-      console.log(v)
       this.focusStatus = this.targetIndex
-      console.log(this.focusStatus)
       if (this.inputList[this.targetIndex].key && this.inputList[this.targetIndex].key.length > 0 && Number(v.key)) {
         this.focusStatus = this.targetIndex + 1
       } else if (v.keyCode === 8) {
-        alert(0)
         this.focusStatus = this.targetIndex - 1
       }
       this.parkingNo = ''
@@ -186,7 +183,6 @@ export default {
     },
     // 选择泊位号输入框
     targetFouse (index) {
-      console.log(index)
       this.targetIndex = index
     },
     // 验证泊位号

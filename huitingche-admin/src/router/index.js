@@ -10,18 +10,18 @@ export default new Router({
     {
       path: '/',
       name: 'main',
-      // redirect: { name: 'home' },
+      redirect: { name: 'home' },
       component: reslove => { require(['../layout/default'], reslove) },
       children: [
-        // {
-        //   path: 'home',
-        //   name: 'home',
-        //   // meta: {
-        //   //   title: shopTitle + '商户管理系统 - 首页',
-        //   //   breadname: '首页'
-        //   // },
-        //   component: reslove => { require(['../views/home'], reslove) }
-        // },
+        {
+          path: 'home',
+          name: 'home',
+          // meta: {
+          //   title: shopTitle + '商户管理系统 - 首页',
+          //   breadname: '首页'
+          // },
+          component: reslove => { require(['../views/home'], reslove) }
+        },
         {
           path: 'roadsideparkMGT',
           name: 'roadsideparkMGT',
@@ -127,17 +127,23 @@ export default new Router({
           component: reslove => { require(['../views/merchant'], reslove) }
         }
       ]
-
-    //   ]
-    // },
-    // {
-    //   path: '/login',
-    //   name: 'login',
-    //   meta: {
-    //     title: '登录'
-    //   },
-    //   component: reslove => { require(['../views/login'], reslove) }
-    // },
+    },
+    {
+      path: '/login',
+      name: 'login',
+      meta: {
+        title: '登录'
+      },
+      component: reslove => { require(['../views/login'], reslove) }
+    },
+    {
+      path: '/regist',
+      name: 'regist',
+      meta: {
+        title: '注册'
+      },
+      component: reslove => { require(['../views/regist'], reslove) }
+    }
     // {
     //   path: '/*',
     //   name: 'error_404',
@@ -146,6 +152,5 @@ export default new Router({
     //   },
     //   component: reslove => { require(['../views/error_page/404.vue'], reslove) }
     // }
-    }
   ]
 })

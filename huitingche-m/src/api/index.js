@@ -224,7 +224,7 @@ export const ApiDeletePkOrder = async (data) => {
  * userNumber  用户编号
  * type 类型(0:停车 1:充值) 非必传
  */
-export const URLqueryBill = '/queryBill.json'
+export const URLqueryBill = '/queryBill.json?page=1&num=1000'
 export const ApiQueryBill = async (data) => {
   try {
     const res = await Axios.post(URLqueryBill, data)
@@ -243,6 +243,26 @@ export const ApiQueryPkUser = async (data) => {
     console.log(err)
   }
 }
+
+// 查询违停记录
+/**
+ * vendorId  厂商Id
+ * numberPlate 车牌号(移动端查询违停是输入车牌号查询，简称可不输入)
+ * positionNumber 车位编号
+ * abbreviation 简称(如：粤B)
+ * page 页
+ * num 条数
+ */
+export const URLqueryPkViolationl = '/queryPkViolation.json'
+export const ApiQueryPkViolation = async (data) => {
+  try {
+    const res = await Axios.post(URLqueryPkViolationl, data)
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 // 新增违章记录
 export const URLaddPkViolation = '/addPkViolation.json'
 export const ApiAddPkViolation = async (data) => {
