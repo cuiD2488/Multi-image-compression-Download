@@ -57,8 +57,8 @@
       </div>
       <div class="messageContent">
         <p v-for="(item, index) in noticeList" :key="index">
-          <span v-text="item.noticeText"></span>
-          <span v-text="item.money"></span>
+          <span v-text="'您于' + item.payCreateTime"></span>
+          <span v-text="item.type === 0 ? '停车' : '充值' + item.payMoney + '元'"></span>
         </p>
       </div>
     </div>
@@ -66,7 +66,7 @@
   </div>
 </template>
 <script>
-import {ApiWxLogin} from '@/api'
+import {ApiWxLogin, ApiQueryBill} from '@/api'
 import {Search, Loading} from 'vux'
 
 export default {
@@ -125,38 +125,6 @@ export default {
         }
       ],
       noticeList: [
-        {
-          noticeText: '您于2019-02-15在深圳宝安西乡停车4小时',
-          money: '扣费20元'
-        },
-        {
-          noticeText: '您于2019-02-15在深圳宝安西乡停车4小时',
-          money: '扣费20元'
-        },
-        {
-          noticeText: '您于2019-02-15在深圳宝安西乡停车4小时',
-          money: '扣费20元'
-        },
-        {
-          noticeText: '您于2019-02-15在深圳宝安西乡停车4小时',
-          money: '扣费20元'
-        },
-        {
-          noticeText: '您于2019-02-15在深圳宝安西乡停车4小时',
-          money: '扣费20元'
-        },
-        {
-          noticeText: '您于2019-02-15在深圳宝安西乡停车4小时',
-          money: '扣费20元'
-        },
-        {
-          noticeText: '您于2019-02-15在深圳宝安西乡停车4小时',
-          money: '扣费20元'
-        },
-        {
-          noticeText: '您于2019-02-15在深圳宝安西乡停车4小时',
-          money: '扣费20元'
-        }
       ],
       // loading展示标识
       showLoading: true
@@ -180,6 +148,16 @@ export default {
         this.$vux.toast.text('微信登录失败请刷新后重试')
       }
       this.showLoading = false
+    },
+    // 查询扣费停车信息
+    async queryBill () {
+      const data = {
+        userNumber: '7QL808MXD4'
+      }
+      const res = await ApiQueryBill(data)
+      if (res.code === 200) {
+        this.noticeList = res.data
+      }
     },
     // 导航跳转
     toLocation (routeName) {
@@ -222,6 +200,7 @@ export default {
     // sessionStorage.setItem('code', theRequest.code)
     // 在本地缓存中存入厂商id
     sessionStorage.setItem('state', theRequest.state)
+    this.queryBill()
   }
 }
 </script>

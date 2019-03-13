@@ -224,7 +224,7 @@ export const ApiDeletePkOrder = async (data) => {
  * userNumber  用户编号
  * type 类型(0:停车 1:充值) 非必传
  */
-export const URLqueryBill = '/queryBill.json'
+export const URLqueryBill = '/queryBill.json?page=1&num=1000'
 export const ApiQueryBill = async (data) => {
   try {
     const res = await Axios.post(URLqueryBill, data)
