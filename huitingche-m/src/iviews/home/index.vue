@@ -62,22 +62,24 @@
         </p>
       </div>
     </div>
+    <!-- <loading :show="showLoading" text="请稍后"></loading> -->
   </div>
 </template>
 <script>
 import {ApiWxLogin} from '@/api'
-import {Search} from 'vux'
+import {Search, Loading} from 'vux'
 
 export default {
   components: {
-    Search
+    Search,
+    Loading
   },
   data () {
     return {
       // 微信登录code
       // code: null,
       // 厂商id
-      state: null,
+      // state: null,
       results: [],
       searchValu: '',
       muenList: [
@@ -155,7 +157,9 @@ export default {
           noticeText: '您于2019-02-15在深圳宝安西乡停车4小时',
           money: '扣费20元'
         }
-      ]
+      ],
+      // loading展示标识
+      showLoading: true
     }
   },
   methods: {
@@ -172,7 +176,10 @@ export default {
       if (res.code === 200) {
         // 通过接口获取用户信息并存储至缓存中
         sessionStorage.setItem('userInform', JSON.stringify(res.data))
+      } else {
+        this.$vux.toast.text('微信登录失败请刷新后重试')
       }
+      this.showLoading = false
     },
     // 导航跳转
     toLocation (routeName) {
