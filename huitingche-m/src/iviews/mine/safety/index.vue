@@ -7,15 +7,17 @@
       </div>
       <div class="phoneEdit" v-show="showPhone">
         <group>
-          <x-input title="手机号" class="weui-vcode" v-model="phoneNo">
+          <x-input title="新手机号" class="weui-vcode" v-model="phoneNo">
           </x-input>
+          <!-- <x-input title="手机号" class="weui-vcode" v-model="phoneNo">
+          </x-input> -->
           <x-input title="验证码" class="weui-vcode" v-model="verificationCode">
             <x-button slot="right" @click.native="sendCode" type="primary" mini >发送验证码</x-button>
           </x-input>
-          <x-input v-show="newPhoneInput" title="新手机号" class="weui-vcode" v-model="phoneNoNew">
-          </x-input>
+          <!-- <x-input v-show="newPhoneInput" title="新手机号" class="weui-vcode" v-model="phoneNoNew">
+          </x-input> -->
         </group>
-        <x-button type="primary" style="margin-top: 10px;" @click.native="submitFn">确定</x-button>
+        <x-button type="primary" style="margin-top: 10px;" @click.native="submitFnPhone">确定</x-button>
       </div>
       <div class="showItem" @click="showEditPassword">
         <div class="left">修改支付密码</div>
@@ -89,7 +91,7 @@ export default {
       // 接口请求到的验证码
       getCode: null,
       // 输入的新手机号码
-      phoneNoNew: null,
+      // phoneNoNew: null,
       // 输入新手机号的输入框
       newPhoneInput: false,
       // 输入的新支付密码
@@ -153,7 +155,7 @@ export default {
           // 存储获得的验证码
           this.getCode = res.data
           // 展示新手机号码的输入框
-          this.newPhoneInput = true
+          // this.newPhoneInput = true
           // 展示新支付密码的输入框
           this.newPayCodeInput = true
         } else {
@@ -167,27 +169,45 @@ export default {
     //     this.$vux.toast.text('您输入的验证码有误请核对后再试')
     //   }
     // },
-    // 提交修改手机号码/修改支付密码
+    // 修改支付密码
     async submitFn () {
       if (this.getCode === this.verificationCode) {
         let data = {
-          id: +JSON.parse(sessionStorage.getItem('userInform')).id
-          // userId: this.phoneNoNew
-        }
-        if (this.phoneNoNew !== null) {
-          data.userId = this.phoneNoNew
-        } else if (this.newPayCode !== null) {
-          data.payPassword = md5(this.newPayCode)
-        } else {
-          this.$vux.toast.text('您输入的信息有误请核对后再试')
+          id: +JSON.parse(sessionStorage.getItem('userInform')).id,
+          payPassword: md5(this.newPayCode)
         }
         const res = await ApiUpdatePhone(data)
-        console.log(res)
-        // 清空所有输入的数据
-        this.phoneNoNew = null
-        this.newPayCode = null
-        this.phoneNo = null
-        this.verificationCode = null
+        if (res.code === 200) {
+          // 清空所有输入的数据
+          this.newPayCode = null
+          this.phoneNo = null
+          this.verificationCode = null
+          this.$vux.toast.text('修改成功')
+          this.$router.push({name: 'mine'})
+        } else {
+          this.$vux.toast.text('修改失败请刷新后重试')
+        }
+      } else {
+        this.$vux.toast.text('验证码不正确,请核对后再试')
+      }
+    },
+    // 提交修改手机号码
+    async submitFnPhone () {
+      if (this.getCode === this.verificationCode) {
+        let data = {
+          id: +JSON.parse(sessionStorage.getItem('userInform')).id,
+          userId: this.phoneNo
+        }
+        const res = await ApiUpdatePhone(data)
+        if (res.code === 200) {
+          // 清空所有输入的数据
+          this.phoneNo = null
+          this.verificationCode = null
+          this.$vux.toast.text('修改成功')
+          this.$router.push({name: 'mine'})
+        } else {
+          this.$vux.toast.text('修改失败请刷新后重试')
+        }
       } else {
         this.$vux.toast.text('验证码不正确,请核对后再试')
       }
