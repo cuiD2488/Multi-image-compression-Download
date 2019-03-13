@@ -18,7 +18,16 @@
       <!-- 泊位号 -->
       <div style="margin-bottom: .6px;">泊位编号</div>
       <div class="parkingSpaceContent">
-        <input maxlength="1" v-focus="focusStatus === index" v-model="item.key" :ref="'input' + index" type="text" @keyup="changeInput(index)" v-for="(item, index) in inputList" :key="index">
+        <input maxlength="1"
+          v-focus="focusStatus === index"
+          v-model="item.key"
+          :ref="'input' + index"
+          type="text"
+          @keyup="changeInput"
+          v-for="(item, index) in inputList"
+          :key="index"
+          @focus="targetFouse(index)"
+         >
       </div>
       <div>
         请输入地面上标记的6位泊位数字
@@ -131,7 +140,8 @@ export default {
       show: [],
       title: '请输入支付密码, 用于支付验证',
       payPassFirst: '',
-      loadingShow: false
+      loadingShow: false,
+      targetIndex: 0
     }
   },
   directives: {
@@ -155,20 +165,29 @@ export default {
       this.getChargingRules()
     },
     // 泊位号计算
-    changeInput (index) {
-      if (this.inputList[index].key && this.inputList[index].key.length > 0) {
-        this.focusStatus = index + 1
-      } else {
-        this.focusStatus = index - 1
+    changeInput (v) {
+      console.log(v)
+      this.focusStatus = this.targetIndex
+      console.log(this.focusStatus)
+      if (this.inputList[this.targetIndex].key && this.inputList[this.targetIndex].key.length > 0 && Number(v.key)) {
+        this.focusStatus = this.targetIndex + 1
+      } else if (v.keyCode === 8) {
+        alert(0)
+        this.focusStatus = this.targetIndex - 1
       }
       this.parkingNo = ''
       for (let i in this.inputList) {
         this.parkingNo += this.inputList[i].key
       }
-      if (index === 5) {
+      if (this.targetIndex === 5 && this.parkingNo.length === 6) {
         // 如果是最后一位，就查询是否有该车位
         this.verificationParkingNo()
       }
+    },
+    // 选择泊位号输入框
+    targetFouse (index) {
+      console.log(index)
+      this.targetIndex = index
     },
     // 验证泊位号
     async verificationParkingNo () {

@@ -26,12 +26,6 @@ VueAMap.initAMapApiLoader({
 // 登陆控制
 router.beforeEach((to, from, next) => {
   window.document.title = to.meta.title
-  // if (to.name === 'mine' && !sessionStorage.getItem('userInform')) {
-  //   Vue.$vux.toast.text('请先登录')
-  //   setTimeout(() => {
-  //     router.push({name: 'bindTel'})
-  //   }, 1000)
-  // }
   if (JSON.parse(sessionStorage.getItem('userInform')).userId === null) {
     Vue.$vux.toast.text('请先登录')
     setTimeout(() => {
