@@ -5,9 +5,9 @@
   <div class="sidebar">
     <div class="sidebar-left">
       <Menu :theme="theme3" active-key="1" :active-name="$route.name" @on-select="handleMenuItemSelect">
-        <Menu-item name="roadsideparkMGT" key="1">
+        <Menu-item name="parkingRecord" key="1">
            <Icon type="document-text"></Icon>
-                路边停车管理
+                停车记录
         </Menu-item>
         <Menu-item name="pakingMGTlist" key="2">
            <Icon type="chatbubbles"></Icon>
@@ -59,14 +59,14 @@
         </Menu-item>
       </Menu>
     </div>
-    <!-- <div class="secondbar">
+    <div class="secondbar">
         <div class="secondbar-title">
             <Breadcrumb-item >{{this.$route.meta.title}}</Breadcrumb-item>
         </div>
         <div class="secondbar-data">
             <span>{{nowTime}}</span>
         </div>
-  </div> -->
+  </div>
   </div>
 </template>
 <script>

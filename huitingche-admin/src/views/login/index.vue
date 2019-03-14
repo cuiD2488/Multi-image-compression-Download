@@ -11,14 +11,14 @@
     <div class="loginForm">
       <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
       <FormItem prop="user">
-        <Input type="text" v-model="formInline.user" placeholder="请输入账号">
+        <!-- <Input type="text" v-model="formInline.user" placeholder="请输入账号">
           <Icon type="ios-person-outline" slot="prepend"></Icon>
-        </Input>
+        </Input> -->
       </FormItem>
       <FormItem prop="password">
-        <Input type="password" v-model="formInline.password" placeholder="请输入密码" @on-enter="handleSubmit('formInline')">
+        <!-- <Input type="password" v-model="formInline.password" placeholder="请输入密码" @on-enter="handleSubmit('formInline')">
           <Icon type="ios-lock-outline" slot="prepend"></Icon>
-        </Input>
+        </Input> -->
       </FormItem>
       <FormItem label="记住密码" style="width:100%">
         <i-switch v-model="historyPsw" @on-change="savePsw" />
@@ -78,29 +78,29 @@ export default {
     },
     // 登录
     async submitLogin () {
-      const data = {
-        enterpriseTel: this.formInline.user,
-        enterprisePassword: this.formInline.password
-      }
-      const res = await ApiLogin(data)
-      if (res.code === 200) {
-        if (this.historyPsw) {
-          localStorage.setItem('user', this.formInline.user)
-          localStorage.setItem('pswd', this.formInline.password)
-        } else {
-          localStorage.removeItem('user')
-          localStorage.removeItem('pswd')
-        }
-        this.$Message.success('登录成功!')
-        sessionStorage.setItem('userInfo', JSON.stringify(res.data))
-        await this.$store.commit('GETUSERINFO', res.data)
-        setTimeout(() => {
-          this.$router.push({name: 'home'})
-        }, 1000)
-      } else {
-        this.$Message.error('登录失敗,请检查账号密码是否错误')
-        return false
-      }
+      // const data = {
+      //   enterpriseTel: this.formInline.user,
+      //   enterprisePassword: this.formInline.password
+      // }
+      // const res = await ApiLogin(data)
+      // if (res.code === 200) {
+      //   if (this.historyPsw) {
+      //     localStorage.setItem('user', this.formInline.user)
+      //     localStorage.setItem('pswd', this.formInline.password)
+      //   } else {
+      //     localStorage.removeItem('user')
+      //     localStorage.removeItem('pswd')
+      //   }
+      //   this.$Message.success('登录成功!')
+      //   sessionStorage.setItem('userInfo', JSON.stringify(res.data))
+      //   await this.$store.commit('GETUSERINFO', res.data)
+      //   setTimeout(() => {
+      //     this.$router.push({name: 'home'})
+      //   }, 1000)
+      // } else {
+      //   this.$Message.error('登录失敗,请检查账号密码是否错误')
+      //   return false
+      // }
     }
   }
 }

@@ -10,9 +10,6 @@
         <transition mode="out-in">
           <router-view></router-view>
         </transition>
-        <!-- <div class="test">
-          <i-table border :columns="columns1" :data="data1"></i-table>
-        </div> -->
       </div>
     </div>
   </div>

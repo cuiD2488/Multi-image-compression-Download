@@ -16,19 +16,15 @@ export default new Router({
         {
           path: 'home',
           name: 'home',
-          // meta: {
-          //   title: shopTitle + '商户管理系统 - 首页',
-          //   breadname: '首页'
-          // },
           component: reslove => { require(['../views/home'], reslove) }
         },
         {
-          path: 'roadsideparkMGT',
-          name: 'roadsideparkMGT',
+          path: 'parkingRecord',
+          name: 'parkingRecord',
           meta: {
-            title: '路边停车管理'
+            title: '停车记录'
           },
-          component: reslove => { require(['../views/roadsideparkMGT'], reslove) }
+          component: reslove => { require(['../views/parkingRecord'], reslove) }
         },
         {
           path: 'pakingMGTlist',
@@ -87,22 +83,6 @@ export default new Router({
           component: reslove => { require(['../views/userInfo'], reslove) }
         },
         {
-          path: 'parkingFeesReport',
-          name: 'parkingFeesReport',
-          meta: {
-            title: '车位收费统计报表'
-          },
-          component: reslove => { require(['../views/parkingFeesReport'], reslove) }
-        },
-        {
-          path: 'carflow',
-          name: 'carflow',
-          meta: {
-            title: '车流量'
-          },
-          component: reslove => { require(['../views/carflow'], reslove) }
-        },
-        {
           path: 'violationrecord',
           name: 'violationrecord',
           meta: {
@@ -117,14 +97,6 @@ export default new Router({
             title: '菜单授权'
           },
           component: reslove => { require(['../views/menuAuthorization'], reslove) }
-        },
-        {
-          path: 'merchant',
-          name: 'merchant',
-          meta: {
-            title: '子商户管理'
-          },
-          component: reslove => { require(['../views/merchant'], reslove) }
         }
       ]
     },
