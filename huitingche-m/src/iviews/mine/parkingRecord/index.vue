@@ -8,7 +8,7 @@
     </tab>
     <!-- 停车记录 -->
     <div class="parkingRecordContent" v-if="recordList.length > 0 && !illegalFlag">
-      <div v-for="(item, index) in recordList" :key="index">
+      <div v-for="(item, index) in recordList" :key="index" v-if="item.orderStatus">
         <div class="location">{{item.city + item.county + item.detailedAddress + item.parkingLotName}}</div>
         <div class="date">
           <span>停车时间：</span>
