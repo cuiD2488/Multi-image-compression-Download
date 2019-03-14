@@ -1,6 +1,5 @@
 // 所有接口写在这个文件
-// 导出接口,使用全大写命名
-// 接口命名统一Api为开头,驼峰式命名
+// 导出接口名：URL+后端给过来的接口名，方法名Api+后端给过来的接口名，驼峰式命名
 
 import Axios from 'axios'
 // const qs = require('qs')
@@ -19,7 +18,6 @@ Axios.interceptors.response.use((response) => {
     return false
   }
 })
-
 export default Axios
 
 // 获取停车记录列表

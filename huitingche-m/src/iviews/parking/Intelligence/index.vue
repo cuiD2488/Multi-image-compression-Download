@@ -45,6 +45,9 @@
           <p><span>停车时长：</span>{{timeVal[0] + timeVal[1]}}</p>
           <p><span>费用合计：</span>{{parkingMoney}}元</p>
         </div>
+        <div>
+          <router-link :to="{name: 'parkingRules'}">收费规则</router-link>
+        </div>
       </div>
       <div v-else class="afterParkingMessage">
         <!-- 后付费，查询钱包余额是否够一个小时，如果够则允许，超时为继续支付，就给管理人员发送消息。如果钱包不够就提示他无法后付费，并说明后付费需要满足的条件-->
@@ -53,7 +56,7 @@
       </div>
       <x-button type="primary" @click.native="openKeyPssword" class="defaultClass btn">确认</x-button>
     </div>
-      <popup hide-on-blur v-model="closePayKeyBoard" height="270px" is-transparent>
+      <popup hide-on-blur v-model="closePayKeyBoard" height="270px" is-transparent @on-hide="deletePass">
         <div  class="payKeyboard">
           <div class="title" @click.stop="stop" v-text="title"></div>
           <ul class="password" @click.stop="stop">
@@ -95,7 +98,7 @@ export default {
       closePayKeyBoard: false,
       payFn: false,
       payVal: '1',
-      timeVal: ['', ''],
+      timeVal: ['1小时', '00分钟'],
       timeList: [['1小时', '2小时', '3小时', '4小时', '5小时', '6小时', '7小时', '8小时', '9小时', '10小时', '11小时', '12小时'], ['00分钟', '30分钟']],
       focusStatus: 0,
       items1: [
@@ -166,10 +169,9 @@ export default {
     },
     // 泊位号计算
     changeInput (v) {
-      this.focusStatus = this.targetIndex
-      if (this.inputList[this.targetIndex].key && this.inputList[this.targetIndex].key.length > 0 && Number(v.key)) {
+      if (this.inputList[this.targetIndex].key && this.inputList[this.targetIndex].key.length > 0) {
         this.focusStatus = this.targetIndex + 1
-      } else if (v.keyCode === 8) {
+      } else if (+v.keyCode === 8) {
         this.focusStatus = this.targetIndex - 1
       }
       this.parkingNo = ''
@@ -179,6 +181,7 @@ export default {
       if (this.targetIndex === 5 && this.parkingNo.length === 6) {
         // 如果是最后一位，就查询是否有该车位
         this.verificationParkingNo()
+        this.getChargingRules()
       }
     },
     // 选择泊位号输入框
@@ -206,8 +209,9 @@ export default {
       const data = {
         positionNumber: this.parkingNo
       }
+      // 查询收费规则
       const res = await ApiqueryChargingRules(data)
-      this.timeVal = ['1小时', '00分钟']
+      // this.timeVal = ['1小时', '00分钟']
       if (res.code === 200) {
         if (res.msg === '对不起没有数据,请您检查数据！') {
           this.$vux.toast.text('对不起没有数据,请您检查数据！')
@@ -215,14 +219,28 @@ export default {
         }
         this.parkingMesaage = res.data
         let targetHouse = this.timeVal[0].replace('小时', '')
-        let targetMine = this.timeVal[1].replace('分钟', '') === 0 ? 0 : 0.5
+        let targetMine = this.timeVal[1].replace('分钟', '') === '00' ? 0 : 0.5
+        console.log(this.timeVal[1])
         let targetTime = Number(targetHouse) + Number(targetMine)
         this.targetTime = targetTime
-        if (targetTime === 0.5) {
-          this.parkingMoney = res.data.pkChargingRulesVoList[0].ruleValue * targetTime
-        } else if (targetTime > 0.5) {
-          this.parkingMoney = res.data.pkChargingRulesVoList[1].ruleValue * targetTime
+        let item = res.data.pkChargingRulesVoList
+        // 收费金额
+        let targetMoney = 0
+        // 如果选择时段大于第一档时段 并且选择时段减去第一档剩余时段小于第二档
+        if (targetTime > (item[0].ruleEndTime - item[0].ruleStartTime) && targetTime - (item[0].ruleEndTime - item[0].ruleStartTime) < (item[1].ruleEndTime - item[1].ruleStartTime)) {
+          // 第一档全时段
+          targetMoney += item[0].ruleValue * (item[0].ruleEndTime - item[0].ruleStartTime) * 2
+          // 第二档部分时段
+          targetMoney += (targetTime - (item[0].ruleEndTime - item[0].ruleStartTime)) * item[1].ruleValue * 2
+        } else if (targetTime - (item[0].ruleEndTime - item[0].ruleStartTime) > (item[1].ruleEndTime - item[1].ruleStartTime)) {
+          // 第一档全时段
+          targetMoney += item[0].ruleValue * (item[0].ruleEndTime - item[0].ruleStartTime) * 2
+          // 第二档全时段
+          targetMoney += (item[1].ruleEndTime - item[1].ruleStartTime) * item[1].ruleValue * 2
+          // 第三档
+          targetMoney += (targetTime - (item[0].ruleEndTime - item[0].ruleStartTime) - (item[1].ruleEndTime - item[1].ruleStartTime)) * item[2].ruleValue * 2
         }
+        this.parkingMoney = targetMoney
       } else {
         this.$vux.toast.text('网络请求失败')
       }
@@ -236,7 +254,7 @@ export default {
         this.$vux.toast.text('未查询到该泊位号')
         return false
       }
-      this.deletePass()
+      this.clearPass()
       this.closePayKeyBoard = true
     },
     // 调用钱包支付
@@ -253,11 +271,14 @@ export default {
       if (res.code === 200) {
         this.$vux.toast.text('支付成功')
         this.$router.push({name: 'parkingRecord', query: this.$route.query})
-        this.loadingShow = false
       } else {
         this.$vux.toast.text(res.msg)
       }
+      this.clearPass()
+      this.loadingShow = false
       this.closePayKeyBoard = false
+    },
+    stop () {
     },
     // 键盘事件
     inputPass (item, index) {

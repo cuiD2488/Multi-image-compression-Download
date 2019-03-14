@@ -25,7 +25,7 @@
     <div>
       <!-- 导航栏 -->
       <div class="navContent">
-        <div v-for="(item, index) in muenList" :key="index" @click="toLocation(item.routeName)">
+        <div v-for="(item, index) in muenList" :key="index" @click="toLocation(item)">
           <div class="navImgContent">
             <img :src="item.icon">
           </div>
@@ -91,37 +91,43 @@ export default {
         {
           icon: require('../../assets/wash.png'),
           text: '洗车',
-          routeName: 2
+          routeName: null
         },
         {
           icon: require('../../assets/violation.png'),
           text: '违章查询',
-          routeName: 3
+          routeName: null,
+          url: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx6bfe76eabcf9e5e3&redirect_uri=http%3A%2F%2Fweixin.checar.cn%2Fweixin%2Fembed%2FtwoindexAction%21weixin.action&response_type=code&scope=snsapi_base&state=73920#wechat_redirect'
         },
         {
           icon: require('../../assets/fiyting.png'),
           text: '优惠加油',
-          routeName: 4
+          routeName: null,
+          url: null
         },
         {
           icon: require('../../assets/booking.png'),
           text: '订票助手',
-          routeName: 5
+          routeName: null,
+          url: 'http://m.ctrip.com/html5/?allianceid=834861&sid=1399502&popup=close&autoawaken=close'
         },
         {
           icon: require('../../assets/route.png'),
           text: '路线优化',
-          routeName: 6
+          routeName: null,
+          url: null
         },
         {
           icon: require('../../assets/warning.png'),
           text: '一键报警',
-          routeName: 7
+          routeName: null,
+          url: null
         },
         {
           icon: require('../../assets/shoppingMall.png'),
           text: '云尚甄品',
-          routeName: 8
+          routeName: null,
+          url: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8ad03862eab34cf0&redirect_uri=http://cyc8.cn/getOpenIdByYSSHWxMenu.json?appid=wx8ad03862eab34cf0&response_type=code&scope=snsapi_base&state=13#wechat_redirect'
         }
       ],
       noticeList: [
@@ -152,7 +158,7 @@ export default {
     // 查询扣费停车信息
     async queryBill () {
       const data = {
-        userNumber: '7QL808MXD4'
+        userNumber: sessionStorage.getItem('userInform') ? JSON.parse(sessionStorage.getItem('userInform')).userNumber : ''
       }
       const res = await ApiQueryBill(data)
       if (res.code === 200) {
@@ -160,12 +166,15 @@ export default {
       }
     },
     // 导航跳转
-    toLocation (routeName) {
-      if (!Number(routeName)) {
-        this.$router.push({name: routeName})
+    toLocation (item) {
+      console.log(233)
+      if (item.routeName) {
+        this.$router.push({name: item.routeName})
+      } else if (item.url) {
+        location.href = item.url
       } else {
+        this.$vux.toast.text('持续开发中，敬请期待')
         this.$store.commit('GETUSERINFO', 'test')
-        console.log(routeName)
       }
     },
     getResult () {
