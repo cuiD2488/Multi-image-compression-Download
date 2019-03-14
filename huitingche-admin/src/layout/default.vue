@@ -6,7 +6,7 @@
     <div class="left-content">
       <sidebar></sidebar>
       <div class="main-content">
-        <secondbar></secondbar>
+        <!-- <secondbar></secondbar> -->
         <transition mode="out-in">
           <router-view></router-view>
         </transition>
