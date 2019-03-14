@@ -7,10 +7,10 @@
         </Select>
         <Button slot="append" icon="ios-search"></Button>
       </Input>
-      <Select v-model="model1" style="width:200px">
-        <Option v-for="item in cityList" :value="item.key" :key="item.key">{{ item.name }}</Option>
+      <Select v-model="model" style="width:200px">
+        <Option v-for="item in payStateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        <!-- <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option> -->
       </Select>
-    </Dropdown>
     </div>
     <tabledata
     ref="table"
@@ -30,6 +30,7 @@
 <script>
 import tabledata from '@/components/tabledata'
 import {QUERYPkORDER} from '@/api'
+import {mapGetters} from 'vuex'
 export default {
   components: {
     tabledata
@@ -92,6 +93,7 @@ export default {
       num: 10,
       type: 'json',
       findeCondition: '',
+      searchValue: '',
       conditionList: [
         {
           name: '停车场编号',
@@ -108,19 +110,30 @@ export default {
       ],
       payStateList: [
         {
-          name: '使用中',
-          key: '1'
+          key: '1',
+          label: '使用中'
         },
         {
-          name: '待补缴',
-          key: '2'
+          key: '2',
+          label: '待补缴'
         },
         {
-          name: '已完成',
-          key: '3'
+          key: '3',
+          label: '已完成'
         }
       ]
     }
+  },
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
+  methods: {
+    searchFind () {
+      console.log('条件搜索')
+    }
+  },
+  mounted () {
+    console.log(this.userInfo)
   }
 }
 </script>
