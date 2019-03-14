@@ -284,6 +284,8 @@ export default {
         }
       }
       setTimeout(loading, 500)
+      // console.log(result.errorCode) //undefined
+      console.log(result)
       if (result.errorCode > 0) {
         this.resultData = result.data
         this.totalNum = +result.msg

@@ -6,9 +6,9 @@
     :columns="tableColumns"
     :queryUrl="queryUrl"
     :queryData="queryData"
-    :axiosType="type"
     :current="page"
     :pageSize="num"
+    :type="type"
     ></tabledata>
   </div>
 </template>
@@ -29,7 +29,7 @@ export default {
         },
         {
           title: '手机号',
-          key: 'userId'
+          key: 'Id'
         },
         {
           title: '停车场名称',
@@ -42,10 +42,6 @@ export default {
         {
           title: '进车时间',
           key: 'enterTime'
-        },
-        {
-          title: '出车时间',
-          key: 'outTime'
         },
         {
           title: '订单编号',
@@ -66,8 +62,8 @@ export default {
       ],
       queryUrl: QUERYPkORDER,
       queryData: {
-        vendorId: 3,
-        parkingLotNumber: '000001'
+        vendorId: 3
+        // parkingLotNumber: '000001'
       },
       page: 1,
       num: 10,
