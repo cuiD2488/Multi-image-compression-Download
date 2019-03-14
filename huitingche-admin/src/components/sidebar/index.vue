@@ -9,6 +9,10 @@
            <Icon type="document-text"></Icon>
           停车记录
         </Menu-item>
+        <Menu-item name="pakingMGTlist" key="2">
+           <Icon type="chatbubbles"></Icon>
+          车位管理列表
+        </Menu-item>
         <Menu-item name="menuAuthorization" key="12">
           <Icon type="heart-broken"></Icon>
           用户授权
@@ -17,10 +21,6 @@
            <Icon type="heart-broken"></Icon>
               待支付停车记录
         </Menu-item>
-        <!-- <Menu-item name="pakingMGTlist" key="2">
-           <Icon type="chatbubbles"></Icon>
-          车位管理列表
-        </Menu-item> -->
         <!-- <Menu-item name="deviceMGT" key="3">
            <Icon type="heart"></Icon>
                 设备管理
