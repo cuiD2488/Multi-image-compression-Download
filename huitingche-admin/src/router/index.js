@@ -10,21 +10,26 @@ export default new Router({
     {
       path: '/',
       name: 'main',
-      redirect: { name: 'home' },
+      redirect: { name: 'parkingList' },
       component: reslove => { require(['../layout/default'], reslove) },
       children: [
-        {
-          path: 'home',
-          name: 'home',
-          component: reslove => { require(['../views/home'], reslove) }
-        },
         {
           path: 'parkingRecord',
           name: 'parkingRecord',
           meta: {
-            title: '停车记录'
+            title: '停车场管理'
           },
           component: reslove => { require(['../views/parkingRecord'], reslove) }
+        },
+        {
+          path: 'parkingList',
+          name: 'parkingList',
+          component: reslove => { require(['../views/parkingList'], reslove) }
+        },
+        {
+          path: 'home',
+          name: 'home',
+          component: reslove => { require(['../views/home'], reslove) }
         },
         {
           path: 'pakingMGTlist',

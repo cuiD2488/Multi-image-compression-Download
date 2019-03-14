@@ -1,22 +1,22 @@
 const state = {
-  userInfo: null
+  userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null
 }
 
 const getters = {
   userInfo: state => state.userInfo
 }
 
-const action = {}
+const actions = {}
 
 const mutations = {
   'GETUSERINFO' (state, data) {
     state.userInfo = data
-    console.log(state)
+    localStorage.setItem('userInfo', JSON.stringify(data))
   }
 }
 export default {
   state,
   getters,
-  action,
+  actions,
   mutations
 }
