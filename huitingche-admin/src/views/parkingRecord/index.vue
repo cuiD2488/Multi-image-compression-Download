@@ -3,13 +3,12 @@
     <div class="pknav">
       <Input v-model="searchValue" class="search">
         <Select v-model="findeCondition" slot="prepend" style="width: 80px">
-          <Option v-for="item in payStateList" :value="item.key" :key="item.key">{{ item.name }}</Option>
+          <Option v-for="item in conditionList" :value="item.key" :key="item.key">{{ item.name }}</Option>
         </Select>
         <Button slot="append" icon="ios-search"></Button>
       </Input>
-      <Select v-model="model" style="width:200px">
-        <Option v-for="item in payStateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        <!-- <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option> -->
+      <Select style="width:200px">
+        <Option v-for="item in payStateList" :value="item.key" :key="item.label">{{ item.label }}</Option>
       </Select>
     </div>
     <tabledata
