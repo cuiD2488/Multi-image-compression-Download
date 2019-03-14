@@ -33,3 +33,13 @@ export const QUERYPkORDER = '/queryPkOrder.json'
 //     throw new Error(error)
 //   }
 // }
+// 登录
+export const URLmanagerLogin = '/managerLogin.json'
+export const ApiManagerLogin = async (data) => {
+  try {
+    const res = await Axios.post(URLmanagerLogin, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
