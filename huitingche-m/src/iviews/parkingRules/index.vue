@@ -24,7 +24,7 @@
         <div>
           <span>工作日</span>
         </div>
-        <div>
+        <div v-if="dataRules && dataRules.pkChargingTimeVoList">
           <div>
             <span>00:00-{{dataRules.pkChargingTimeVoList[0].chargingStartTime}}</span>
             <span>免费</span>
@@ -47,9 +47,9 @@
       <div class="rulesChildContent" v-for="(item, index) in dataRules.pkChargingRulesVoList" :key="index">
         <div>
           <span>{{item.ruleStartTime}}小时
-            <span v-if="item.ruleEndTime">- {{item.ruleEndTime}}小时</span>
+            <span v-if="item.ruleEndTime !== '9999'">- {{item.ruleEndTime}}小时</span>
             <span v-else>以上</span></span>
-          <span>{{item.ruleValue}}元</span>
+          <span>{{item.ruleValue}}元/半小时</span>
         </div>
       </div>
     </div>
