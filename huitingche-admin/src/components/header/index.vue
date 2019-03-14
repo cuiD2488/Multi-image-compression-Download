@@ -3,7 +3,7 @@
     <div class="header-logo"><span>云尚智能停车系统</span></div>
     <div class="header-right">
       <Dropdown>
-        <a href="javascript:void(0)" class="whiteColor">
+        <a href="javascript:void(0)" class="whiteColor" @click="$router.push({name: 'login'})">
           注销
         </a>
       </Dropdown>
