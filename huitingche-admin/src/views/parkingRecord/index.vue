@@ -1,5 +1,17 @@
 <template>
   <div class="parkingrecord">
+    <div class="pknav">
+      <Input v-model="searchValue" class="search">
+        <Select v-model="findeCondition" slot="prepend" style="width: 80px">
+          <Option v-for="item in payStateList" :value="item.key" :key="item.key">{{ item.name }}</Option>
+        </Select>
+        <Button slot="append" icon="ios-search"></Button>
+      </Input>
+      <Select v-model="model1" style="width:200px">
+        <Option v-for="item in cityList" :value="item.key" :key="item.key">{{ item.name }}</Option>
+      </Select>
+    </Dropdown>
+    </div>
     <tabledata
     ref="table"
     page-position="center"
@@ -78,7 +90,36 @@ export default {
       },
       page: 1,
       num: 10,
-      type: 'json'
+      type: 'json',
+      findeCondition: '',
+      conditionList: [
+        {
+          name: '停车场编号',
+          key: 'parkingLotNumber'
+        },
+        {
+          name: '车位编号',
+          key: 'positionNumber'
+        },
+        {
+          name: '订单编号',
+          key: 'orderNumber'
+        }
+      ],
+      payStateList: [
+        {
+          name: '使用中',
+          key: '1'
+        },
+        {
+          name: '待补缴',
+          key: '2'
+        },
+        {
+          name: '已完成',
+          key: '3'
+        }
+      ]
     }
   }
 }
@@ -94,5 +135,12 @@ export default {
   left: 260px;
   height: 250px;
   width: 1100px;
+  .pknav{
+    display: flex;
+    align-items: center;
+    .search{
+      width: 400px;
+    }
+  }
 }
 </style>
