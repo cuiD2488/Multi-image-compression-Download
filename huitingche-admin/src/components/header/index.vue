@@ -1,5 +1,3 @@
-
-
 <template>
   <div class="header">
     <div class="header-logo"><span>云尚智能停车系统</span></div>

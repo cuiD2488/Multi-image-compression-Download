@@ -3,11 +3,11 @@
 // 接口命名统一Api为开头,驼峰式命名
 
 import Axios from 'axios'
-const qs = require('qs')
+// const qs = require('qs')
 export const env = process.env.NODE_ENV
 // 测试服务器要加pdshop
 // Axios.defaults.baseURL = env === 'development' ? '/api/' : '/'
-Axios.defaults.baseURL = env === 'development' ? '/api/huipaking' : '/huipaking'   // 名字待确定
+Axios.defaults.baseURL = env === 'development' ? '/api/park' : '/park'
 // 设置响应拦截
 Axios.interceptors.response.use((response) => {
   // console.log(response)
@@ -21,3 +21,17 @@ Axios.interceptors.response.use((response) => {
 })
 
 export default Axios
+
+// 获取停车记录列表
+export const QUERYPkORDER = '/queryPkOrder.json'
+/**
+ * @param {Any} data json
+ */
+export const ApiQueryPkOrder = async (data, page, num) => {
+  try {
+    const res = await Axios.post(QUERYPkORDER, data, {page: page, num: num})
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}

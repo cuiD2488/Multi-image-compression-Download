@@ -32,6 +32,9 @@
   color: #7cd1ef !important;
   border-color: #7cd1ef !important;
 }
+.weui-btn_mini{
+  padding: 0 20px !important;
+}
 </style>
 
 <style lang="less" scoped>
@@ -65,13 +68,14 @@
   padding: 25px 35px;
   background: #fff;
   margin-bottom: 90px;
+  justify-content: space-between;
   .buttonContent{
     width: 20%;
   }
 }
-.sureBtn{
-  padding: 25px 35px;
-}
+// .sureBtn{
+//   padding: 25px 35px;
+// }
 </style>
 
 <script>
