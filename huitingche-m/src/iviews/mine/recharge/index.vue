@@ -79,7 +79,7 @@
 </style>
 
 <script>
-import {ApiWeiXinPay, ApiUpdatePkPayStatus} from '@/api'
+import {ApiWeiXinPay, ApiUpdatePkPayStatus, ApiQueryPkUser} from '@/api'
 import { XInput, Group, XButton } from 'vux'
 export default {
   components: {
@@ -106,6 +106,7 @@ export default {
         }
       ],
       targetInde: -1,
+      userInform: sessionStorage.getItem('userInform') ? JSON.parse(sessionStorage.getItem('userInform')) : null,
       walletMsg: sessionStorage.getItem('walletMsg') ? JSON.parse(sessionStorage.getItem('walletMsg')) : null
     }
   },
@@ -171,10 +172,27 @@ export default {
         payStatus: 1
       }
       const res = await ApiUpdatePkPayStatus(data)
-      console.log(res)
+      // console.log(res)
       if (res.code === 200) {
         this.$vux.toast.text('充值成功')
+        this.updateBalance()
+        // this.$router.push({name: 'myWallet'})
+      }
+    },
+    // 更新账户余额
+    async updateBalance () {
+      const data = {
+        openId: this.userInform.openId,
+        vendorId: this.userInform.vendorId
+      }
+      const res = await ApiQueryPkUser(data)
+      if (res.code === 200 && res.data) {
+        this.walletMsg = res.data
+        sessionStorage.removeItem('walletMsg')
+        sessionStorage.setItem('walletMsg', JSON.stringify(res.data))
         this.$router.push({name: 'myWallet'})
+      } else {
+        this.$vux.toast.text('查询账户余额失败')
       }
     }
   }
