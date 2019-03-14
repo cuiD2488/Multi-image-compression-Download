@@ -37,10 +37,10 @@
           <Icon type="heart-broken"></Icon>
                 车流量统计报表
         </Menu-item> -->
-        <Menu-item name="chargerules" key="8">
+        <!-- <Menu-item name="chargerules" key="8">
             <Icon type="heart-broken"></Icon>
                 停车场收费规则
-        </Menu-item>
+        </Menu-item> -->
         <Menu-item name="violationrecord" key="9">
           <Icon type="heart-broken"></Icon>
           违章记录
