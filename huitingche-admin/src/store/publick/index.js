@@ -14,7 +14,6 @@ const mutations = {
     console.log(state)
   }
 }
-
 export default {
   state,
   getters,
