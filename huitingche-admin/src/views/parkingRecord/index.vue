@@ -9,6 +9,7 @@
     :axiosType="type"
     :current="page"
     :pageSize="num"
+    :type="type"
     ></tabledata>
   </div>
 </template>
