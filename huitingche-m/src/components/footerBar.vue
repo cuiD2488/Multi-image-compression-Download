@@ -49,6 +49,8 @@ export default {
         // alert(window.fullHeight)
         that.fullHeight = window.fullHeight
         // alert(that.fullHeight)
+        this.$vux.toast.text(that.fullHeight)
+        this.$vux.toast.text(this.originHeight)
         if (that.fullHeight < this.originHeight - 50) {
           // alert(that.fullHeight < this.originHeight - 50)
           this.$vux.toast.text('1')
