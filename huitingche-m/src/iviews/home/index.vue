@@ -158,7 +158,7 @@ export default {
     // 查询扣费停车信息
     async queryBill () {
       const data = {
-        userNumber: '7QL808MXD4'
+        userNumber: sessionStorage.getItem('userInform') ? JSON.parse(sessionStorage.getItem('userInform')).userNumber : ''
       }
       const res = await ApiQueryBill(data)
       if (res.code === 200) {

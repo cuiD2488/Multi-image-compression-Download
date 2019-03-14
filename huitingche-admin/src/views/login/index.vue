@@ -51,7 +51,7 @@ export default {
         ],
         password: [
           { required: true, message: '请输入密码', max: 12, trigger: 'blur' },
-          { type: 'string', min: 6, message: '密码最少六位', trigger: 'blur' }
+          { type: 'string', min: 5, message: '密码最少六位', trigger: 'blur' }
         ]
       }
     }
@@ -74,9 +74,10 @@ export default {
     },
     // 登录
     async submitLogin () {
+      this.$Message.loading('登录中...')
       const data = {
-        phone: 'admin',
-        password: '123456'
+        phone: this.formInline.user,
+        password: this.formInline.password
       }
       const res = await ApiManagerLogin(data)
       console.log(res)
