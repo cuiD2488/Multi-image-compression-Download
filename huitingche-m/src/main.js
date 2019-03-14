@@ -26,7 +26,11 @@ VueAMap.initAMapApiLoader({
 // 登陆控制
 router.beforeEach((to, from, next) => {
   window.document.title = to.meta.title
-  if (to.name !== 'home' && JSON.parse(sessionStorage.getItem('userInform')).userId === null) {
+  if (sessionStorage.getItem('userInform') && JSON.parse(sessionStorage.getItem('userInform')).userId !== null) {
+    next()
+  } else if (to.name === 'home') {
+    next()
+  } else {
     Vue.$vux.toast.text('请先登录')
     setTimeout(() => {
       router.push({name: 'bindTel'})

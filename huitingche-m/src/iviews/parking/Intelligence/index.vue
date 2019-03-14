@@ -95,7 +95,7 @@ export default {
       closePayKeyBoard: false,
       payFn: false,
       payVal: '1',
-      timeVal: ['', ''],
+      timeVal: ['1小时', '00分钟'],
       timeList: [['1小时', '2小时', '3小时', '4小时', '5小时', '6小时', '7小时', '8小时', '9小时', '10小时', '11小时', '12小时'], ['00分钟', '30分钟']],
       focusStatus: 0,
       items1: [
@@ -166,10 +166,9 @@ export default {
     },
     // 泊位号计算
     changeInput (v) {
-      this.focusStatus = this.targetIndex
-      if (this.inputList[this.targetIndex].key && this.inputList[this.targetIndex].key.length > 0 && Number(v.key)) {
+      if (this.inputList[this.targetIndex].key && this.inputList[this.targetIndex].key.length > 0) {
         this.focusStatus = this.targetIndex + 1
-      } else if (v.keyCode === 8) {
+      } else if (+v.keyCode === 8) {
         this.focusStatus = this.targetIndex - 1
       }
       this.parkingNo = ''
@@ -207,7 +206,7 @@ export default {
         positionNumber: this.parkingNo
       }
       const res = await ApiqueryChargingRules(data)
-      this.timeVal = ['1小时', '00分钟']
+      // this.timeVal = ['1小时', '00分钟']
       if (res.code === 200) {
         if (res.msg === '对不起没有数据,请您检查数据！') {
           this.$vux.toast.text('对不起没有数据,请您检查数据！')
@@ -216,6 +215,7 @@ export default {
         this.parkingMesaage = res.data
         let targetHouse = this.timeVal[0].replace('小时', '')
         let targetMine = this.timeVal[1].replace('分钟', '') === 0 ? 0 : 0.5
+        console.log(this.timeVal[1])
         let targetTime = Number(targetHouse) + Number(targetMine)
         this.targetTime = targetTime
         if (targetTime === 0.5) {
