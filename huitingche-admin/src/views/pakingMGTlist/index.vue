@@ -45,7 +45,7 @@ export default {
           name: '李小红',
           age: 30,
           address: '上海市浦东新区世纪大道'
-        }  
+        }
       ]
     }
   }

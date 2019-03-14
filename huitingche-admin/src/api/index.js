@@ -43,7 +43,7 @@ export const ApiManagerLogin = async (data) => {
   try {
     const res = await Axios.post(URLmanagerLogin, data)
     return res
-  } catch (err) {
+  } catch (error) {
     throw new Error(error)
   }
 }
