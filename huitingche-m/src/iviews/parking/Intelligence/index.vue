@@ -56,27 +56,27 @@
       </div>
       <x-button type="primary" @click.native="openKeyPssword" class="defaultClass btn">确认</x-button>
     </div>
-      <popup hide-on-blur v-model="closePayKeyBoard" height="270px" is-transparent @on-hide="deletePass">
-        <div  class="payKeyboard">
-          <div class="title" @click.stop="stop" v-text="title"></div>
-          <ul class="password" @click.stop="stop">
-            <li  v-for="(item, index) in passList" :key="index">
-              <span v-if="show[index] || false"></span>
-            </li>
-          </ul>
-          <ul class="pay-keyboard" >
-            <li @click.stop="inputPass(item, index)" :class="touchNum===index?'touch':''" v-for="(item, index) in passKeyboard" :key="index" v-text="item"></li>
-          </ul>
-        </div>
-        <div class="shade-white" v-show="loadingShow" @click.stop="stop">
-          <loading :show="loadingShow" text="付款中...."></loading>
-        </div>
-      </popup>
+    <popup hide-on-blur v-model="closePayKeyBoard" height="270px" is-transparent @on-hide="deletePass">
+      <div  class="payKeyboard">
+        <div class="title" @click.stop="stop" v-text="title"></div>
+        <ul class="password" @click.stop="stop">
+          <li  v-for="(item, index) in passList" :key="index">
+            <span v-if="show[index] || false"></span>
+          </li>
+        </ul>
+        <ul class="pay-keyboard" >
+          <li @click.stop="inputPass(item, index)" :class="touchNum===index?'touch':''" v-for="(item, index) in passKeyboard" :key="index" v-text="item"></li>
+        </ul>
+      </div>
+      <div class="shade-white" v-show="loadingShow" @click.stop="stop">
+        <loading :show="loadingShow" text="付款中...."></loading>
+      </div>
+    </popup>
   </div>
 </template>
 <script>
 import {CheckIcon, Checker, CheckerItem, Popup, XInput, Group, Picker, PopupPicker, XButton, Loading, Toast} from 'vux'
-import {ApiqueryChargingRules, ApipayFree, ApifindPositionByCondition} from '@/api'
+import {ApiqueryChargingRules, ApipayFree, ApifindPositionByCondition, ApiQueryPkUser} from '@/api'
 import md5 from 'js-md5'
 export default {
   components: {
@@ -134,7 +134,9 @@ export default {
       parkingNo: '',
       parkingMesaage: null,
       parkingMoney: null,
-      userInform: JSON.parse(sessionStorage.getItem('userInform')),
+      // 用户信息
+      userInform: sessionStorage.getItem('userInform') ? JSON.parse(sessionStorage.getItem('userInform')) : null,
+      walletMsg: sessionStorage.getItem('walletMsg') ? JSON.parse(sessionStorage.getItem('walletMsg')) : null,
       targetTime: '',
       passList: [',', ',', ',', ',', ',', ','],
       passKeyboard: [1, 2, 3, 4, 5, 6, 7, 8, 9, '清空', 0, '删除'],
@@ -313,6 +315,23 @@ export default {
     deletePass () {
       this.show.splice(this.show.length - 1)
       this.payPass.splice(this.payPass.length - 1)
+    },
+    // 更新账户余额
+    async updateBalance () {
+      const data = {
+        openId: this.userInform.openId,
+        vendorId: this.userInform.vendorId
+      }
+      const res = await ApiQueryPkUser(data)
+      if (res.code === 200 && res.data) {
+        // this.walletMsg = res.data
+        sessionStorage.removeItem('walletMsg')
+        sessionStorage.setItem('walletMsg', JSON.stringify(res.data))
+        // this.$router.push({name: 'myWallet'})
+        this.$router.push({name: 'parkingRecord', query: this.$route.query})
+      } else {
+        this.$vux.toast.text('查询账户余额失败')
+      }
     }
   },
   mounted () {

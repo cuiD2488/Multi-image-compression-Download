@@ -210,6 +210,8 @@ export default {
     // 在本地缓存中存入厂商id
     sessionStorage.setItem('state', theRequest.state)
     this.queryBill()
+    // 获取页面原始高度
+    sessionStorage.setItem('windowHeight', JSON.stringify(document.documentElement.clientHeight))
   }
 }
 </script>

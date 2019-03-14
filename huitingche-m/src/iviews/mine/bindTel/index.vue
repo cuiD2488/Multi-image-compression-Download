@@ -24,15 +24,15 @@
       </div>
       <x-button type="primary" style="margin-top: 1rem;" :disabled="!(agreement1 && agreement2)" @click.native="submitFn">确定</x-button>
     </div>
-    <div class="footMessg">
+    <!-- <div class="footMessg">
       <p>技术支持：深圳市云天数字科技有限公司</p>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
 import md5 from 'js-md5'
 import { XInput, Group, XButton, Cell, CheckIcon } from 'vux'
-import {ApiGetVerificationCode, ApiUpdatePhone} from '@/api'
+import {ApiGetVerificationCode, ApiUpdatePhone, ApiQueryPkUser} from '@/api'
 export default {
   components: {
     XInput,
@@ -101,12 +101,28 @@ export default {
         const res = await ApiUpdatePhone(data)
         if (res.code === 200) {
           this.$vux.toast.text('注册成功')
-          this.$router.push({name: 'mine'})
+          this.queryPkUser()
+          // this.$router.push({name: 'mine'})
         } else {
           this.$vux.toast.text('注册失败')
         }
       } else {
         this.$vux.toast.text('验证码不正确,请核对后再试')
+      }
+    },
+    // 根据openId获取用户信息
+    async queryPkUser () {
+      let data = {
+        openId: JSON.parse(sessionStorage.getItem('userInform')).openId
+      }
+      const res = await ApiQueryPkUser(data)
+      if (res.code === 200) {
+        // 通过接口获取用户信息并存储至缓存中
+        sessionStorage.removeItem('userInform')
+        sessionStorage.setItem('userInform', JSON.stringify(res.data))
+        this.$router.push({name: 'mine'})
+      } else {
+        this.$vux.toast.text('登录失败请刷新后重试')
       }
     }
   }

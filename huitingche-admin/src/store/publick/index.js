@@ -14,7 +14,6 @@ const mutations = {
     localStorage.setItem('userInfo', JSON.stringify(data))
   }
 }
-
 export default {
   state,
   getters,
