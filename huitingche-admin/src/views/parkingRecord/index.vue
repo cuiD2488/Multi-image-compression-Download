@@ -1,12 +1,12 @@
 <template>
-  <div class="parkingRecord">
-    <!-- <i-table border :columns="columns1" :data="data1"></i-table> -->
+  <div class="parkingrecord">
     <tabledata
     ref="table"
     page-position="center"
     :columns="tableColumns"
     :queryUrl="queryUrl"
     :queryData="queryData"
+    :axiosType="type"
     :current="page"
     :pageSize="num"
     ></tabledata>
@@ -15,7 +15,7 @@
 
 <script>
 import tabledata from '@/components/tabledata'
-import QUERYPkORDER from '@/api'
+import {QUERYPkORDER} from '@/api'
 export default {
   components: {
     tabledata
@@ -25,46 +25,59 @@ export default {
       tableColumns: [
         {
           title: '用户编号',
-          key: 'id',
+          key: 'vendorId'
         },
         {
-          title: '手机号'
+          title: '手机号',
+          key: 'userId'
         },
         {
-          title: '停车场名称'
+          title: '停车场名称',
+          key: 'parkingLotNumber'
         },
         {
-          title: '车位编号'
+          title: '车位编号',
+          key: 'positionNumber'
         },
         {
-          title: '进车时间'
+          title: '进车时间',
+          key: 'enterTime'
         },
         {
-          title: '出车时间'
+          title: '出车时间',
+          key: 'outTime'
         },
         {
-          title: '订单编号'
+          title: '订单编号',
+          key: 'orderNumber'
         },
         {
-          title: '状态'
+          title: '状态',
+          key: 'orderStatus'
         },
         {
-          title: '付费金额'
+          title: '付费金额',
+          key: 'actualPayMoney'
         },
         {
-          title: '创建时间'
+          title: '创建时间',
+          key: 'orderCreateTime'
         }
       ],
       queryUrl: QUERYPkORDER,
-      // queryData:
+      queryData: {
+        vendorId: 3,
+        parkingLotNumber: '000001'
+      },
       page: 1,
-      num: 10
+      num: 10,
+      type: 'json'
     }
   }
 }
 </script>
 <style lang="less" scoped>
-.parkingRecord{
+.parkingrecord{
   // width: 200px;
   // height: 200px;
   // float: left;
