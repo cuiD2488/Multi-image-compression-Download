@@ -275,7 +275,7 @@ export default {
           result = await Http.get(url, data)
         }
       } else {
-         if (this.type === 'json') {
+        if (this.type === 'json') {
           result = await Http.post(url, data, {params: {page, num: this.pageSize}})
         } else {
           data.num = this.pageSize
@@ -284,7 +284,7 @@ export default {
         }
       }
       setTimeout(loading, 500)
-      if (result.errorCode > 0 ){
+      if (result.code === 200) {
         this.resultData = result.data
         this.totalNum = +result.msg
         this.$router.push({query: {...this.$route.query, page}})
