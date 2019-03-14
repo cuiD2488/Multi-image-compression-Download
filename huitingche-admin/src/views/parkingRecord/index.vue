@@ -10,6 +10,7 @@
     :current="page"
     :pageSize="num"
     :type="type"
+    border
     ></tabledata>
   </div>
 </template>
@@ -25,20 +26,16 @@ export default {
     return {
       tableColumns: [
         {
-          title: '用户编号',
-          key: 'vendorId'
-        },
-        {
-          title: '手机号',
-          key: 'userId'
-        },
-        {
-          title: '停车场名称',
+          title: '停车场编号',
           key: 'parkingLotNumber'
         },
         {
           title: '车位编号',
           key: 'positionNumber'
+        },
+        {
+          title: '订单编号',
+          key: 'orderNumber'
         },
         {
           title: '进车时间',
@@ -49,16 +46,24 @@ export default {
           key: 'outTime'
         },
         {
-          title: '订单编号',
-          key: 'orderNumber'
+          title: '订单总金额',
+          key: 'orderMoney'
+        },
+        {
+          title: '预付费金额',
+          key: 'actualPayMoney'
+        },
+        {
+          title: '购买时长',
+          key: 'buyDuration'
         },
         {
           title: '状态',
           key: 'orderStatus'
         },
         {
-          title: '付费金额',
-          key: 'actualPayMoney'
+          title: '预付费开始时间',
+          key: 'buyStartTime'
         },
         {
           title: '创建时间',
@@ -68,6 +73,7 @@ export default {
       queryUrl: QUERYPkORDER,
       queryData: {
         vendorId: 3,
+        // vendorId: this.$store.getters.userInfo.vendorId,
         parkingLotNumber: '000001'
       },
       page: 1,
