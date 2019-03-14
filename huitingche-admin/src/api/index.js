@@ -1,13 +1,11 @@
 // 所有接口写在这个文件
-// 导出接口,使用全大写命名
-// 接口命名统一Api为开头,驼峰式命名
+// 导出接口名：URL+后端给过来的接口名，方法名Api+后端给过来的接口名，驼峰式命名
 
 import Axios from 'axios'
 // const qs = require('qs')
 export const env = process.env.NODE_ENV
-// 测试服务器要加pdshop
-// Axios.defaults.baseURL = env === 'development' ? '/api/' : '/'
-Axios.defaults.baseURL = env === 'development' ? '/api/park' : '/park'
+// 测试服务器要加
+Axios.defaults.baseURL = env === 'development' ? '/api' : '/'
 // 设置响应拦截
 Axios.interceptors.response.use((response) => {
   // console.log(response)
@@ -19,9 +17,6 @@ Axios.interceptors.response.use((response) => {
     return false
   }
 })
-/**
- * 编码规则：接口名：URL+后端给过来的接口名，方法名Api+后端给过来的接口名，驼峰
- */
 export default Axios
 
 // 获取停车记录列表

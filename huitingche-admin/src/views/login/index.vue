@@ -31,7 +31,7 @@
   </div>
 </template>
 <script>
-// import {ApiLogin} from '@/api'
+import {ApiManagerLogin} from '@/api'
 // import changePassword from '@/components/changePassword'
 export default {
   components: {
@@ -74,29 +74,30 @@ export default {
     },
     // 登录
     async submitLogin () {
-      // const data = {
-      //   enterpriseTel: this.formInline.user,
-      //   enterprisePassword: this.formInline.password
-      // }
-      // const res = await ApiLogin(data)
-      // if (res.code === 200) {
-      //   if (this.historyPsw) {
-      //     localStorage.setItem('user', this.formInline.user)
-      //     localStorage.setItem('pswd', this.formInline.password)
-      //   } else {
-      //     localStorage.removeItem('user')
-      //     localStorage.removeItem('pswd')
-      //   }
-      //   this.$Message.success('登录成功!')
-      //   sessionStorage.setItem('userInfo', JSON.stringify(res.data))
-      //   await this.$store.commit('GETUSERINFO', res.data)
-      //   setTimeout(() => {
-      //     this.$router.push({name: 'home'})
-      //   }, 1000)
-      // } else {
-      //   this.$Message.error('登录失敗,请检查账号密码是否错误')
-      //   return false
-      // }
+      const data = {
+        phone: 'admin',
+        password: '123456'
+      }
+      const res = await ApiManagerLogin(data)
+      console.log(res)
+      if (res.code === 200) {
+        if (this.historyPsw) {
+          localStorage.setItem('user', this.formInline.user)
+          localStorage.setItem('pswd', this.formInline.password)
+        } else {
+          localStorage.removeItem('user')
+          localStorage.removeItem('pswd')
+        }
+        this.$Message.success('登录成功!')
+        sessionStorage.setItem('userInfo', JSON.stringify(res.data))
+        await this.$store.commit('GETUSERINFO', res.data)
+        setTimeout(() => {
+          this.$router.push({name: 'home'})
+        }, 1000)
+      } else {
+        this.$Message.error('登录失敗,请检查账号密码是否错误')
+        return false
+      }
     }
   }
 }
