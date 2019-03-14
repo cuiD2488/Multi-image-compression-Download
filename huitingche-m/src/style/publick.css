@@ -28,6 +28,7 @@ font-size: 32px;
 }
 .weui-btn_mini{
   font-size: 24px !important;
+  /* line-height: 1.6 !important; */
 }
 .weui-cells{
   font-size: 30px !important;
@@ -90,4 +91,7 @@ font-size: 32px;
 }
 .vux-tab-ink-bar{
   background-color: #7cd1ef !important;
+}
+.weui-cells:before{
+  border-top: none !important;
 }
