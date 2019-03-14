@@ -51,7 +51,7 @@ export default {
         ],
         password: [
           { required: true, message: '请输入密码', max: 12, trigger: 'blur' },
-          { type: 'string', min: 5, message: '密码最少六位', trigger: 'blur' }
+          { type: 'string', min: 6, message: '密码最少六位', trigger: 'blur' }
         ]
       }
     }
@@ -82,6 +82,7 @@ export default {
       const res = await ApiManagerLogin(data)
       console.log(res)
       if (res.code === 200) {
+        // 是否记住密码
         if (this.historyPsw) {
           localStorage.setItem('user', this.formInline.user)
           localStorage.setItem('pswd', this.formInline.password)
@@ -91,7 +92,7 @@ export default {
         }
         this.$Message.success('登录成功!')
         sessionStorage.setItem('userInfo', JSON.stringify(res.data))
-        await this.$store.commit('GETUSERINFO', res.data)
+        this.$store.commit('GETUSERINFO', res.data)
         setTimeout(() => {
           this.$router.push({name: 'home'})
         }, 1000)
