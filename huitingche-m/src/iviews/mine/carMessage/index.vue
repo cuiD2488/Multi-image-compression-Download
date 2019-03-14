@@ -2,7 +2,7 @@
   <div>
     <!-- style="background:#f5f5f5;" -->
     <!-- 车辆信息 -->
-    <div class="plateNumberMessage">
+    <div class="plateNumberMessage" v-if="!bindFlag">
       <div class="titleLine">请输入车牌号</div>
       <div class="plateNumberDiv">
         <!-- 车牌前两位 -->
@@ -21,17 +21,22 @@
           <!-- <input maxlength="1" v-focus="focusStatus === index" v-model="item.key" :ref="'input' + index" type="text" @keyup="changeInput(index, 2)" v-for="(item, index) in inputList" :key="index"> -->
         </div>
       </div>
-      <div class="titleLine">请输入车架号</div>
+      <!-- <div class="titleLine">请输入车架号</div>
       <div class="VINumberLine">
         <input v-model="VINumber" type="text">
-      </div>
+      </div> -->
     </div>
-    <x-button class="sureBtn" @click.native="sure">保存</x-button>
-    <div class="remark">请绑定真实有效的车牌号,否则将无法正常使用车牌付费功能</div>
+    <!-- 绑定的车牌号信息 -->
+    <div v-else class="bindCarMessage">
+      <div>绑定的车牌号:{{bindCarMessage.abbreviation + bindCarMessage.carNumber}}</div>
+    </div>
+    <x-button v-if="!bindFlag" class="sureBtn" @click.native="sure">保存</x-button>
+    <x-button v-else class="sureBtn" @click.native="delCarMessage">解绑</x-button>
+    <div v-if="!bindFlag" class="remark">请绑定真实有效的车牌号,否则将无法正常使用车牌付费功能</div>
   </div>
 </template>
 <script>
-import {ApiInsertPkCar} from '@/api'
+import {ApiInsertPkCar, ApiQueryPkCar, ApiDeletePkCar} from '@/api'
 import {XButton} from 'vux'
 export default {
   components: {
@@ -60,7 +65,11 @@ export default {
       ],
       beforNumber: null,
       afterNumber: null,
-      VINumber: null
+      VINumber: null,
+      // 绑定的车牌信息
+      bindCarMessage: {},
+      // 绑定标识
+      bindFlag: false
     }
   },
   // directives: {
@@ -73,22 +82,52 @@ export default {
   //   }
   // },
   methods: {
-    // 点击保存按钮验证车牌号和车架号
+    // 点击保存按钮验证车牌号
     async sure () {
-      // console.log(1)
-      if (this.beforNumber && this.afterNumber && this.VINumber) {
+      if (this.beforNumber && this.afterNumber.length < 7) {
         let data = {
-          // carCreateTime: ,
-          carNumber: this.beforNumber + this.afterNumber,
-          frameNumber: this.VINumber,
-          userNumber: this.userInform.userNumber
+          abbreviation: this.beforNumber,
+          carNumber: this.afterNumber,
+          // frameNumber: this.VINumber,
+          userNumber: this.userInform.userNumber,
+          vendorId: +this.userInform.vendorId
         }
         const res = await ApiInsertPkCar(data)
-        console.log(res)
-        // this.$vux.toast.text('hello')
+        if (res.code === 200) {
+          this.getCarMessage()
+          // this.bindFlag = true
+        }
+        // console.log(res)
       } else {
-        this.$vux.toast.text('输入的车牌号和车架号有误请核对后再试')
+        this.$vux.toast.text('输入的车牌号有误请核对后再试')
       }
+    },
+    // 获取车牌信息
+    async getCarMessage () {
+      let data = {
+        userNumber: this.userInform.userNumber,
+        vendorId: +this.userInform.vendorId
+      }
+      const res = await ApiQueryPkCar(data)
+      if (res.code === 200 && res.data) {
+        this.bindCarMessage = res.data
+        // 绑定标识
+        this.bindFlag = true
+      } else {
+        this.bindFlag = false
+      }
+    },
+    // 解绑车牌信息
+    async delCarMessage () {
+      let data = {
+        userNumber: this.userInform.userNumber,
+        vendorId: +this.userInform.vendorId
+      }
+      const res = await ApiDeletePkCar(data)
+      if (res.code === 200 && res.data) {
+        this.getCarMessage()
+      }
+      // console.log(res)
     }
     // 车牌号输入计算
     // changeInput (index) {
@@ -104,6 +143,9 @@ export default {
     //   }
     //   console.log(this.focusStatus)
     // }
+  },
+  mounted () {
+    this.getCarMessage()
   }
 }
 </script>

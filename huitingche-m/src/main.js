@@ -26,7 +26,7 @@ VueAMap.initAMapApiLoader({
 // 登陆控制
 router.beforeEach((to, from, next) => {
   window.document.title = to.meta.title
-  if (sessionStorage.getItem('userInform') && !JSON.parse(sessionStorage.getItem('userInform')).userId) {
+  if (sessionStorage.getItem('userInform') && JSON.parse(sessionStorage.getItem('userInform')).userId) {
     next()
   } else if (to.name === 'home') {
     next()

@@ -1,17 +1,12 @@
 <template>
   <div class="parkingrecord">
-    <div>
-      <!-- <Select v-model="findeCondition" style="width:200px">
-        <Option v-for="item in conditionList" :value="item.key" :key="item.key">{{ item.name }}</Option>
-      </Select> -->
-      <Input v-model="searchValue">
+    <div class="searchContent">
+      <Input search v-model="searchValue" @on-search="searchFind">
         <Select v-model="findeCondition" slot="prepend" style="width: 80px">
           <Option v-for="item in conditionList" :value="item.key" :key="item.key">{{ item.name }}</Option>
         </Select>
-        <Button slot="append" icon="ios-search"></Button>
+        <Button slot="append" icon="ios-search" @click="searchFind"></Button>
       </Input>
-      {{findeCondition}}
-      {{searchValue}}
     </div>
     <tabledata
       ref="table"
@@ -55,7 +50,7 @@ export default {
         {
           title: '管理员',
           align: 'center',
-          key: 'positionNumber'
+          key: 'managerName'
         },
         {
           title: '管理员联系方式',
@@ -104,13 +99,18 @@ export default {
         },
         {
           name: '管理员',
-          key: 'parkingLotName'
+          key: 'managerName'
         }
       ]
     }
   },
   computed: {
     ...mapGetters(['userInfo'])
+  },
+  methods: {
+    searchFind () {
+      console.log('条件搜索')
+    }
   },
   mounted () {
     console.log(this.userInfo)
@@ -128,5 +128,8 @@ export default {
   left: 260px;
   height: 250px;
   width: 1100px;
+}
+.searchContent{
+  width: 400px;
 }
 </style>

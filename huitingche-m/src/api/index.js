@@ -273,6 +273,7 @@ export const ApiAddPkViolation = async (data) => {
     console.log(err)
   }
 }
+
 // 图片上传
 export const URLaddPictures = 'http://cyc8.cn/addPictures.json'
 export const ApiAaddPictures = async (data) => {
@@ -281,6 +282,55 @@ export const ApiAaddPictures = async (data) => {
   }
   try {
     const res = await Axios.post(URLaddPictures, data, config)
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// 查询车牌信息
+/**
+ * vendorId  厂商Id
+ * carNumber 车牌号(后六位)
+ * userNumber 用户编号
+ * abbreviation 简称(如：粤B)
+ */
+export const URLqueryPkCar = '/queryPkCar.json'
+export const ApiQueryPkCar = async (data) => {
+  try {
+    const res = await Axios.post(URLqueryPkCar, data)
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// 解绑车牌信息
+/**
+ * vendorId  厂商Id
+ * carNumber 车牌号(后六位)
+ * userNumber 用户编号
+ * abbreviation 简称(如：粤B)
+ */
+export const URLdeletePkCar = '/deletePkCar.json'
+export const ApiDeletePkCar = async (data) => {
+  try {
+    const res = await Axios.post(URLdeletePkCar, data)
+    return res
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// 订单钱包补缴支付
+/**
+ * orderNumber  订单编号
+ * payPassword 支付密码(MD5加密)
+ */
+export const URLmakeUpMoney = '/makeUpMoney.json'
+export const ApMakeUpMoney = async (data) => {
+  try {
+    const res = await Axios.post(URLmakeUpMoney, data)
     return res
   } catch (err) {
     console.log(err)
