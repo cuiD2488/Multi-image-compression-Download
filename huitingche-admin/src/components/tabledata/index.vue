@@ -275,7 +275,7 @@ export default {
           result = await Http.get(url, data)
         }
       } else {
-         if (this.type === 'json') {
+        if (this.type === 'json') {
           result = await Http.post(url, data, {params: {page, num: this.pageSize}})
         } else {
           data.num = this.pageSize

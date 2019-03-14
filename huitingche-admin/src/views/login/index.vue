@@ -11,14 +11,10 @@
     <div class="loginForm">
       <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
       <FormItem prop="user">
-        <Input type="text" v-model="formInline.user" placeholder="请输入账号">
-          <Icon type="ios-person-outline" slot="prepend"></Icon>
-        </Input>
+        <Input prefix="ios-contact" type="text" v-model="formInline.user" placeholder="请输入账号"/>
       </FormItem>
       <FormItem prop="password">
-        <Input type="password" v-model="formInline.password" placeholder="请输入密码" @on-enter="handleSubmit('formInline')">
-          <Icon type="ios-lock-outline" slot="prepend"></Icon>
-        </Input>
+        <Input prefix="ios-keypad" type="password" v-model="formInline.password" placeholder="请输入密码" @on-enter="handleSubmit('formInline')" />
       </FormItem>
       <FormItem label="记住密码" style="width:100%">
         <i-switch v-model="historyPsw" @on-change="savePsw" />

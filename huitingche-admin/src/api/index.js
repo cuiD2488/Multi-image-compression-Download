@@ -19,7 +19,9 @@ Axios.interceptors.response.use((response) => {
     return false
   }
 })
-
+/**
+ * 编码规则：接口名：URL+后端给过来的接口名，方法名Api+后端给过来的接口名，驼峰
+ */
 export default Axios
 
 // 获取停车记录列表
@@ -32,6 +34,16 @@ export const ApiQueryPkOrder = async (data, page, num) => {
     const res = await Axios.post(QUERYPkORDER, data, {page: page, num: num})
     return res
   } catch (error) {
+    throw new Error(error)
+  }
+}
+// 登录
+export const URLmanagerLogin = '/managerLogin.json'
+export const ApiManagerLogin = async (data) => {
+  try {
+    const res = await Axios.post(URLmanagerLogin, data)
+    return res
+  } catch (err) {
     throw new Error(error)
   }
 }
