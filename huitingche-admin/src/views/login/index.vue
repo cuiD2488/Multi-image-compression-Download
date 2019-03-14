@@ -94,7 +94,7 @@ export default {
         sessionStorage.setItem('userInfo', JSON.stringify(res.data))
         this.$store.commit('GETUSERINFO', res.data)
         setTimeout(() => {
-          this.$router.push({name: 'home'})
+          this.$router.push({name: 'parkingRecord'})
         }, 1000)
       } else {
         this.$Message.error('登录失敗,请检查账号密码是否错误')
