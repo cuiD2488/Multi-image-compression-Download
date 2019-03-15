@@ -1,14 +1,14 @@
 <template>
   <div class="parkingrecord">
     <div class="pknav">
-      <Input v-model="searchValue" class="search">
-        <Select v-model="findeCondition" slot="prepend" style="width: 80px">
+      <Input v-model="searchValue" @on-search="searchFind" class="search">
+        <Select v-model="findeCondition" slot="prepend" style="width: 100px">
           <Option v-for="item in conditionList" :value="item.key" :key="item.key">{{ item.name }}</Option>
         </Select>
-        <Button slot="append" icon="ios-search"></Button>
+        <Button slot="append" icon="ios-search" @click="searchFind"></Button>
       </Input>
-      <Select style="width:200px">
-        <Option v-for="item in payStateList" :value="item.key" :key="item.label">{{ item.label }}</Option>
+      <Select style="width:200px" v-model="mergeConfition" @on-change="optionChange">
+        <Option v-for="item in payStateList" :value="item.key" :key="item.name">{{ item.name }}</Option>
       </Select>
     </div>
     <tabledata
@@ -80,6 +80,22 @@ export default {
         {
           title: '创建时间',
           key: 'orderCreateTime'
+        },
+        {
+          title: '操作',
+          align: 'center',
+          width: 220,
+          render: (h, param) => {
+            // return (<div>操作</div>)
+            return h('div', [
+              h('Button', {
+                style: {
+                  'margin-right': '10px'
+                }
+              }, '删除'),
+              h('Button', {}, '编辑')
+            ])
+          }
         }
       ],
       queryUrl: QUERYPkORDER,
@@ -92,6 +108,7 @@ export default {
       num: 10,
       type: 'json',
       findeCondition: '',
+      mergeConfition: '',
       searchValue: '',
       conditionList: [
         {
@@ -110,15 +127,15 @@ export default {
       payStateList: [
         {
           key: '1',
-          label: '使用中'
+          name: '使用中'
         },
         {
           key: '2',
-          label: '待补缴'
+          name: '待补缴'
         },
         {
           key: '3',
-          label: '已完成'
+          name: '已完成'
         }
       ]
     }
@@ -129,6 +146,9 @@ export default {
   methods: {
     searchFind () {
       console.log('条件搜索')
+    },
+    optionChange () {
+      console.log('optionchange')
     }
   },
   mounted () {

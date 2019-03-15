@@ -1,5 +1,5 @@
 <template>
-  <div class="parkingrecord">
+  <div class="parkinglist">
     <div class="searchContent">
       <Input search v-model="searchValue" @on-search="searchFind">
         <Select v-model="findeCondition" slot="prepend" style="width: 80px">
@@ -118,7 +118,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.parkingrecord{
+.parkinglist{
   // width: 200px;
   // height: 200px;
   // float: left;
