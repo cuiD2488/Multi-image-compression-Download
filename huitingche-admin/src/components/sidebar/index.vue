@@ -5,6 +5,10 @@
   <div class="sidebar">
     <div class="sidebar-left">
       <Menu active-key="1" :active-name="$route.name" @on-select="handleMenuItemSelect">
+        <Menu-item name="parkingList" key="1">
+          <Icon type="document-text"></Icon>
+          停车场管理
+        </Menu-item>
         <Menu-item name="parkingRecord" key="1">
            <Icon type="document-text"></Icon>
           停车记录

@@ -214,4 +214,8 @@ export default {
   color: #c8c8c8;
   padding: 0 30px;
 }
+.bindCarMessage{
+  font-size: 34px;
+  padding: 50px;
+}
 </style>
