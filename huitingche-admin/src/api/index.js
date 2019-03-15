@@ -53,3 +53,13 @@ export const ApiFindParkingLotByCondition = async (data) => {
     throw new Error(error)
   }
 }
+// 查询停车场
+export const URLaddParkingLot = '/addParkingLot.json'
+export const ApiAddParkingLot = async (data) => {
+  try {
+    const res = await Axios.post(URLaddParkingLot, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
