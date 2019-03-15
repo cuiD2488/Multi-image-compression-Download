@@ -2,7 +2,7 @@
   <div class="parkingrecord">
     <div class="pknav">
       <Input v-model="searchValue" @on-search="searchFind" class="search">
-        <Select v-model="findeCondition" slot="prepend" style="width: 100px" @on-change="getOrder">
+        <Select v-model="findeCondition" slot="prepend" style="width: 100px" >
           <Option v-for="item in conditionList" :value="item.key" :key="item.key">{{ item.name }}</Option>
         </Select>
         <Button slot="append" icon="ios-search" @click="searchFind"></Button>
@@ -160,13 +160,10 @@ export default {
       this.queryData.startTime = this.time[0]
       this.queryData.endTime = this.time[1]
       console.log(this.queryData)
-      this.$refs.table.updateData()
-    },
-    timeChange (val) {
-      console.log(val) // val是选择的日期
-      this.queryData.orderCreateTime = val
-      console.log(this.queryData)
-      this.$refs.table.updateData()
+      // this.$refs.table.updateData()
+      this.$nextTick(() => {
+        this.$refs.table.updateData()
+      })
     },
     searchFind () {
       console.log('条件搜索')

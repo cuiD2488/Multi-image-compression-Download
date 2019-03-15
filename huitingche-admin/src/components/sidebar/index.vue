@@ -9,11 +9,11 @@
           <Icon type="document-text"></Icon>
           停车场管理
         </Menu-item>
-        <Menu-item name="parkingRecord" key="1">
+        <Menu-item name="parkingRecord" key="2">
            <Icon type="document-text"></Icon>
           停车记录
         </Menu-item>
-        <Menu-item name="pakingMGTlist" key="2">
+        <Menu-item name="pakingMGTlist" key="3">
            <Icon type="chatbubbles"></Icon>
           车位管理列表
         </Menu-item>
