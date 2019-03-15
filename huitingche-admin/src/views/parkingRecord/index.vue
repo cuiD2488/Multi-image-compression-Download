@@ -10,11 +10,19 @@
       <Select style="width:200px" v-model="mergeConfition" @on-change="getStatus">
         <Option v-for="item in payStateList" :value="item.key" :key="item.value">{{ item.value }}</Option>
       </Select>
-      <Row>
+      <!-- <Row>
         <Col span="12">
-            <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" style="width: 200px"></DatePicker>
+          <DatePicker type="date"  placeholder="选择开始时间" style="width: 200px" @on-change="timeChange"></DatePicker>
+          <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" style="width: 200px"></DatePicker>
         </Col>
-    </Row>
+      </Row> -->
+        <DatePicker type="daterange"
+                    :options="options"
+                    placeholder="请选择日期"
+                    placement="bottom-end"
+                    style="width: 200px;float: right"
+                    @on-change="handleDate">
+        </DatePicker>
     </div>
     <tabledata
     ref="table"
@@ -85,22 +93,6 @@ export default {
         {
           title: '创建时间',
           key: 'orderCreateTime'
-        },
-        {
-          title: '操作',
-          align: 'center',
-          width: 220,
-          render: (h, param) => {
-            // return (<div>操作</div>)
-            return h('div', [
-              h('Button', {
-                style: {
-                  'margin-right': '10px'
-                }
-              }, '删除'),
-              h('Button', {}, '编辑')
-            ])
-          }
         }
       ],
       queryUrl: QUERYPkORDER,
@@ -115,6 +107,13 @@ export default {
       findeCondition: '',
       mergeConfition: '',
       searchValue: '',
+      time: [],
+      // 设置日期不能大于当天
+      options: {
+        disabledDate (date) {
+          return date && date.valueOf() > Date.now()
+        }
+      },
       conditionList: [
         {
           name: '停车场编号',
@@ -149,26 +148,57 @@ export default {
     ...mapGetters(['userInfo'])
   },
   methods: {
+    // 选择日期
+    handleDate (date) {
+      this.time = date
+      // if (this.time.length > 0) {
+      //   data.startdate = this.time[0]
+      //   data.enddate = this.time[0]
+      // }
+      console.log(this.time[0])
+      console.log(this.time[1])
+      this.queryData.startTime = this.time[0]
+      this.queryData.endTime = this.time[1]
+      console.log(this.queryData)
+      this.$refs.table.updateData()
+    },
+    timeChange (val) {
+      console.log(val) // val是选择的日期
+      this.queryData.orderCreateTime = val
+      console.log(this.queryData)
+      this.$refs.table.updateData()
+    },
     searchFind () {
       console.log('条件搜索')
+      this.queryData = {
+        vendorId: 3
+      }
+      this.queryData[this.findeCondition] = this.searchValue
+      // console.log(this.queryData)
+      this.$nextTick(() => {
+        this.$refs.table.updateData()
+      })
     },
+    // getOrder (val) {
+    //   // console.log('getOrderEvent')
+    //   console.log(val)
+    //   // this.queryData.push(val)
+    //   // console.log(this.queryData)
+    //   // this.queryData.orderStatus = val
+    // },
     getStatus (val) {
-      console.log(val)
+      // console.log(val)
       // val == 每一个option对应的key值
       this.queryData.orderStatus = val
       console.log(this.queryData)
       this.$refs.table.updateData()
-    },
-    getOrder (val) {
-      console.log('getOrderEvent')
-      console.log(val)
-      this.queryData.orderStatus = val
     }
   },
   mounted () {
     // console.log(this.userInfo)
-    console.log(this.queryData)
+    // console.log(this.queryData)
     // this.$refs.table.updateData()
+    console.log(this.searchValue)
   }
 }
 </script>
