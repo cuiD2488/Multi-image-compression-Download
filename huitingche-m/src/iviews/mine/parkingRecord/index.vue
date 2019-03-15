@@ -31,8 +31,8 @@
     <!-- 违停记录 -->
     <div v-else-if="illegalFlag">
       <div class="illegalDiv">
-        <x-input class="weui-vcode before" v-model="carNumberBefore" placeholder="例:粤X"></x-input>
-        <x-input class="weui-vcode after" v-model="carNumber" placeholder="请输入查询的车牌号 例: 123456">
+        <x-input class="weui-vcode before" v-model="carNumberBefore" :show-clear="false" placeholder="例:粤X"></x-input>
+        <x-input class="weui-vcode after" v-model="carNumber" :show-clear="false" placeholder="请输入查询的车牌号 例: 123456">
           <x-button slot="right" @click.native="sureBtn" type="primary" mini text="确定"></x-button>
         </x-input>
       </div>
@@ -148,8 +148,12 @@ export default {
         this.recordList = []
         let data = res.data
         for (let index in data) {
-          // 判断是否含有进出车时间,没有不展示
-          if (data[index].enterTime && data[index].outTime && n < 1) {
+          // 已完成订单,判断是否含有进出车时间,没有不展示
+          if (data[index].enterTime && data[index].outTime && n === 3) {
+            data[index].enterTime = data[index].enterTime.substring(0, data[index].enterTime.length - 5)
+            data[index].outTime = data[index].outTime.substring(0, data[index].outTime.length - 5)
+            this.recordList.push(data[index])
+          } else {
             data[index].enterTime = data[index].enterTime.substring(0, data[index].enterTime.length - 5)
             data[index].outTime = data[index].outTime.substring(0, data[index].outTime.length - 5)
             this.recordList.push(data[index])
