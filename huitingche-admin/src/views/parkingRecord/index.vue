@@ -2,7 +2,7 @@
   <div class="parkingrecord">
     <div class="pknav">
       <Input v-model="searchValue" @on-search="searchFind" class="search">
-        <Select v-model="findeCondition" slot="prepend" style="width: 100px" >
+        <Select v-model="findeCondition" slot="prepend" style="width: 100px" placeholder="" >
           <Option v-for="item in conditionList" :value="item.key" :key="item.key">{{ item.name }}</Option>
         </Select>
         <Button slot="append" icon="ios-search" @click="searchFind"></Button>
@@ -10,18 +10,12 @@
       <Select style="width:200px" v-model="mergeConfition" @on-change="getStatus">
         <Option v-for="item in payStateList" :value="item.key" :key="item.value">{{ item.value }}</Option>
       </Select>
-      <!-- <Row>
-        <Col span="12">
-          <DatePicker type="date"  placeholder="选择开始时间" style="width: 200px" @on-change="timeChange"></DatePicker>
-          <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" style="width: 200px"></DatePicker>
-        </Col>
-      </Row> -->
         <DatePicker type="daterange"
-                    :options="options"
-                    placeholder="请选择日期"
-                    placement="bottom-end"
-                    style="width: 200px;float: right"
-                    @on-change="handleDate">
+          :options="options"
+          placeholder="请选择日期"
+          placement="bottom-end"
+          style="width: 200px;float: right"
+          @on-change="handleDate">
         </DatePicker>
     </div>
     <tabledata
@@ -98,6 +92,7 @@ export default {
       queryUrl: QUERYPkORDER,
       queryData: {
         vendorId: 3,
+        // vendorId: this.userInfo.vendorId,
         // vendorId: this.$store.getters.userInfo.vendorId,
         parkingLotNumber: '000002'
       },
@@ -192,10 +187,11 @@ export default {
     }
   },
   mounted () {
-    // console.log(this.userInfo)
+    console.log(this.userInfo)
+    // console.log('vendorId:' + this.userInfo.vendorId)
     // console.log(this.queryData)
     // this.$refs.table.updateData()
-    console.log(this.searchValue)
+    // console.log(this.searchValue)
   }
 }
 </script>
