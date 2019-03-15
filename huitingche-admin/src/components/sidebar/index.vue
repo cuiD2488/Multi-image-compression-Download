@@ -9,19 +9,19 @@
           <Icon type="document-text"></Icon>
           停车场管理
         </Menu-item>
-        <Menu-item name="parkingRecord" key="1">
+        <Menu-item name="parkingRecord" key="2">
            <Icon type="document-text"></Icon>
           停车记录
         </Menu-item>
-        <Menu-item name="pakingMGTlist" key="2">
+        <Menu-item name="pakingMGTlist" key="3">
            <Icon type="chatbubbles"></Icon>
           车位管理列表
         </Menu-item>
-        <Menu-item name="menuAuthorization" key="12">
+        <Menu-item name="menuAuthorization" key="4">
           <Icon type="heart-broken"></Icon>
           用户授权
         </Menu-item>
-        <Menu-item name="unpaid" key="4">
+        <Menu-item name="unpaid" key="5">
            <Icon type="heart-broken"></Icon>
               待支付停车记录
         </Menu-item>
@@ -29,7 +29,7 @@
            <Icon type="heart"></Icon>
                 设备管理
         </Menu-item> -->
-        <Menu-item name="parkingChargeRecord" key="5">
+        <Menu-item name="parkingChargeRecord" key="6">
           <Icon type="heart-broken"></Icon>
                 停车收费记录
         </Menu-item>
@@ -45,15 +45,15 @@
             <Icon type="heart-broken"></Icon>
                 停车场收费规则
         </Menu-item> -->
-        <Menu-item name="violationrecord" key="9">
+        <Menu-item name="violationrecord" key="7">
           <Icon type="heart-broken"></Icon>
           违章记录
         </Menu-item>
-        <Menu-item name="userInfo" key="10">
+        <Menu-item name="userInfo" key="8">
           <Icon type="heart-broken"></Icon>
           用户管理
         </Menu-item>
-        <Menu-item name="role" key="11">
+        <Menu-item name="role" key="9">
           <Icon type="heart-broken"></Icon>
           体制内人员管理
         </Menu-item>
