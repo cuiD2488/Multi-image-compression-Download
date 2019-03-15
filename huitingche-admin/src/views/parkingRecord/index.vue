@@ -10,6 +10,11 @@
       <Select style="width:200px" v-model="mergeConfition" @on-change="getStatus">
         <Option v-for="item in payStateList" :value="item.key" :key="item.value">{{ item.value }}</Option>
       </Select>
+      <Row>
+        <Col span="12">
+            <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" style="width: 200px"></DatePicker>
+        </Col>
+    </Row>
     </div>
     <tabledata
     ref="table"
@@ -163,7 +168,7 @@ export default {
   mounted () {
     // console.log(this.userInfo)
     console.log(this.queryData)
-    this.$refs.table.updateData()
+    // this.$refs.table.updateData()
   }
 }
 </script>
