@@ -24,6 +24,9 @@ export default new Router({
         {
           path: 'parkingList',
           name: 'parkingList',
+          meta: {
+            title: '停车场管理'
+          },
           component: reslove => { require(['../views/parkingList'], reslove) }
         },
         {

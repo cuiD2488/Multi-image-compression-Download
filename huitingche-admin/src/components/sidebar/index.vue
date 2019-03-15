@@ -65,7 +65,7 @@
     </div>
     <div class="secondbar">
         <div class="secondbar-title">
-            <Breadcrumb-item >{{this.$route.meta.title}}</Breadcrumb-item>
+            <Breadcrumb-item >{{$route.meta.title}}</Breadcrumb-item>
         </div>
         <div class="secondbar-data">
             <span>{{nowTime}}</span>
