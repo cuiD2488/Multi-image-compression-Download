@@ -102,7 +102,7 @@ export default {
       queryData: {
         vendorId: 3,
         // vendorId: this.$store.getters.userInfo.vendorId,
-        parkingLotNumber: '000001'
+        parkingLotNumber: '000002'
       },
       page: 1,
       num: 10,
@@ -152,6 +152,7 @@ export default {
       // val == 每一个option对应的key值
       this.queryData.orderStatus = val
       console.log(this.queryData)
+      this.$refs.table.updateData()
     }
   },
   mounted () {
