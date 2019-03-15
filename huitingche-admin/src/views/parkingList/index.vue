@@ -43,12 +43,23 @@
         </Form>
       </div>
     </Modal>
+    <Modal
+      v-model="autherButtonShow"
+      width="220"
+      align="center"
+      title="授权停车场管理"
+      @on-ok="autherConfrim"
+      @on-cancel="autherButtonShow = false"
+    >
+      <div id="qrCodeContent">
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script>
 import tabledata from '@/components/tabledata'
-import {URLfindParkingLotByCondition, ApiAddParkingLot} from '@/api'
+import {URLfindParkingLotByCondition, ApiAddParkingLot, ApigetQrCode} from '@/api'
 import {mapGetters} from 'vuex'
 import VDistpicker from 'v-distpicker'
 export default {
@@ -77,7 +88,31 @@ export default {
         {
           title: '管理员',
           align: 'center',
-          key: 'managerName'
+          key: 'managerName',
+          render: (h, params) => {
+            return h('div', [
+              params.row.managerName ? h('span', params.row.managerName) : h('Button', {
+                on: {
+                  click: async () => {
+                    document.getElementById('qrCodeContent').innerHTML = ''
+                    this.autherButtonShow = true
+                    const data = {
+                      parkingLotNumber: params.row.parkingLotNumber
+                    }
+                    const res = await ApigetQrCode(data)
+                    if (res.code === 200) {
+                      console.log(3)
+                      this.$nextTick(() => {
+                        this.utils.qrcode('qrCodeContent', res.data, 150)
+                      })
+                    } else {
+                      this.$Message.error('获取二维码失败')
+                    }
+                  }
+                }
+              }, '授权管理员')
+            ])
+          }
         },
         {
           title: '管理员联系方式',
@@ -159,7 +194,8 @@ export default {
           { required: true, message: '请输入详细地址', trigger: 'blur' }
         ]
       },
-      select: { province: '广东省', city: '广州市', county: '海珠区' }
+      select: { province: '广东省', city: '广州市', county: '海珠区' },
+      autherButtonShow: false
     }
   },
   computed: {
@@ -175,6 +211,11 @@ export default {
       this.$nextTick(() => {
         this.$refs.table.updateData()
       })
+    },
+    // 授权完成
+    autherConfrim () {
+      this.autherButtonShow = false
+      this.$refs.table.updateData()
     },
     // 新增停车场
     async addParking () {
