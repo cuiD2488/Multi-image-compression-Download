@@ -5,22 +5,22 @@
   <div class="sidebar">
     <div class="sidebar-left">
       <Menu active-key="1" :active-name="$route.name" @on-select="handleMenuItemSelect">
-        <Menu-item name="parkingList" key="1">
+        <Menu-item name="parkingList" key="1" v-if="userInfo.role === 1">
           <Icon type="document-text"></Icon>
           停车场管理
         </Menu-item>
-        <Menu-item name="parkingRecord" key="2">
-           <Icon type="document-text"></Icon>
-          停车记录
-        </Menu-item>
-        <Menu-item name="pakingMGTlist" key="3">
+        <Menu-item name="pakingMGTlist" key="2">
            <Icon type="chatbubbles"></Icon>
           车位管理列表
         </Menu-item>
-        <Menu-item name="menuAuthorization" key="4">
-          <Icon type="heart-broken"></Icon>
-          用户授权
+        <Menu-item name="parkingRecord" key="3">
+           <Icon type="document-text"></Icon>
+          停车记录
         </Menu-item>
+        <!-- <Menu-item name="menuAuthorization" key="4" v-if="userInfo.role === 1">
+          <Icon type="heart-broken"></Icon>
+          停车场管理员授权
+        </Menu-item> -->
         <Menu-item name="unpaid" key="5">
            <Icon type="heart-broken"></Icon>
               待支付停车记录
@@ -74,11 +74,15 @@
   </div>
 </template>
 <script>
+import {mapGetters} from 'vuex'
 export default {
   data () {
     return {
       nowTime: ''
     }
+  },
+  computed: {
+    ...mapGetters(['userInfo'])
   },
   methods: {
     handleMenuItemSelect (name) {
