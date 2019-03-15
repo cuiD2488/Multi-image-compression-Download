@@ -2,12 +2,12 @@
   <div class="parkingrecord">
     <div class="pknav">
       <Input v-model="searchValue" @on-search="searchFind" class="search">
-        <Select v-model="findeCondition" slot="prepend" style="width: 100px">
+        <Select v-model="findeCondition" slot="prepend" style="width: 100px" @on-change="getOrder">
           <Option v-for="item in conditionList" :value="item.key" :key="item.key">{{ item.name }}</Option>
         </Select>
         <Button slot="append" icon="ios-search" @click="searchFind"></Button>
       </Input>
-      <Select style="width:200px" v-model="mergeConfition" @on-change="getOption">
+      <Select style="width:200px" v-model="mergeConfition" @on-change="getStatus">
         <Option v-for="item in payStateList" :value="item.key" :key="item.value">{{ item.value }}</Option>
       </Select>
     </div>
@@ -147,17 +147,23 @@ export default {
     searchFind () {
       console.log('条件搜索')
     },
-    getOption (val) {
+    getStatus (val) {
       console.log(val)
       // val == 每一个option对应的key值
       this.queryData.orderStatus = val
       console.log(this.queryData)
       this.$refs.table.updateData()
+    },
+    getOrder (val) {
+      console.log('getOrderEvent')
+      console.log(val)
+      this.queryData.orderStatus = val
     }
   },
   mounted () {
     // console.log(this.userInfo)
     console.log(this.queryData)
+    this.$refs.table.updateData()
   }
 }
 </script>
