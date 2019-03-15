@@ -58,7 +58,7 @@
       <div class="messageContent">
         <p v-for="(item, index) in noticeList" :key="index">
           <span v-text="'您于' + item.payCreateTime"></span>
-          <span v-text="item.type === 0 ? '停车' : '充值' + item.payMoney + '元'"></span>
+          <span v-text="item.type === 0 ? '停车消费' + item.payMoney + '元' : '充值' + item.payMoney + '元'"></span>
         </p>
       </div>
     </div>

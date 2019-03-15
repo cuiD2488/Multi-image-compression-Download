@@ -84,7 +84,7 @@ export default {
   methods: {
     // 点击保存按钮验证车牌号
     async sure () {
-      if (this.beforNumber && this.afterNumber.length < 7) {
+      if (this.beforNumber && this.afterNumber.length < 7 && this.afterNumber.length > 4) {
         let data = {
           abbreviation: this.beforNumber,
           carNumber: this.afterNumber,

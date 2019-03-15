@@ -12,7 +12,7 @@
         <div class="location">{{item.city + item.county + item.detailedAddress + item.parkingLotName}}</div>
         <div class="date">
           <span>停车时间：</span>
-          <span>{{item.enterTime}} 至 {{item.outTime}}</span>
+          <span>{{item.enterTime}}<span v-if="item.outTime"> 至 {{item.outTime}}</span></span>
         </div>
         <div class="date">
           <div v-if="item.orderStatus === 2">订单金额：<span style="color:#000">{{item.orderMoney}}元</span></div>
@@ -146,15 +146,17 @@ export default {
       if (res.code === 200 && res.data) {
         // 清空展示数据重新写入
         this.recordList = []
-        let data = res.data.data
+        let data = res.data
         for (let index in data) {
           // 判断是否含有进出车时间,没有不展示
-          if (data[index].enterTime && data[index].outTime) {
+          if (data[index].enterTime && data[index].outTime && n < 1) {
             data[index].enterTime = data[index].enterTime.substring(0, data[index].enterTime.length - 5)
             data[index].outTime = data[index].outTime.substring(0, data[index].outTime.length - 5)
             this.recordList.push(data[index])
           }
         }
+        // this.$vux.toast.text(1)
+        // console.log(this.recordList)
       } else {
         this.recordList = []
         this.$vux.toast.text(res.msg)
@@ -186,9 +188,9 @@ export default {
           let imgArr = []
           let imgList = []
           let imgData = {}
-          for (let index in res.data.data) {
+          for (let index in res.data) {
             // 将图片字符串转换为数组
-            imgArr = res.data.data[index].violationImage.split(',')
+            imgArr = res.data[index].violationImage.split(',')
             // 将数组内容封装成list
             for (let index1 in imgArr) {
               imgData = {
@@ -196,9 +198,9 @@ export default {
               }
               imgList.push(imgData)
             }
-            res.data.data[index].violationImage = imgList
+            res.data[index].violationImage = imgList
             // 将图片存入展示数组
-            this.illegalList.push(res.data.data[index])
+            this.illegalList.push(res.data[index])
           }
         } else {
           this.$vux.toast.text(res.msg)
@@ -480,7 +482,7 @@ li{
   border-radius: 10px;
 }
 .before{
-  width: 60px;
+  width: 100px;
   border-right: 1px solid #aaa;
 }
 .after{
