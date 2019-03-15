@@ -1,5 +1,16 @@
 <template>
   <div class="parkingrecord">
+    <div class="pknav">
+      <Input v-model="searchValue" class="search">
+        <Select v-model="findeCondition" slot="prepend" style="width: 80px">
+          <Option v-for="item in conditionList" :value="item.key" :key="item.key">{{ item.name }}</Option>
+        </Select>
+        <Button slot="append" icon="ios-search"></Button>
+      </Input>
+      <Select style="width:200px">
+        <Option v-for="item in payStateList" :value="item.key" :key="item.label">{{ item.label }}</Option>
+      </Select>
+    </div>
     <tabledata
     ref="table"
     page-position="center"
@@ -18,6 +29,7 @@
 <script>
 import tabledata from '@/components/tabledata'
 import {QUERYPkORDER} from '@/api'
+import {mapGetters} from 'vuex'
 export default {
   components: {
     tabledata
@@ -78,8 +90,49 @@ export default {
       },
       page: 1,
       num: 10,
-      type: 'json'
+      type: 'json',
+      findeCondition: '',
+      searchValue: '',
+      conditionList: [
+        {
+          name: '停车场编号',
+          key: 'parkingLotNumber'
+        },
+        {
+          name: '车位编号',
+          key: 'positionNumber'
+        },
+        {
+          name: '订单编号',
+          key: 'orderNumber'
+        }
+      ],
+      payStateList: [
+        {
+          key: '1',
+          label: '使用中'
+        },
+        {
+          key: '2',
+          label: '待补缴'
+        },
+        {
+          key: '3',
+          label: '已完成'
+        }
+      ]
     }
+  },
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
+  methods: {
+    searchFind () {
+      console.log('条件搜索')
+    }
+  },
+  mounted () {
+    console.log(this.userInfo)
   }
 }
 </script>
@@ -94,5 +147,12 @@ export default {
   left: 260px;
   height: 250px;
   width: 1100px;
+  .pknav{
+    display: flex;
+    align-items: center;
+    .search{
+      width: 400px;
+    }
+  }
 }
 </style>

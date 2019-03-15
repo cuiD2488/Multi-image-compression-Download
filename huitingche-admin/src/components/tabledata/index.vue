@@ -284,7 +284,7 @@ export default {
         }
       }
       setTimeout(loading, 500)
-      if (result.code === 200) {
+      if (result.code === 200 && result.data) {
         this.resultData = result.data
         this.totalNum = +result.msg
         this.$router.push({query: {...this.$route.query, page}})
