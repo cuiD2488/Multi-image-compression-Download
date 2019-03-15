@@ -49,7 +49,7 @@
           <span>{{item.ruleStartTime}}小时
             <span v-if="item.ruleEndTime !== '9999'">- {{item.ruleEndTime}}小时</span>
             <span v-else>以上</span></span>
-          <span>{{iswhite === 1 ? item.whiteRuleValue : item.ruleValue}}元/半小时</span>
+          <span>{{userInform.vip === 1 ? item.whiteRuleValue : item.ruleValue}}元/半小时</span>
         </div>
       </div>
     </div>
@@ -68,7 +68,7 @@ export default {
     return {
       percent: 0,
       dataRules: {},
-      iswhite: ''
+      userInform: sessionStorage.getItem('userInform') ? JSON.parse(sessionStorage.getItem('userInform')) : null
     }
   },
   methods: {

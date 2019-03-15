@@ -229,7 +229,7 @@ export default {
         // 收费金额
         let targetMoney = 0
         // 白名单人员字段, 计算内直接用了三目了，如果是白名单内人员则应用白名单计费标准
-        let isWhite = 1
+        let isWhite = this.userInform.vip
         // 如果选择时段大于第一档时段 并且选择时段减去第一档剩余时段小于第二档
         if (targetTime > (item[0].ruleEndTime - item[0].ruleStartTime) && targetTime - (item[0].ruleEndTime - item[0].ruleStartTime) < (item[1].ruleEndTime - item[1].ruleStartTime)) {
           // 第一档全时段
@@ -244,6 +244,7 @@ export default {
           // 第三档
           targetMoney += (targetTime - (item[0].ruleEndTime - item[0].ruleStartTime) - (item[1].ruleEndTime - item[1].ruleStartTime)) * (isWhite === 1 ? item[2].whiteRuleValue : item[2].ruleValue) * 2
         }
+        // 得出最终价格
         this.parkingMoney = targetMoney
       } else {
         this.$vux.toast.text('网络请求失败')
