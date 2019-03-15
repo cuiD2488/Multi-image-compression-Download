@@ -2,7 +2,7 @@
   <div class="parkinglist">
     <div class="searchContent">
       <Input search v-model="searchValue" @on-search="searchFind">
-        <Select v-model="findeCondition" slot="prepend" style="width: 80px">
+        <Select v-model="findeCondition" slot="prepend" style="width: 120px">
           <Option v-for="item in conditionList" :value="item.key" :key="item.key">{{ item.name }}</Option>
         </Select>
         <Button slot="append" icon="ios-search" @click="searchFind"></Button>
@@ -55,12 +55,12 @@ export default {
         {
           title: '管理员联系方式',
           align: 'center',
-          key: 'enterTime'
+          key: 'phone'
         },
         {
           title: '创建时间',
           align: 'center',
-          key: 'createTime'
+          key: 'lotCreateTime'
         },
         {
           title: '操作',
@@ -110,6 +110,13 @@ export default {
   methods: {
     searchFind () {
       console.log('条件搜索')
+      this.queryData = {
+        vendorId: 3
+      }
+      this.queryData[this.findeCondition] = this.searchValue
+      this.$nextTick(() => {
+        this.$refs.table.updateData()
+      })
     }
   },
   mounted () {

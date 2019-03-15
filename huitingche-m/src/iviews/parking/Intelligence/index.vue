@@ -228,19 +228,21 @@ export default {
         let item = res.data.pkChargingRulesVoList
         // 收费金额
         let targetMoney = 0
+        // 白名单人员字段, 计算内直接用了三目了，如果是白名单内人员则应用白名单计费标准
+        let isWhite = 1
         // 如果选择时段大于第一档时段 并且选择时段减去第一档剩余时段小于第二档
         if (targetTime > (item[0].ruleEndTime - item[0].ruleStartTime) && targetTime - (item[0].ruleEndTime - item[0].ruleStartTime) < (item[1].ruleEndTime - item[1].ruleStartTime)) {
           // 第一档全时段
-          targetMoney += item[0].ruleValue * (item[0].ruleEndTime - item[0].ruleStartTime) * 2
+          targetMoney += (isWhite === 1 ? item[0].whiteRuleValue : item[0].ruleValue) * (item[0].ruleEndTime - item[0].ruleStartTime) * 2
           // 第二档部分时段
-          targetMoney += (targetTime - (item[0].ruleEndTime - item[0].ruleStartTime)) * item[1].ruleValue * 2
+          targetMoney += (targetTime - (item[0].ruleEndTime - item[0].ruleStartTime)) * (isWhite === 1 ? item[1].whiteRuleValue : item[1].ruleValue) * 2
         } else if (targetTime - (item[0].ruleEndTime - item[0].ruleStartTime) > (item[1].ruleEndTime - item[1].ruleStartTime)) {
           // 第一档全时段
-          targetMoney += item[0].ruleValue * (item[0].ruleEndTime - item[0].ruleStartTime) * 2
+          targetMoney += (isWhite === 1 ? item[0].whiteRuleValue : item[0].ruleValue) * (item[0].ruleEndTime - item[0].ruleStartTime) * 2
           // 第二档全时段
-          targetMoney += (item[1].ruleEndTime - item[1].ruleStartTime) * item[1].ruleValue * 2
+          targetMoney += (item[1].ruleEndTime - item[1].ruleStartTime) * (isWhite === 1 ? item[1].whiteRuleValue : item[1].ruleValue) * 2
           // 第三档
-          targetMoney += (targetTime - (item[0].ruleEndTime - item[0].ruleStartTime) - (item[1].ruleEndTime - item[1].ruleStartTime)) * item[2].ruleValue * 2
+          targetMoney += (targetTime - (item[0].ruleEndTime - item[0].ruleStartTime) - (item[1].ruleEndTime - item[1].ruleStartTime)) * (isWhite === 1 ? item[2].whiteRuleValue : item[2].ruleValue) * 2
         }
         this.parkingMoney = targetMoney
       } else {
