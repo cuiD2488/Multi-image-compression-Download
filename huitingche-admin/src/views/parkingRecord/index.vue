@@ -7,8 +7,8 @@
         </Select>
         <Button slot="append" icon="ios-search" @click="searchFind"></Button>
       </Input>
-      <Select style="width:200px" v-model="mergeConfition" @on-change="optionChange">
-        <Option v-for="item in payStateList" :value="item.key" :key="item.name">{{ item.name }}</Option>
+      <Select style="width:200px" v-model="mergeConfition" @on-change="getOption">
+        <Option v-for="item in payStateList" :value="item.key" :key="item.value">{{ item.value }}</Option>
       </Select>
     </div>
     <tabledata
@@ -127,15 +127,15 @@ export default {
       payStateList: [
         {
           key: '1',
-          name: '使用中'
+          value: '使用中'
         },
         {
           key: '2',
-          name: '待补缴'
+          value: '待补缴'
         },
         {
           key: '3',
-          name: '已完成'
+          value: '已完成'
         }
       ]
     }
@@ -147,12 +147,16 @@ export default {
     searchFind () {
       console.log('条件搜索')
     },
-    optionChange () {
-      console.log('optionchange')
+    getOption (val) {
+      console.log(val)
+      // val == 每一个option对应的key值
+      this.queryData.orderStatus = val
+      console.log(this.queryData)
     }
   },
   mounted () {
-    console.log(this.userInfo)
+    // console.log(this.userInfo)
+    console.log(this.queryData)
   }
 }
 </script>
