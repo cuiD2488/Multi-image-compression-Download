@@ -21,6 +21,7 @@ html {
 #app {
   min-width: 1024px;
   max-width: 1920px;
+  /* width: 1024px; */
   position: relative;
   margin: 0 auto;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
