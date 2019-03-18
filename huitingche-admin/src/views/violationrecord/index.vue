@@ -45,7 +45,7 @@
       <!-- <div id="showImg"> -->
         <Carousel loop>
           <CarouselItem v-for="item in imgArr" :key="item.id">
-              <img src="item" alt="">
+              <img :src="item" alt="">
           </CarouselItem>
         </Carousel>
       <!-- </div> -->
