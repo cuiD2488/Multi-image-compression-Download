@@ -55,6 +55,7 @@ export default {
     }
   },
   methods: {
+    // 发送验证码
     async sendCode () {
       if (!(/^1(3|4|5|7|8)\d{9}$/.test(this.phoneNo))) {
         this.$vux.toast.text('输入的手机号有误,请核对后再试')

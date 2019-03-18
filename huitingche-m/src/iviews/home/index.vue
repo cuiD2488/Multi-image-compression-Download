@@ -62,7 +62,7 @@
         </p>
       </div>
     </div>
-    <!-- <loading :show="showLoading" text="请稍后"></loading> -->
+    <loading :show="showLoading" text="请稍后"></loading>
   </div>
 </template>
 <script>
