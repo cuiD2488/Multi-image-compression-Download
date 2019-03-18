@@ -20,6 +20,36 @@
     :type="type"
     border
     ></tabledata>
+    <Modal
+      v-model="showViolationIMG"
+      width= 100%
+      align="center"
+      title="展示违停图片"
+      @on-cancel="showViolationIMG = false">
+      <!-- <div>
+        <Carousel loop>
+          <CarouselItem>
+            <img src="http://img.zcool.cn/community/018e575c160016a80121ab5d6abafb.jpg@3000w_1l_2o_100sh.jpg" alt="">
+          </CarouselItem>
+          <CarouselItem>
+            <img src="http://img.zcool.cn/community/018e575c160016a80121ab5d6abafb.jpg@3000w_1l_2o_100sh.jpg" alt="">
+          </CarouselItem>
+          <CarouselItem>
+            <img src="http://img.zcool.cn/community/018e575c160016a80121ab5d6abafb.jpg@3000w_1l_2o_100sh.jpg" alt="">
+          </CarouselItem>
+          <CarouselItem>
+            <img src="http://img.zcool.cn/community/018e575c160016a80121ab5d6abafb.jpg@3000w_1l_2o_100sh.jpg" alt="">
+          </CarouselItem>
+        </Carousel>
+      </div> -->
+      <!-- <div id="showImg"> -->
+        <Carousel loop>
+          <CarouselItem v-for="item in imgArr" :key="item.id">
+              <img src="item" alt="">
+          </CarouselItem>
+        </Carousel>
+      <!-- </div> -->
+    </Modal>
   </div>
 </template>
 
@@ -43,24 +73,53 @@ export default {
           key: 'positionNumber'
         },
         {
-          title: '车牌号(简称+车牌号拼接)',
-          key: 'abbreviation'
-        },
-        {
-          title: '简称',
-          key: 'abbreviation'
-        },
-        {
           title: '车牌号',
-          key: 'numberPlate'
+          render: (h, param) => {
+            return h('div', [
+              h('p', {
+                style: {
+                  'margin-right': '10px'
+                }
+              }, param.row.abbreviation + param.row.numberPlate)
+            ])
+          }
         },
         {
           title: '操作人',
           key: 'managerNumber'
         },
         {
-          title: '违停图片',
-          key: 'violationImage'
+          title: '图片',
+          align: 'center',
+          width: 220,
+          render: (h, param) => {
+            return h('div', [
+              h('p', {
+                style: {
+                  'margin-right': '10px'
+                },
+                on: {
+                  click: () => {
+                    console.log('点击查看图片')
+                    this.showViolationIMG = true
+                    // document.getElementById('showImg')
+                    // let data = document.getElementById('showImg').getElementsByTagName('Carousel')
+                    // data.getElementByTagName('img').src = param.row.violationImage
+                    // document.getElementById('showImg').setAttribute('src') = param.row.violationImage
+                    // this.imgArr = {...(param.row.violationImage)}
+                    // console.log(param.row.violationImage)
+                    let violationImage = param.row.violationImage
+                    this.imgArr = violationImage.split(',')
+                    console.log(this.imgArr)
+                    // console.log(this.imgArr)
+                    // console.log(param.row.violationImage)
+                    // var showImg = document.getElementById('showImg')
+                    // document.getElementsByTagName('img')[0].setAttribute('src', this.imgArr[0])
+                  }
+                }
+              }, '点击查看图片')
+            ])
+          }
         },
         {
           title: '违停原因',
@@ -117,6 +176,9 @@ export default {
           key: 'managerNumber'
         }
       ],
+      imgArr: [],
+      // value1: 0,
+      showViolationIMG: false,
       searchValue: '',
       findeCondition: '',
       queryUrl: URLqueryPkViolation,

@@ -284,7 +284,6 @@ export default {
         }
       }
       setTimeout(loading, 500)
-      console.log(result)
       if (result.code === 200 && result.data) {
         this.resultData = result.data
         this.totalNum = +result.msg
