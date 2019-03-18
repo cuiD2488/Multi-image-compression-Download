@@ -109,3 +109,23 @@ export const ApigetQrCodeByManageNumber = async (data) => {
     throw new Error(error)
   }
 }
+// 设置停车场规则
+export const URLaddChargingRules = '/addChargingRules.json'
+export const ApiAddChargingRules = async (data) => {
+  try {
+    const res = await Axios.post(URLaddChargingRules, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+// 设置停车场规则
+export const URLqueryChargingRules = '/queryChargingRules.json'
+export const ApiQueryChargingRules = async (data) => {
+  try {
+    const res = await Axios.post(URLqueryChargingRules, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
