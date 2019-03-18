@@ -140,6 +140,7 @@ export default {
     // 微信登录接口
     async wxLogin (code, state) {
       if (sessionStorage.getItem('userInform')) {
+        this.showLoading = false
         return
       }
       let data = {
