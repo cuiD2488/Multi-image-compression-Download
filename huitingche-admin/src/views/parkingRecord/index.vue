@@ -187,7 +187,7 @@ export default {
       // console.log(val)
       // val == 每一个option对应的key值
       // this.queryData.orderStatus = val
-      if(val==0) {
+      if (val === 0) {
         this.queryData.orderStatus = null
       } else {
         this.queryData.orderStatus = val
