@@ -126,6 +126,10 @@ export default {
       ],
       payStateList: [
         {
+          key: '0',
+          value: '全部状态'
+        },
+        {
           key: '1',
           value: '使用中'
         },
@@ -182,7 +186,12 @@ export default {
     getStatus (val) {
       // console.log(val)
       // val == 每一个option对应的key值
-      this.queryData.orderStatus = val
+      // this.queryData.orderStatus = val
+      if(val==0) {
+        this.queryData.orderStatus = null
+      } else {
+        this.queryData.orderStatus = val
+      }
       console.log(this.queryData)
       this.$refs.table.updateData()
     }
