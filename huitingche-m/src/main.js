@@ -30,6 +30,9 @@ router.beforeEach((to, from, next) => {
     next()
   } else if (to.name === 'home') {
     next()
+  } else if (to.name === 'bindAdmin') {
+    console.log(1)
+    next()
   } else {
     Vue.$vux.toast.text('请先登录')
     setTimeout(() => {

@@ -14,6 +14,7 @@ import safety from '@/iviews/mine/safety'
 import parkingRules from '@/iviews/parkingRules'
 import billingDetail from '@/iviews/mine/billingDetail'
 import report from '@/iviews/mine/report'
+import bindAdmin from '@/iviews/mine/bindAdmin'
 // const home = () => import('@/iviews/home')
 
 Vue.use(Router)
@@ -129,6 +130,14 @@ export default new Router({
             title: '账单明细'
           },
           component: billingDetail
+        },
+        {
+          path: '/mine/bindAdmin',
+          name: 'bindAdmin',
+          meta: {
+            title: '管理员注册'
+          },
+          component: bindAdmin
         }
       ]
     }

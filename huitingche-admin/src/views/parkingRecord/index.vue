@@ -1,20 +1,20 @@
 <template>
   <div class="parkingrecord">
     <div class="pknav">
-      <Input v-model="searchValue" @on-search="searchFind" class="search">
-        <Select v-model="findeCondition" slot="prepend" style="width: 100px" placeholder="" >
+      <Input v-model="searchValue" @on-enter="searchFind" @on-search="searchFind" class="search">
+        <Select v-model="findeCondition" slot="prepend" style="width: 100px" placeholder="请选择" >
           <Option v-for="item in conditionList" :value="item.key" :key="item.key">{{ item.name }}</Option>
         </Select>
         <Button slot="append" icon="ios-search" @click="searchFind"></Button>
       </Input>
-      <Select style="width:200px" v-model="mergeConfition" @on-change="getStatus">
+      <Select v-model="mergeConfition" style="width:200px" @on-change="getStatus" placeholder="选择订单状态">
         <Option v-for="item in payStateList" :value="item.key" :key="item.value">{{ item.value }}</Option>
       </Select>
         <DatePicker type="daterange"
           :options="options"
-          placeholder="请选择日期"
+          placeholder="选择日期查询"
           placement="bottom-end"
-          style="width: 200px;float: right"
+          style="width: 430px;float: right"
           @on-change="handleDate">
         </DatePicker>
     </div>
@@ -91,10 +91,11 @@ export default {
       ],
       queryUrl: QUERYPkORDER,
       queryData: {
-        vendorId: 3,
+        vendorId: 3
+        // vendorId: this.userInfo.vendorId,
         // vendorId: this.userInfo.vendorId,
         // vendorId: this.$store.getters.userInfo.vendorId,
-        parkingLotNumber: '000002'
+        // parkingLotNumber: '000002'
       },
       page: 1,
       num: 10,
@@ -188,8 +189,8 @@ export default {
   },
   mounted () {
     console.log(this.userInfo)
-    // console.log('vendorId:' + this.userInfo.vendorId)
-    // console.log(this.queryData)
+    console.log('vendorId:' + this.userInfo.vendorId)
+    // console.log('this.queryData:' + this.queryData)
     // this.$refs.table.updateData()
     // console.log(this.searchValue)
   }
@@ -208,10 +209,16 @@ export default {
   width: 1100px;
   .pknav{
     display: flex;
-    align-items: center;
+    justify-content: space-between;
     .search{
       width: 400px;
     }
+    // >div:nth-child(0) {
+    // width:400px;
+    // }
+    // >div:nth-child(1) {
+    // width:400px;
+    // }
   }
 }
 </style>

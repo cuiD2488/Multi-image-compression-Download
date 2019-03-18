@@ -336,3 +336,63 @@ export const ApMakeUpMoney = async (data) => {
     console.log(err)
   }
 }
+
+// 系统管理员分享的注册码，填写表单注册成为停车场管理员
+/**
+ * parkingLotNumber 停车场编号
+ * manageName 管理员姓名
+ * phone 电话号码
+ * password 登录密码
+ * openId 用户openId
+ * wxNickName 用户微信昵称
+ * headImageUrl 微信头像
+ */
+export const URLregisterByAdminQrCode = '/registerByAdminQrCode.json'
+export const ApiRegisterByAdminQrCode = async (data) => {
+  try {
+    const res = await Axios.get(URLregisterByAdminQrCode, {params: data})
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+// 停车场管理员分享的注册码，填写表单注册成为路段管理员
+/**
+ * parkingLotNumber 停车场编号
+ * manageName 管理员姓名
+ * phone 电话号码
+ * password 登录密码
+ * openId 用户openId
+ * wxNickName 用户微信昵称
+ * headImageUrl 微信头像
+ */
+export const URLregisterByManageNumberQrCode = '/registerByManageNumberQrCode.json'
+export const ApiRegisterByManageNumberQrCode = async (data) => {
+  try {
+    const res = await Axios.get(URLregisterByManageNumberQrCode, {params: data})
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+// 停车场管理员分享的注册码，填写表单注册成为路段管理员
+/**
+ * parkingLotNumber 停车场编号
+ * manageName 管理员姓名
+ * phone 电话号码
+ * password 登录密码
+ * openId 用户openId
+ * wxNickName 用户微信昵称
+ * headImageUrl 微信头像
+ */
+export const URLfindParkingLotNumberLByLot = '/findParkingLotNumberLByLot.json'
+export const ApiFindParkingLotNumberLByLot = async (data) => {
+  try {
+    const res = await Axios.get(URLfindParkingLotNumberLByLot, {params: data})
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
