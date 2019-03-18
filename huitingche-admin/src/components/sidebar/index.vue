@@ -47,7 +47,7 @@
         </Menu-item> -->
         <Menu-item name="violationrecord" key="7">
           <Icon type="heart-broken"></Icon>
-          违章记录
+          违停记录
         </Menu-item>
         <Menu-item name="userInfo" key="8">
           <Icon type="heart-broken"></Icon>

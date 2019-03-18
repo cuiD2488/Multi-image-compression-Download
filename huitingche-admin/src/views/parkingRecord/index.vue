@@ -57,6 +57,10 @@ export default {
           key: 'orderNumber'
         },
         {
+          title: '手机号码',
+          key: 'userId'
+        },
+        {
           title: '进车时间',
           key: 'enterTime'
         },
@@ -171,6 +175,9 @@ export default {
         vendorId: 3
       }
       this.queryData[this.findeCondition] = this.searchValue
+      // let order = this.queryData.orderStatus
+      // 加上状态作为参数一并传到后台
+      // this.queryData.orderStatus = this.order
       // console.log(this.queryData)
       this.$nextTick(() => {
         this.$refs.table.updateData()
@@ -187,7 +194,7 @@ export default {
       // console.log(val)
       // val == 每一个option对应的key值
       // this.queryData.orderStatus = val
-      if(val==0) {
+      if (val == 0) {
         this.queryData.orderStatus = null
       } else {
         this.queryData.orderStatus = val

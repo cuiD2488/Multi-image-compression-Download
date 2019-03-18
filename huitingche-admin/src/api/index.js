@@ -22,6 +22,9 @@ export default Axios
 
 // 获取停车记录列表
 export const QUERYPkORDER = '/queryPkOrder.json'
+
+// 查询违停记录
+export const QUERYPKVIOLATION = '/queryPkViolation.json'
 /**
  * @param {Any} data json
  */
