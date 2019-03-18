@@ -43,7 +43,7 @@
         </Menu-item> -->
         <Menu-item name="violationrecord" key="7" v-if="userInfo.role === 1 || userInfo.role === 2">
           <Icon type="heart-broken"></Icon>
-          违章记录
+          违停记录
         </Menu-item>
         <Menu-item name="userInfo" key="8" v-if="userInfo.role === 1 || userInfo.role === 2">
           <Icon type="heart-broken"></Icon>

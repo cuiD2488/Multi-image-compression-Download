@@ -94,7 +94,7 @@ export default new Router({
           path: 'violationrecord',
           name: 'violationrecord',
           meta: {
-            title: '违章记录'
+            title: '违停记录'
           },
           component: reslove => { require(['../views/violationrecord'], reslove) }
         },

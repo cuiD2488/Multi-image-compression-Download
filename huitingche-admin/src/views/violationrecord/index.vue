@@ -1,5 +1,13 @@
 <template>
-  <div class="parkingrecord">
+  <div class="violationrecord">
+    <div class="searchContent">
+      <Input v-model="searchValue" @on-enter="searchFind" @on-search="searchFind" class="search">
+        <Select v-model="findeCondition" slot="prepend" style="width: 100px" placeholder="请选择" >
+          <Option v-for="item in conditionList" :value="item.key" :key="item.key">{{ item.name }}</Option>
+        </Select>
+        <Button slot="append" icon="ios-search" @click="searchFind"></Button>
+    </Input>
+    </div>
     <tabledata
     ref="table"
     page-position="center"
@@ -10,13 +18,15 @@
     :current="page"
     :pageSize="num"
     :type="type"
+    border
     ></tabledata>
   </div>
 </template>
 
 <script>
 import tabledata from '@/components/tabledata'
-import {QUERYPkORDER} from '@/api'
+import {URLqueryPkViolation} from '@/api'
+import {mapGetters} from 'vuex'
 export default {
   components: {
     tabledata
@@ -25,60 +35,129 @@ export default {
     return {
       tableColumns: [
         {
-          title: '用户编号',
-          key: 'vendorId'
-        },
-        {
-          title: '手机号',
-          key: 'userId'
-        },
-        {
-          title: '停车场名称',
-          key: 'parkingLotNumber'
+          title: '违停编号',
+          key: 'violationNumber'
         },
         {
           title: '车位编号',
           key: 'positionNumber'
         },
         {
-          title: '进车时间',
-          key: 'enterTime'
+          title: '车牌号(简称+车牌号拼接)',
+          key: 'abbreviation'
         },
         {
-          title: '出车时间',
-          key: 'outTime'
+          title: '简称',
+          key: 'abbreviation'
+        },
+        {
+          title: '车牌号',
+          key: 'numberPlate'
+        },
+        {
+          title: '操作人',
+          key: 'managerNumber'
+        },
+        {
+          title: '违停图片',
+          key: 'violationImage'
+        },
+        {
+          title: '违停原因',
+          key: 'reasons'
         },
         {
           title: '订单编号',
-          key: 'orderNumber'
+          key: 'violationCreateTime'
         },
         {
-          title: '状态',
-          key: 'orderStatus'
-        },
-        {
-          title: '付费金额',
-          key: 'actualPayMoney'
-        },
-        {
-          title: '创建时间',
-          key: 'orderCreateTime'
+          title: '操作',
+          align: 'center',
+          width: 220,
+          render: (h, param) => {
+            // return (<div>操作</div>)
+            return h('div', [
+              h('Button', {
+                style: {
+                  'margin-right': '10px'
+                },
+                on: {
+                  click: () => {
+                    this.$Modal.confirm({
+                      title: '操作确认',
+                      content: '确认删除吗？',
+                      onOk: () => {
+                        alert('删除成功')
+                      }
+                    })
+                  }
+                }
+              }, '删除'),
+              h('Button', {
+                on: {
+                  click: () => {
+                  }
+                }
+              }, '编辑')
+            ])
+          }
         }
       ],
-      queryUrl: QUERYPkORDER,
+      conditionList: [
+        {
+          name: '车牌号',
+          key: 'numberPlate'
+        },
+        {
+          name: '车位编号',
+          key: 'positionNumber'
+        },
+        {
+          name: '操作人',
+          key: 'managerNumber'
+        }
+      ],
+      searchValue: '',
+      findeCondition: '',
+      queryUrl: URLqueryPkViolation,
       queryData: {
-        vendorId: 3,
-        parkingLotNumber: '000001'
+        vendorId: 3
       },
       page: 1,
       num: 10,
       type: 'json'
     }
+  },
+  methods: {
+    searchFind () {
+      console.log('条件搜索')
+      this.queryData = {
+        vendorId: 3
+      }
+      this.queryData[this.findeCondition] = this.searchValue
+      // let order = this.queryData.orderStatus
+      // 加上状态作为参数一并传到后台
+      // this.queryData.orderStatus = this.order
+      // console.log(this.queryData)
+      this.$nextTick(() => {
+        this.$refs.table.updateData()
+      })
+    }
+  },
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
+  mounted () {
+    console.log(this.userInfo)
+    console.log('vendorId:' + this.userInfo.vendorId)
+    // console.log('this.queryData:' + this.queryData)
+    // this.$refs.table.updateData()
+    // console.log(this.searchValue)
   }
 }
 </script>
 <style lang="less" scoped>
-.parkingrecord{
+.violationrecord{
   // width: 200px;
   // height: 200px;
   // float: left;
@@ -88,5 +167,8 @@ export default {
   left: 260px;
   height: 250px;
   width: 1100px;
+  .search{
+    width: 400px;
+  }
 }
 </style>

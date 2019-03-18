@@ -35,7 +35,7 @@
 
 <script>
 import tabledata from '@/components/tabledata'
-import {QUERYPkORDER} from '@/api'
+import {URLqueryPkOrder} from '@/api'
 import {mapGetters} from 'vuex'
 export default {
   components: {
@@ -55,6 +55,10 @@ export default {
         {
           title: '订单编号',
           key: 'orderNumber'
+        },
+        {
+          title: '手机号码',
+          key: 'userId'
         },
         {
           title: '进车时间',
@@ -89,7 +93,7 @@ export default {
           key: 'orderCreateTime'
         }
       ],
-      queryUrl: QUERYPkORDER,
+      queryUrl: URLqueryPkOrder,
       queryData: {
         vendorId: 3
         // vendorId: this.userInfo.vendorId,
@@ -171,6 +175,9 @@ export default {
         vendorId: 3
       }
       this.queryData[this.findeCondition] = this.searchValue
+      // let order = this.queryData.orderStatus
+      // 加上状态作为参数一并传到后台
+      // this.queryData.orderStatus = this.order
       // console.log(this.queryData)
       this.$nextTick(() => {
         this.$refs.table.updateData()
