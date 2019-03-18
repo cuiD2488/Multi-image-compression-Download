@@ -53,3 +53,43 @@ export const ApiFindParkingLotByCondition = async (data) => {
     throw new Error(error)
   }
 }
+// 查询停车场
+export const URLaddParkingLot = '/addParkingLot.json'
+export const ApiAddParkingLot = async (data) => {
+  try {
+    const res = await Axios.post(URLaddParkingLot, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+// 查询车位
+export const URLfindPositionByCondition = '/findPositionByCondition.json'
+export const ApifindPositionByCondition = async (data) => {
+  try {
+    const res = await Axios.post(URLfindPositionByCondition, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+// 停车场管理员授权
+export const URLgetQrCode = '/getQrCode.json'
+export const ApigetQrCode = async (data) => {
+  try {
+    const res = await Axios.post(URLgetQrCode, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+// 授权路段管理员
+export const URLgetQrCodeByManageNumber = '/getQrCodeByManageNumber.json'
+export const ApigetQrCodeByManageNumber = async (data) => {
+  try {
+    const res = await Axios.post(URLgetQrCodeByManageNumber, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}

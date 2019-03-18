@@ -6,8 +6,10 @@ import router from './router'
 import iView from 'iview'
 import store from './store'
 import 'iview/dist/styles/iview.css'
+import utils from './lib/utils'
 
 Vue.use(iView)
+Vue.prototype.utils = utils
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
