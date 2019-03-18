@@ -21,10 +21,22 @@ Axios.interceptors.response.use((response) => {
 export default Axios
 
 // 获取停车记录列表
-export const QUERYPkORDER = '/queryPkOrder.json'
+export const URLqueryPkOrder = '/queryPkOrder.json'
 
 // 查询违停记录
-export const QUERYPKVIOLATION = '/queryPkViolation.json'
+export const URLqueryPkViolation = '/queryPkViolation.json'
+
+// // 新增违停记录
+// export const URLaddPkViolation = '/addPkViolation.json'
+// export const ApiAddPkViolation = async (data) => {
+//   try {
+//     const res = await Axios.post(URLaddPkViolation, data)
+//     return res
+//   } catch (error) {
+//     throw new Error(error)
+//   }
+// }
+
 /**
  * @param {Any} data json
  */
@@ -36,6 +48,7 @@ export const QUERYPKVIOLATION = '/queryPkViolation.json'
 //     throw new Error(error)
 //   }
 // }
+
 // 登录
 export const URLmanagerLogin = '/managerLogin.json'
 export const ApiManagerLogin = async (data) => {

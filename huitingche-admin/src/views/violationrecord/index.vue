@@ -1,11 +1,13 @@
 <template>
   <div class="violationrecord">
-    <Input v-model="searchValue" @on-enter="searchFind" @on-search="searchFind" class="search">
+    <div class="searchContent">
+      <Input v-model="searchValue" @on-enter="searchFind" @on-search="searchFind" class="search">
         <Select v-model="findeCondition" slot="prepend" style="width: 100px" placeholder="请选择" >
           <Option v-for="item in conditionList" :value="item.key" :key="item.key">{{ item.name }}</Option>
         </Select>
         <Button slot="append" icon="ios-search" @click="searchFind"></Button>
-      </Input>
+    </Input>
+    </div>
     <tabledata
     ref="table"
     page-position="center"
@@ -23,7 +25,7 @@
 
 <script>
 import tabledata from '@/components/tabledata'
-import {QUERYPKVIOLATION} from '@/api'
+import {URLqueryPkViolation} from '@/api'
 import {mapGetters} from 'vuex'
 export default {
   components: {
@@ -117,7 +119,7 @@ export default {
       ],
       searchValue: '',
       findeCondition: '',
-      queryUrl: QUERYPKVIOLATION,
+      queryUrl: URLqueryPkViolation,
       queryData: {
         vendorId: 3
       },

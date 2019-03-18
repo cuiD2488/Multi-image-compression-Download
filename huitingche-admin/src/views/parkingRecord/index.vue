@@ -35,7 +35,7 @@
 
 <script>
 import tabledata from '@/components/tabledata'
-import {QUERYPkORDER} from '@/api'
+import {URLqueryPkOrder} from '@/api'
 import {mapGetters} from 'vuex'
 export default {
   components: {
@@ -93,7 +93,7 @@ export default {
           key: 'orderCreateTime'
         }
       ],
-      queryUrl: QUERYPkORDER,
+      queryUrl: URLqueryPkOrder,
       queryData: {
         vendorId: 3
         // vendorId: this.userInfo.vendorId,
@@ -194,7 +194,7 @@ export default {
       // console.log(val)
       // val == 每一个option对应的key值
       // this.queryData.orderStatus = val
-      if (val == 0) {
+      if (val === 0) {
         this.queryData.orderStatus = null
       } else {
         this.queryData.orderStatus = val
