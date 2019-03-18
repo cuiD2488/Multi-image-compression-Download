@@ -13,7 +13,7 @@
            <Icon type="chatbubbles"></Icon>
           车位管理列表
         </Menu-item>
-        <Menu-item name="parkingRecord" key="3">
+        <Menu-item name="parkingRecord" key="3" v-if="userInfo.role === 1 || userInfo.role === 2">
            <Icon type="document-text"></Icon>
           停车记录
         </Menu-item>
@@ -21,15 +21,15 @@
           <Icon type="heart-broken"></Icon>
           停车场管理员授权
         </Menu-item> -->
-        <Menu-item name="unpaid" key="5">
+        <!-- <Menu-item name="unpaid" key="5" v-if="userInfo.role === 1 || userInfo.role === 2">
            <Icon type="heart-broken"></Icon>
               待支付停车记录
-        </Menu-item>
+        </Menu-item> -->
         <!-- <Menu-item name="deviceMGT" key="3">
            <Icon type="heart"></Icon>
                 设备管理
         </Menu-item> -->
-        <Menu-item name="parkingChargeRecord" key="6">
+        <Menu-item name="parkingChargeRecord" key="6" v-if="userInfo.role === 1 || userInfo.role === 2">
           <Icon type="heart-broken"></Icon>
                 停车收费记录
         </Menu-item>
@@ -41,22 +41,22 @@
           <Icon type="heart-broken"></Icon>
                 车流量统计报表
         </Menu-item> -->
-        <!-- <Menu-item name="chargerules" key="8">
-            <Icon type="heart-broken"></Icon>
-                停车场收费规则
-        </Menu-item> -->
-        <Menu-item name="violationrecord" key="7">
+        <Menu-item name="violationrecord" key="7" v-if="userInfo.role === 1 || userInfo.role === 2">
           <Icon type="heart-broken"></Icon>
           违章记录
         </Menu-item>
-        <Menu-item name="userInfo" key="8">
+        <Menu-item name="userInfo" key="8" v-if="userInfo.role === 1 || userInfo.role === 2">
           <Icon type="heart-broken"></Icon>
           用户管理
         </Menu-item>
-        <Menu-item name="role" key="9">
+        <Menu-item name="role" key="9" v-if="userInfo.role === 1 || userInfo.role === 2">
           <Icon type="heart-broken"></Icon>
           体制内人员管理
         </Menu-item>
+         <!-- <Menu-item name="chargerules" key="10">
+            <Icon type="heart-broken"></Icon>
+                停车场收费规则
+        </Menu-item> -->
         <!-- <Menu-item name="merchant" key="13">
             <Icon type="heart-broken"></Icon>
                 子商户管理

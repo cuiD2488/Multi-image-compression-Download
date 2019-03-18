@@ -43,6 +43,7 @@
         </Form>
       </div>
     </Modal>
+    <!-- 授权二维码 -->
     <Modal
       v-model="autherButtonShow"
       width="220"
@@ -51,6 +52,56 @@
       @on-ok="autherConfrim"
       @on-cancel="autherButtonShow = false"
     >
+    <!-- 查看规则 -->
+     <Modal
+      v-model="showRule"
+      title="停车场规则"
+      @on-ok="ruleConfrim"
+      width="550"
+      @on-cancel="showRule = false">
+      <div>
+        <Form ref="formValidate" :model="aruleForm" :rules="aruleFormRule" :label-width="100">
+          <FormItem label="收费日期" prop="isCharge">
+            <RadioGroup v-model="aruleForm.isCharge">
+              <Radio label="全天">全天收费</Radio>
+              <Radio label="工作日">工作日收费</Radio>
+            </RadioGroup>
+          </FormItem>
+          <FormItem label="收费时段" prop="date">
+            <Col span="12">
+              <TimePicker v-model="aruleForm.date" confirm  format="HH:mm" type="timerange" placement="bottom-end" placeholder="请选择收费时间段" style="width: 168px"></TimePicker>
+            </Col>
+          </FormItem>
+          <FormItem label="一档计价标准" prop="detailedAddress">
+            <Input disabled v-model="valuationList[0].ruleStartTime" placeholder="起始时间" style="width:80px;"></Input>
+            -
+            <Input v-model="valuationList[0].ruleEndTime" placeholder="截止时间" style="width:80px;"></Input>
+            -
+            <Input v-model="valuationList[0].ruleValue" placeholder="普通单价价格" style="width:100px;"></Input>
+            -
+            <Input v-model="valuationList[0].whiteRuleValue" placeholder="白名单单价" style="width:100px;"></Input>
+          </FormItem>
+           <FormItem label="二档计价标准" prop="detailedAddress">
+            <Input v-model="valuationList[0].ruleEndTime" placeholder="起始时间" style="width:80px;"></Input>
+            -
+            <Input v-model="valuationList[1].ruleEndTime" placeholder="截止时间" style="width:80px;"></Input>
+            -
+            <Input v-model="valuationList[1].ruleValue" placeholder="普通单价价格" style="width:100px;"></Input>
+            -
+            <Input v-model="valuationList[1].whiteRuleValue" placeholder="白名单单价" style="width:100px;"></Input>
+          </FormItem>
+           <FormItem label="三档计价标准" prop="detailedAddress">
+            <Input v-model="valuationList[1].ruleEndTime" placeholder="起始时间" style="width:80px;"></Input>
+            -
+            <Input disabled v-model="valuationList[2].ruleEndTime" placeholder="截止时间" style="width:80px;"></Input>
+            -
+            <Input v-model="valuationList[2].ruleValue" placeholder="普通单价价格" style="width:100px;"></Input>
+            -
+            <Input v-model="valuationList[2].whiteRuleValue" placeholder="白名单单价" style="width:100px;"></Input>
+          </FormItem>
+        </Form>
+      </div>
+    </Modal>
       <div id="qrCodeContent">
       </div>
     </Modal>
@@ -59,7 +110,7 @@
 
 <script>
 import tabledata from '@/components/tabledata'
-import {URLfindParkingLotByCondition, ApiAddParkingLot, ApigetQrCode} from '@/api'
+import {URLfindParkingLotByCondition, ApiAddParkingLot, ApigetQrCode, ApiAddChargingRules} from '@/api'
 import {mapGetters} from 'vuex'
 import VDistpicker from 'v-distpicker'
 export default {
@@ -69,6 +120,7 @@ export default {
   },
   data () {
     return {
+      targetShowRule: 0,
       tableColumns: [
         {
           title: '停车场名称',
@@ -130,10 +182,16 @@ export default {
           width: 220,
           render: (h, param) => {
             // return (<div>操作</div>)
-            return h('div', [
+            return h('div', {
+              style: {
+                'display': 'flex',
+                'flex-wrap': 'wrap'
+              }
+            }, [
               h('Button', {
                 style: {
-                  'margin-right': '10px'
+                  'width': '80px',
+                  'margin': '4px'
                 },
                 on: {
                   click: () => {
@@ -148,11 +206,28 @@ export default {
                 }
               }, '删除'),
               h('Button', {
+                style: {
+                  'width': '80px',
+                  'margin': '4px'
+                },
                 on: {
                   click: () => {
                   }
                 }
-              }, '编辑')
+              }, '编辑'),
+              h('Button', {
+                style: {
+                  'width': '80px',
+                  'margin': '4px'
+                },
+                on: {
+                  click: () => {
+                    this.targetParkingLotNumber = param.row.parkingLotNumber
+                    this.targetShowRule = param.row.whetherRule
+                    this.showRule = true
+                  }
+                }
+              }, param.row.whetherRule === 0 ? '新增规则' : '查看规则')
             ])
           }
         }
@@ -194,8 +269,39 @@ export default {
           { required: true, message: '请输入详细地址', trigger: 'blur' }
         ]
       },
+      aruleFormRule: {
+        date: [
+          { required: true, message: '请选择时间', trigger: 'blur' }
+        ]
+      },
       select: { province: '广东省', city: '广州市', county: '海珠区' },
-      autherButtonShow: false
+      autherButtonShow: false,
+      showRule: false,
+      aruleForm: {
+        isCharge: '全天',
+        date: ''
+      },
+      valuationList: [
+        {
+          'ruleStartTime': '0',
+          'ruleEndTime': '',
+          'ruleValue': '',
+          'whiteRuleValue': ''
+        },
+        {
+          'ruleStartTime': '',
+          'ruleEndTime': '',
+          'ruleValue': '',
+          'whiteRuleValue': ''
+        },
+        {
+          'ruleStartTime': '',
+          'ruleEndTime': '以上',
+          'ruleValue': '',
+          'whiteRuleValue': ''
+        }
+      ],
+      targetParkingLotNumber: ''
     }
   },
   computed: {
@@ -229,6 +335,31 @@ export default {
       }
       // 更新表格
       this.$refs.table.updateData()
+    },
+    // 规则设置完成
+    async ruleConfrim () {
+      for (let i in this.valuationList) {
+        for (let j in this.valuationList[i]) {
+          console.log(j)
+          if (!this.valuationList[i][j]) {
+            this.$Message.error('规则设置不能为空')
+            return false
+          }
+        }
+      }
+      const data = {
+        'parkingLotNumber': this.targetParkingLotNumber,
+        'pkChargingRulesVoList': this.valuationList,
+        'pkChargingTimeVoList': [
+          {
+            'chargingDate': this.aruleForm.isCharge,
+            'chargingStartTime': this.aruleForm.date[0],
+            'chargingEndTime': this.aruleForm.date[1]
+          }
+        ]
+      }
+      const res = await ApiAddChargingRules(data)
+      console.log(res)
     }
   },
   mounted () {
