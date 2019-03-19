@@ -6,7 +6,7 @@
           <Option v-for="item in conditionList" :value="item.key" :key="item.key">{{ item.name }}</Option>
         </Select>
         <Button slot="append" icon="ios-search" @click="searchFind"></Button>
-    </Input>
+      </Input>
     </div>
     <tabledata
     ref="table"

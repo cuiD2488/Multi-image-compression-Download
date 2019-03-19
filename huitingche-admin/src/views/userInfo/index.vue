@@ -1,23 +1,11 @@
 <template>
   <div class="parkingrecord">
-    <!-- <div class="pknav">
-      <Input v-model="searchValue" @on-enter="searchFind" @on-search="searchFind" class="search">
-        <Select v-model="findeCondition" slot="prepend" style="width: 100px" placeholder="请选择" >
-          <Option v-for="item in conditionList" :value="item.key" :key="item.key">{{ item.name }}</Option>
-        </Select>
+    <!-- 搜索导航 -->
+    <div class="pknav">
+      <Input v-model="searchValue" @on-enter="searchFind" @on-search="searchFind" class="search" placeholder="手机号查询">
         <Button slot="append" icon="ios-search" @click="searchFind"></Button>
       </Input>
-      <Select v-model="mergeConfition" style="width:200px" @on-change="getStatus" placeholder="选择订单状态">
-        <Option v-for="item in payStateList" :value="item.key" :key="item.value">{{ item.value }}</Option>
-      </Select>
-        <DatePicker type="daterange"
-          :options="options"
-          placeholder="选择日期查询"
-          placement="bottom-end"
-          style="width: 430px;float: right"
-          @on-change="handleDate">
-        </DatePicker>
-    </div> -->
+    </div>
     <tabledata
     ref="table"
     page-position="center"
@@ -57,46 +45,52 @@ export default {
               })
             ], params.row.headImgUrl)
           }
-          // key: 'headImgUrl'
         },
         {
           title: '微信名',
           key: 'nickName'
         },
-        {
-          title: '性别',
-          key: 'sex'
-        },
+        // {
+        //   title: '性别',
+        //   align: 'center',
+        //   render: (h, params) => {
+        //     return h('div', params.row.sex === 1 ? '男' : '女')
+        //   }
+        // },
         {
           title: '手机号',
+          align: 'center',
           key: 'userId'
         },
         {
           title: '车牌号',
-          key: 'carNumber'
+          align: 'center',
+          render: (h, params) => {
+            return h('div', params.row.abbreviation && params.row.carNumber ? params.row.abbreviation + params.row.carNumber : '未绑定')
+          }
         },
         {
-          title: '银行卡信息',
-          key: 'orderStatus'
+          title: '余额 (元)',
+          key: 'balance'
         },
         {
-          title: '地址',
-          key: 'buyStartTime'
+          title: '是否管理员',
+          render: (h, params) => {
+            return h('div', params.row.whetherAdmin ? '是' : '否')
+          }
+        },
+        {
+          title: '创建时间',
+          render: (h, params) => {
+            return h('div', params.row.createTime.slice(0, params.row.createTime.length - 5))
+          }
         }
       ],
       queryUrl: URLfindVendorIdByPkUser,
-      queryData: {
-        // vendorId: this.userInfo.vendorId
-        vendorId: 3
-        // vendorId: this.userInfo.vendorId,
-        // vendorId: this.userInfo.vendorId,
-        // vendorId: this.$store.getters.userInfo.vendorId,
-        // parkingLotNumber: '000002'
-      },
+      queryData: {},
       page: 1,
       num: 10,
       type: 'json',
-      findeCondition: '',
       mergeConfition: '',
       searchValue: '',
       time: [],
@@ -164,13 +158,13 @@ export default {
     searchFind () {
       console.log('条件搜索')
       this.queryData = {
-        vendorId: 3
+        vendorId: this.userInfo.vendorId
       }
-      this.queryData[this.findeCondition] = this.searchValue
-      // let order = this.queryData.orderStatus
-      // 加上状态作为参数一并传到后台
-      // this.queryData.orderStatus = this.order
-      // console.log(this.queryData)
+      if (this.searchValue !== '') {
+        this.queryData.userId = this.searchValue
+      } else {
+        this.$Message.info('您输入的内容有误')
+      }
       this.$nextTick(() => {
         this.$refs.table.updateData()
       })
@@ -195,12 +189,11 @@ export default {
       this.$refs.table.updateData()
     }
   },
-  mounted () {
-    console.log(this.userInfo)
-    console.log('vendorId:' + this.userInfo.vendorId)
-    // console.log('this.queryData:' + this.queryData)
-    // this.$refs.table.updateData()
-    // console.log(this.searchValue)
+  created () {
+    // 在create周期内向组件添加参数
+    this.queryData = {
+      vendorId: this.userInfo.vendorId
+    }
   }
 }
 </script>
