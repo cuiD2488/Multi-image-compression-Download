@@ -56,7 +56,8 @@
 
 <script>
 import tabledata from '@/components/tabledata'
-import {URLqueryPkViolation, URLUpdatePkViolation, ApiupdatePkViolation, URLdeletePkViolation, ApiDeletePkViolation} from '@/api'
+import {URLqueryPkViolation} from '@/api'
+// , URLUpdatePkViolation, ApiupdatePkViolation, URLdeletePkViolation, ApiDeletePkViolation
 import {mapGetters} from 'vuex'
 // import { userInfo } from 'os'
 export default {
