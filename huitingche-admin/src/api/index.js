@@ -139,6 +139,21 @@ export const ApiUpdateChargingRules = async (data) => {
     throw new Error(error)
   }
 }
+
+// 根据vendorId查询用户信息
+/**
+ * vendorId 企业编号
+ */
+export const URLfindVendorIdByPkUser = '/findVendorIdByPkUser.json'
+export const ApiFindVendorIdByPkUser = async (data) => {
+  try {
+    const res = await Axios.post(URLfindVendorIdByPkUser, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 // 删除停车场
 export const URLdeleteParkingLot = '/deleteParkingLot.json'
 export const ApiDeleteParkingLot = async (data) => {

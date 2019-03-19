@@ -12,7 +12,7 @@
       </Select>
         <DatePicker type="daterange"
           :options="options"
-          placeholder="选择日期查询"
+          placeholder="选择创建日期进行查询"
           placement="bottom-end"
           style="width: 430px;float: right"
           @on-change="handleDate">
@@ -176,26 +176,13 @@ export default {
       }
       console.log(this.queryData.startTime)
       // 日期清空(@on-clear)属于日期变化(on-change)
-      console.log(this.queryData)
+      // console.log(this.queryData)
       // this.$refs.table.updateData()
       this.$nextTick(() => {
         this.$refs.table.updateData()
       })
       console.log('handleDate触发后的startTime' + this.queryData.startTime)
     },
-    // handleClear () {
-    //   console.log('清理日期为空')
-    //   delete this.queryData.startTime
-    //   console.log('handleClear触发后的startTime' + this.queryData.startTime)
-    //   // delete this.queryData.startTime
-    //   // delete this.queryData.endTime
-    //   // this.queryData.startTime = null
-    //   // this.queryData.endTime = null
-    //   // console.log(this.queryData)
-    //   // this.queryData = {
-    //   //   vendorId: 3
-    //   // }
-    // },
     searchFind () {
       console.log('条件搜索')
       this.queryData = {
