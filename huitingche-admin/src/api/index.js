@@ -174,3 +174,34 @@ export const ApiUpdateParkingLot = async (data) => {
     throw new Error(error)
   }
 }
+
+// 查询体制内人员信息
+/**
+ * 系统管理员 仅传vendorId
+ * 停车场管理员 传 vendorId  superiorNumber(传自己的编号)
+ */
+export const URLqueryParkingLotManager = '/queryParkingLotManager.json'
+export const ApiQueryParkingLotManager = async (data) => {
+  try {
+    const res = await Axios.post(URLqueryParkingLotManager, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+// 停用管理员
+/**
+ * vendorId 商户id
+ * managerNumber 管理员编号
+ * status 默认传1
+ */
+export const URLdisableParkingLotManager = '/disableParkingLotManager.json'
+export const ApiDisableParkingLotManager = async (data) => {
+  try {
+    const res = await Axios.post(URLdisableParkingLotManager, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
