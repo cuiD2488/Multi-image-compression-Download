@@ -110,7 +110,7 @@
 
 <script>
 import tabledata from '@/components/tabledata'
-import {URLfindParkingLotByCondition, ApiAddParkingLot, ApigetQrCode, ApiAddChargingRules, ApiQueryChargingRules, ApiUpdateChargingRules} from '@/api'
+import {URLfindParkingLotByCondition, ApiAddParkingLot, ApigetQrCode, ApiAddChargingRules, ApiQueryChargingRules, ApiUpdateChargingRules, ApiDeleteParkingLot} from '@/api'
 import {mapGetters} from 'vuex'
 import VDistpicker from 'v-distpicker'
 export default {
@@ -199,7 +199,7 @@ export default {
                       title: '操作确认',
                       content: '确认删除吗？',
                       onOk: () => {
-                        alert('删除成功')
+                        this.deleteParking(param.row)
                       }
                     })
                   }
@@ -334,7 +334,7 @@ export default {
     searchFind () {
       console.log('条件搜索')
       this.queryData = {
-        vendorId: 3
+        vendorId: this.userInfo.vendorId
       }
       this.queryData[this.findeCondition] = this.searchValue
       this.$nextTick(() => {
@@ -407,6 +407,15 @@ export default {
       }
       // 更新表格
       this.$refs.table.updateData()
+    },
+    // 删除停车场
+    async deleteParking (item) {
+      const data = {
+        vendorId: this.userInfo.vendorId,
+        parkingLotNumber: item.parkingLotNumber
+      }
+      const res = await ApiDeleteParkingLot(data)
+      console.log(res)
     },
     // 规则设置/编辑完成
     async ruleConfrim () {
