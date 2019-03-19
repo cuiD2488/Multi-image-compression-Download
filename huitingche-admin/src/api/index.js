@@ -139,3 +139,23 @@ export const ApiUpdateChargingRules = async (data) => {
     throw new Error(error)
   }
 }
+// 删除停车场
+export const URLdeleteParkingLot = '/deleteParkingLot.json'
+export const ApiDeleteParkingLot = async (data) => {
+  try {
+    const res = await Axios.post('/deleteParkingLot.json?vendorId=' + data.vendorId + '&parkingLotNumber=' + data.parkingLotNumber)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+// 编辑停车场
+export const URLupdateParkingLot = '/updateParkingLot.json'
+export const ApiUpdateParkingLot = async (data) => {
+  try {
+    const res = await Axios.post(URLupdateParkingLot, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
