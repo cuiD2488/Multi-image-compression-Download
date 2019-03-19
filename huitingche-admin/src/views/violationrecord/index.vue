@@ -32,12 +32,32 @@
           </CarouselItem>
         </Carousel>
     </Modal>
+    <Modal
+      v-model="showEditBox"
+      title="编辑"
+      @on-ok="editViolation"
+      @on-cancel="showEditBox = false">
+      <div>
+          <Form ref="formValidate" :model="editViolationForm" :rules="editViolationFormRule" :label-width="100">
+            <FormItem label="车位编号" prop="positionNumber">
+              <Input v-model="editViolationForm.positionNumber" placeholder="请输入车位编号"></Input>
+            </FormItem>
+            <FormItem label="车牌号" prop="numberPlate">
+              <Input v-model="editViolationForm.numberPlate" placeholder="请输入车牌号"></Input>
+            </FormItem>
+            <FormItem label="违停原因" prop="reasons">
+              <Input v-model="editViolationForm.reasons" placeholder="请输入违停原因"></Input>
+            </FormItem>
+        </Form>
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script>
 import tabledata from '@/components/tabledata'
 import {URLqueryPkViolation} from '@/api'
+// , URLUpdatePkViolation, ApiupdatePkViolation, URLdeletePkViolation, ApiDeletePkViolation
 import {mapGetters} from 'vuex'
 // import { userInfo } from 'os'
 export default {
@@ -127,6 +147,9 @@ export default {
               h('Button', {
                 on: {
                   click: () => {
+                    // 弹出模态框
+                    // 把车位编号 车牌号 违停原因三个字段的值带过去
+                    this.showEditBox = true
                   }
                 }
               }, '编辑')
@@ -152,6 +175,8 @@ export default {
           key: 'managerNumber'
         }
       ],
+      editViolationForm: {},
+      showEditBox: '',
       imgArr: [],
       showViolationIMG: false,
       searchValue: '',
@@ -167,6 +192,9 @@ export default {
     }
   },
   methods: {
+    editViolation () {
+      console.log('showEidtModal')
+    },
     searchFind () {
       console.log('条件搜索')
       this.queryData = {
