@@ -93,7 +93,7 @@ export const ApifindPositionByCondition = async (data) => {
 export const URLgetQrCode = '/getQrCode.json'
 export const ApigetQrCode = async (data) => {
   try {
-    const res = await Axios.post(URLgetQrCode, data)
+    const res = await Axios.get(URLgetQrCode, {params: data})
     return res
   } catch (error) {
     throw new Error(error)
@@ -119,11 +119,21 @@ export const ApiAddChargingRules = async (data) => {
     throw new Error(error)
   }
 }
-// 设置停车场规则
+// 查看停车场规则 updateChargingRules
 export const URLqueryChargingRules = '/queryChargingRules.json'
 export const ApiQueryChargingRules = async (data) => {
   try {
     const res = await Axios.post(URLqueryChargingRules, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+// 编辑停车场规则
+export const URLupdateChargingRules = '/updateChargingRules.json'
+export const ApiUpdateChargingRules = async (data) => {
+  try {
+    const res = await Axios.post(URLupdateChargingRules, data)
     return res
   } catch (error) {
     throw new Error(error)
