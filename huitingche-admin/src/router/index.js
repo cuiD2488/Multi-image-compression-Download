@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import HelloWorld from '@/components/HelloWorld'
-// import temp from '@/components/temp'
 
 Vue.use(Router)
 
@@ -17,7 +15,7 @@ export default new Router({
           path: 'parkingRecord',
           name: 'parkingRecord',
           meta: {
-            title: '停车场管理'
+            title: '停车记录'
           },
           component: reslove => { require(['../views/parkingRecord'], reslove) }
         },

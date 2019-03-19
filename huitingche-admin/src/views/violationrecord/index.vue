@@ -28,7 +28,7 @@
       @on-cancel="showViolationIMG = false">
         <Carousel loop>
           <CarouselItem v-for="item in imgArr" :key="item.id">
-              <img :src="item" alt="">
+              <img :src="item">
           </CarouselItem>
         </Carousel>
     </Modal>
@@ -82,11 +82,11 @@ export default {
                 },
                 on: {
                   click: () => {
-                    // console.log('点击查看图片')
-                    this.showViolationIMG = true
+                    console.log('点击查看图片')
                     let violationImage = param.row.violationImage
                     this.imgArr = violationImage.split(',')
                     console.log(this.imgArr)
+                    this.showViolationIMG = true
                   }
                 }
               }, '点击查看图片')
@@ -136,6 +136,10 @@ export default {
       ],
       conditionList: [
         {
+          name: '选择全部',
+          key: '0'
+        },
+        {
           name: '车牌号',
           key: 'numberPlate'
         },
@@ -168,6 +172,12 @@ export default {
         vendorId: 3
       }
       this.queryData[this.findeCondition] = this.searchValue
+      // 如果选择全部，则列表展示原始拉取状态
+      if (this.searchValue === '0') {
+        this.queryData = {
+          vendorId: 3
+        }
+      }
       // let order = this.queryData.orderStatus
       // 加上状态作为参数一并传到后台
       // this.queryData.orderStatus = this.order

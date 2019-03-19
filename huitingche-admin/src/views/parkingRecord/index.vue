@@ -12,7 +12,7 @@
       </Select>
         <DatePicker type="daterange"
           :options="options"
-          placeholder="选择日期查询"
+          placeholder="选择创建日期进行查询"
           placement="bottom-end"
           style="width: 430px;float: right"
           @on-change="handleDate">
@@ -116,6 +116,10 @@ export default {
       },
       conditionList: [
         {
+          name: '查看全部',
+          key: '0'
+        },
+        {
           name: '停车场编号',
           key: 'parkingLotNumber'
         },
@@ -163,11 +167,21 @@ export default {
       console.log(this.time[1])
       this.queryData.startTime = this.time[0]
       this.queryData.endTime = this.time[1]
-      console.log(this.queryData)
+      console.log(this.queryData.startTime)
+      if (this.queryData.startTime === '') {
+        delete this.queryData.startTime
+      }
+      if (this.queryData.endTime === '') {
+        delete this.queryData.endTime
+      }
+      console.log(this.queryData.startTime)
+      // 日期清空(@on-clear)属于日期变化(on-change)
+      // console.log(this.queryData)
       // this.$refs.table.updateData()
       this.$nextTick(() => {
         this.$refs.table.updateData()
       })
+      console.log('handleDate触发后的startTime' + this.queryData.startTime)
     },
     searchFind () {
       console.log('条件搜索')
@@ -175,6 +189,12 @@ export default {
         vendorId: 3
       }
       this.queryData[this.findeCondition] = this.searchValue
+      // 如果选择全部，则列表展示原始拉取状态
+      if (this.searchValue === '0') {
+        this.queryData = {
+          vendorId: 3
+        }
+      }
       // let order = this.queryData.orderStatus
       // 加上状态作为参数一并传到后台
       // this.queryData.orderStatus = this.order
@@ -194,7 +214,7 @@ export default {
       // console.log(val)
       // val == 每一个option对应的key值
       // this.queryData.orderStatus = val
-      if (val === 0) {
+      if (val === '0') {
         this.queryData.orderStatus = null
       } else {
         this.queryData.orderStatus = val
@@ -206,6 +226,7 @@ export default {
   mounted () {
     console.log(this.userInfo)
     console.log('vendorId:' + this.userInfo.vendorId)
+    // console.log('queryData:' + this.queryData.startTime)
     // console.log('this.queryData:' + this.queryData)
     // this.$refs.table.updateData()
     // console.log(this.searchValue)
@@ -222,19 +243,13 @@ export default {
   top: 150px;
   left: 260px;
   height: 250px;
-  width: 1100px;
+  width: 1150px;
   .pknav{
     display: flex;
     justify-content: space-between;
     .search{
       width: 400px;
     }
-    // >div:nth-child(0) {
-    // width:400px;
-    // }
-    // >div:nth-child(1) {
-    // width:400px;
-    // }
   }
 }
 </style>
