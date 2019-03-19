@@ -20,6 +20,18 @@
     :type="type"
     border
     ></tabledata>
+    <Modal
+      v-model="showViolationIMG"
+      width= 100%
+      align="center"
+      title="展示违停图片"
+      @on-cancel="showViolationIMG = false">
+        <Carousel loop>
+          <CarouselItem v-for="item in imgArr" :key="item.id">
+              <img :src="item" alt="">
+          </CarouselItem>
+        </Carousel>
+    </Modal>
   </div>
 </template>
 
@@ -43,16 +55,16 @@ export default {
           key: 'positionNumber'
         },
         {
-          title: '车牌号(简称+车牌号拼接)',
-          key: 'abbreviation'
-        },
-        {
-          title: '简称',
-          key: 'abbreviation'
-        },
-        {
           title: '车牌号',
-          key: 'numberPlate'
+          render: (h, param) => {
+            return h('div', [
+              h('p', {
+                style: {
+                  'margin-right': '10px'
+                }
+              }, param.row.abbreviation + param.row.numberPlate)
+            ])
+          }
         },
         {
           title: '操作人',
@@ -60,7 +72,26 @@ export default {
         },
         {
           title: '违停图片',
-          key: 'violationImage'
+          align: 'center',
+          width: 220,
+          render: (h, param) => {
+            return h('div', [
+              h('p', {
+                style: {
+                  'margin-right': '10px'
+                },
+                on: {
+                  click: () => {
+                    // console.log('点击查看图片')
+                    this.showViolationIMG = true
+                    let violationImage = param.row.violationImage
+                    this.imgArr = violationImage.split(',')
+                    console.log(this.imgArr)
+                  }
+                }
+              }, '点击查看图片')
+            ])
+          }
         },
         {
           title: '违停原因',
@@ -117,6 +148,8 @@ export default {
           key: 'managerNumber'
         }
       ],
+      imgArr: [],
+      showViolationIMG: false,
       searchValue: '',
       findeCondition: '',
       queryUrl: URLqueryPkViolation,
