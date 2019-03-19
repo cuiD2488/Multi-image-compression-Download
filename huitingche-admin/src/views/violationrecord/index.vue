@@ -28,7 +28,7 @@
       @on-cancel="showViolationIMG = false">
         <Carousel loop>
           <CarouselItem v-for="item in imgArr" :key="item.id">
-              <img :src="item" alt="">
+              <img :src="item">
           </CarouselItem>
         </Carousel>
     </Modal>
@@ -82,11 +82,11 @@ export default {
                 },
                 on: {
                   click: () => {
-                    // console.log('点击查看图片')
-                    this.showViolationIMG = true
+                    console.log('点击查看图片')
                     let violationImage = param.row.violationImage
                     this.imgArr = violationImage.split(',')
                     console.log(this.imgArr)
+                    this.showViolationIMG = true
                   }
                 }
               }, '点击查看图片')
