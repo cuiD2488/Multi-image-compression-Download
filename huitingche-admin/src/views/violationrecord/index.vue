@@ -136,6 +136,10 @@ export default {
       ],
       conditionList: [
         {
+          name: '选择全部',
+          key: '0'
+        },
+        {
           name: '车牌号',
           key: 'numberPlate'
         },
@@ -168,6 +172,12 @@ export default {
         vendorId: 3
       }
       this.queryData[this.findeCondition] = this.searchValue
+      // 如果选择全部，则列表展示原始拉取状态
+      if (this.searchValue === '0') {
+        this.queryData = {
+          vendorId: 3
+        }
+      }
       // let order = this.queryData.orderStatus
       // 加上状态作为参数一并传到后台
       // this.queryData.orderStatus = this.order
