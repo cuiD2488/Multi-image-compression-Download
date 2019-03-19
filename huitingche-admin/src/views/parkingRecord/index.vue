@@ -222,7 +222,7 @@ export default {
   top: 150px;
   left: 260px;
   height: 250px;
-  width: 1100px;
+  width: 1150px;
   .pknav{
     display: flex;
     justify-content: space-between;
