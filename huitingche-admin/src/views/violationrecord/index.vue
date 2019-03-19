@@ -21,6 +21,7 @@
     border
     ></tabledata>
     <Modal
+<<<<<<< HEAD
     v-model="showViolationIMG"
     width= "500"
     align="center"
@@ -31,6 +32,18 @@
           <img :src="item">
         </CarouselItem>
       </Carousel>
+=======
+      v-model="showViolationIMG"
+      width= "500"
+      align="center"
+      title="展示违停图片"
+      @on-cancel="showViolationIMG = false">
+        <Carousel loop v-if="showViolationIMG">
+          <CarouselItem v-for="item in imgArr" :key="item.id">
+            <img :src="item">
+          </CarouselItem>
+        </Carousel>
+>>>>>>> 73fa6c929fd93cd270092576bdfe7bc34dd4735b
     </Modal>
   </div>
 </template>
@@ -39,6 +52,7 @@
 import tabledata from '@/components/tabledata'
 import {URLqueryPkViolation} from '@/api'
 import {mapGetters} from 'vuex'
+// import { userInfo } from 'os'
 export default {
   components: {
     tabledata
@@ -156,9 +170,10 @@ export default {
       searchValue: '',
       findeCondition: '',
       queryUrl: URLqueryPkViolation,
-      queryData: {
-        vendorId: 3
-      },
+      // queryData: {
+      //   vendorId: 3
+      // },
+      queryData: {},
       page: 1,
       num: 10,
       type: 'json'
@@ -168,7 +183,7 @@ export default {
     searchFind () {
       console.log('条件搜索')
       this.queryData = {
-        vendorId: 3
+        vendorId: this.userInfo.vendorId
       }
       this.queryData[this.findeCondition] = this.searchValue
       // 如果选择全部，则列表展示原始拉取状态
@@ -195,6 +210,9 @@ export default {
     // console.log('this.queryData:' + this.queryData)
     // this.$refs.table.updateData()
     // console.log(this.searchValue)
+  },
+  created () {
+    this.queryData.vendorId = this.userInfo.vendorId
   }
 }
 </script>
