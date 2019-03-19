@@ -6,7 +6,7 @@ import Axios from 'axios'
 export const env = process.env.NODE_ENV
 // 测试服务器要加pdshop
 // Axios.defaults.baseURL = env === 'development' ? '/api/' : '/'
-Axios.defaults.baseURL = env === 'development' ? '/api' : '/park'
+Axios.defaults.baseURL = env === 'development' ? '/api/park' : '/park'
 // 设置响应拦截
 Axios.interceptors.response.use((response) => {
   // console.log(response)
@@ -169,6 +169,27 @@ export const URLupdateParkingLot = '/updateParkingLot.json'
 export const ApiUpdateParkingLot = async (data) => {
   try {
     const res = await Axios.post(URLupdateParkingLot, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+// 查詢停车场管理员信息
+export const URLqueryParkingLotManager = '/queryParkingLotManager.json'
+export const ApiQueryParkingLotManager = async (data) => {
+  try {
+    const res = await Axios.post(URLqueryParkingLotManager, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+// 分配车位
+export const URLaddPositionManager = '/addPositionManager.json'
+export const ApiaddPositionManager = async (data) => {
+  try {
+    console.log(data)
+    const res = await Axios.get(URLaddPositionManager, {params: data})
     return res
   } catch (error) {
     throw new Error(error)

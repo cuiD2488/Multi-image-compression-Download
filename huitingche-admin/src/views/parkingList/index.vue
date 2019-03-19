@@ -260,9 +260,6 @@ export default {
         }
       ],
       queryUrl: URLfindParkingLotByCondition,
-      queryData: {
-        vendorId: 3
-      },
       page: 1,
       num: 10,
       type: 'json',
@@ -332,6 +329,12 @@ export default {
     }
   },
   computed: {
+    queryData () {
+      const data = {
+        vendorId: this.userInfo.vendorId
+      }
+      return data
+    },
     ...mapGetters(['userInfo'])
   },
   methods: {

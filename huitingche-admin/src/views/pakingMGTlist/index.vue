@@ -15,7 +15,7 @@
         </Input>
       </div>
       <div v-if="userInfo.role === 1">
-        <Button @click="getAuother" type="primary">分配车位</Button>
+        <Button @click="distributionShow = true" type="primary">分配车位</Button>
         <Button @click="getAuother" type="primary">授权路段管理员</Button>
         <Button @click="showParkingAddBox = true" type="primary">新增车位</Button>
       </div>
@@ -66,14 +66,17 @@
     </Modal>
     <!-- 分配车位 -->
     <Modal
-      v-model="autherButtonShow"
+      v-model="distributionShow"
       width="220"
       align="center"
-      title="分配车位"
-      @on-ok="autherButtonShow = false"
-      @on-cancel="autherButtonShow = false"
+      title="选择分配给谁"
+      @on-ok="distributionConfrim"
+      @on-cancel="distributionShow = false"
     >
-      <div id="qrCodeContent">
+      <div>
+        <Select v-model="targetParkingManager" size="small" style="width:100px">
+          <Option v-for="item in parkingLogManagerList" :value="item.managerNumber" :key="item.managerNumber">{{ item.managerName }}</Option>
+        </Select>
       </div>
     </Modal>
   </div>
@@ -81,7 +84,13 @@
 
 <script>
 import tabledata from '@/components/tabledata'
-import {URLfindPositionByCondition, ApiAddParkingLot, ApigetQrCodeByManageNumber} from '@/api'
+import {
+  URLfindPositionByCondition,
+  ApiAddParkingLot,
+  ApigetQrCodeByManageNumber,
+  ApiQueryParkingLotManager,
+  ApiaddPositionManager
+} from '@/api'
 import {mapGetters} from 'vuex'
 import VDistpicker from 'v-distpicker'
 export default {
@@ -245,17 +254,37 @@ export default {
         ]
       },
       select: { province: '广东省', city: '广州市', county: '海珠区' },
-      autherButtonShow: false
+      autherButtonShow: false,
+      distributionShow: false,
+      parkingLogManagerList: null,
+      targetParkingManager: '',
+      targetManagerNumberList: []
     }
   },
   computed: {
     ...mapGetters(['userInfo'])
   },
   methods: {
+    // 查询停车场管理员下的路段管理员
+    async findParkingLotManager () {
+      const data = {
+        vendorId: this.userInfo.vendorId,
+        superiorNumber: this.userInfo.managerNumber
+      }
+      const res = await ApiQueryParkingLotManager(data)
+      console.log(res)
+      if (res.code === 200) {
+        this.parkingLogManagerList = res.data
+      } else {
+        this.$Message.error('查询失败')
+      }
+    },
     // 单独点击选择框
     onSelect (v, i) {
-      console.log(v)
-      console.log(i)
+      this.targetManagerNumberList = []
+      for (let i in v) {
+        this.targetManagerNumberList.push(v[i].positionNumber)
+      }
     },
     // 选择全部
     onSelectAll (v, i) {
@@ -266,6 +295,27 @@ export default {
     changeTableNum () {
       this.$refs.table.updateData()
       // this.num = this.pageSize
+    },
+    // 分配完成，提交
+    async distributionConfrim () {
+      console.log(this.targetManagerNumberList)
+      if (this.targetManagerNumberList.length === 0) {
+        this.$Message.error('请选择车位')
+        return false
+      }
+      if (!this.targetParkingManager) {
+        this.$Message.error('请选择分配给谁')
+        return false
+      }
+      const data = {
+        parkingLotNumber: '000002',
+        managerNumber: this.targetParkingManager,
+        positionNumberList: this.targetManagerNumberList.toString()
+      }
+      const res = await ApiaddPositionManager(data)
+      if (res.code === 200) {
+        this.$Message.success('分配成功')
+      }
     },
     searchFind () {
       this.queryData = {
@@ -318,6 +368,7 @@ export default {
     }
   },
   mounted () {
+    this.findParkingLotManager()
     console.log(this.userInfo)
   }
 }
