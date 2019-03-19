@@ -37,6 +37,7 @@
 import tabledata from '@/components/tabledata'
 import {URLqueryPkOrder} from '@/api'
 import {mapGetters} from 'vuex'
+import { userInfo } from 'os'
 export default {
   components: {
     tabledata
@@ -95,7 +96,7 @@ export default {
       ],
       queryUrl: URLqueryPkOrder,
       queryData: {
-        vendorId: 3
+        // vendorId: 3
         // vendorId: this.userInfo.vendorId,
         // vendorId: this.userInfo.vendorId,
         // vendorId: this.$store.getters.userInfo.vendorId,
@@ -230,6 +231,9 @@ export default {
     // console.log('this.queryData:' + this.queryData)
     // this.$refs.table.updateData()
     // console.log(this.searchValue)
+  },
+  created () {
+    this.queryData.vendorId = this.userInfo.vendorId
   }
 }
 </script>

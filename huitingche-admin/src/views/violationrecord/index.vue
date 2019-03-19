@@ -26,19 +26,11 @@
       align="center"
       title="展示违停图片"
       @on-cancel="showViolationIMG = false">
-<<<<<<< HEAD
-      <Carousel loop v-if="showViolationIMG">
-        <CarouselItem v-for="item in imgArr" :key="item.id">
-          <img :src="item">
-        </CarouselItem>
-      </Carousel>
-=======
         <Carousel loop v-if="showViolationIMG">
           <CarouselItem v-for="item in imgArr" :key="item.id">
             <img :src="item">
           </CarouselItem>
         </Carousel>
->>>>>>> 3bef67b3c0f98fb0ee174979be2dfdf853eafa09
     </Modal>
   </div>
 </template>
@@ -47,6 +39,7 @@
 import tabledata from '@/components/tabledata'
 import {URLqueryPkViolation} from '@/api'
 import {mapGetters} from 'vuex'
+import { userInfo } from 'os'
 export default {
   components: {
     tabledata
@@ -164,9 +157,10 @@ export default {
       searchValue: '',
       findeCondition: '',
       queryUrl: URLqueryPkViolation,
-      queryData: {
-        vendorId: 3
-      },
+      // queryData: {
+      //   vendorId: 3
+      // },
+      queryData: {},
       page: 1,
       num: 10,
       type: 'json'
@@ -203,6 +197,9 @@ export default {
     // console.log('this.queryData:' + this.queryData)
     // this.$refs.table.updateData()
     // console.log(this.searchValue)
+  },
+  created () {
+    this.queryData.vendorId = this.userInfo.verdorId
   }
 }
 </script>
