@@ -22,15 +22,30 @@
     ></tabledata>
     <Modal
       v-model="showViolationIMG"
+<<<<<<< HEAD
+      align="center"
+      title="展示违停图片"
+      @on-cancel="showViolationIMG = false">
+        <Carousel>
+=======
       width= "500"
       align="center"
       title="展示违停图片"
       @on-cancel="showViolationIMG = false">
+<<<<<<< HEAD
       <Carousel loop v-if="showViolationIMG">
         <CarouselItem v-for="item in imgArr" :key="item.id">
           <img :src="item">
         </CarouselItem>
       </Carousel>
+=======
+        <Carousel loop v-if="showViolationIMG">
+>>>>>>> af25ef57a8606e03189d30606ccb0aeb28b58450
+          <CarouselItem v-for="item in imgArr" :key="item.id">
+            <img :src="item">
+          </CarouselItem>
+        </Carousel>
+>>>>>>> 3bef67b3c0f98fb0ee174979be2dfdf853eafa09
     </Modal>
   </div>
 </template>
