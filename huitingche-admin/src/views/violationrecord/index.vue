@@ -6,7 +6,7 @@
           <Option v-for="item in conditionList" :value="item.key" :key="item.key">{{ item.name }}</Option>
         </Select>
         <Button slot="append" icon="ios-search" @click="searchFind"></Button>
-    </Input>
+      </Input>
     </div>
     <tabledata
     ref="table"
@@ -39,6 +39,7 @@
 import tabledata from '@/components/tabledata'
 import {URLqueryPkViolation} from '@/api'
 import {mapGetters} from 'vuex'
+// import { userInfo } from 'os'
 export default {
   components: {
     tabledata
@@ -156,9 +157,10 @@ export default {
       searchValue: '',
       findeCondition: '',
       queryUrl: URLqueryPkViolation,
-      queryData: {
-        vendorId: 3
-      },
+      // queryData: {
+      //   vendorId: 3
+      // },
+      queryData: {},
       page: 1,
       num: 10,
       type: 'json'
@@ -168,7 +170,7 @@ export default {
     searchFind () {
       console.log('条件搜索')
       this.queryData = {
-        vendorId: 3
+        vendorId: this.userInfo.vendorId
       }
       this.queryData[this.findeCondition] = this.searchValue
       // 如果选择全部，则列表展示原始拉取状态
@@ -195,6 +197,9 @@ export default {
     // console.log('this.queryData:' + this.queryData)
     // this.$refs.table.updateData()
     // console.log(this.searchValue)
+  },
+  created () {
+    this.queryData.vendorId = this.userInfo.vendorId
   }
 }
 </script>
