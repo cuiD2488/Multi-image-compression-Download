@@ -174,3 +174,23 @@ export const ApiUpdateParkingLot = async (data) => {
     throw new Error(error)
   }
 }
+// 编辑违停记录
+export const URLupdatePkViolation = '/updatePkViolation.json'
+export const ApiUpdatePkViolation = async (data) => {
+  try {
+    const res = await Axios.post(URLupdatePkViolation, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+// 删除违停记录
+export const URLdeletePkViolation = '/deletePkViolation.json'
+export const ApiDeletePkViolation = async (data) => {
+  try {
+    const res = await Axios.post('/deleteParkingLot.json?vendorId=' + data.vendorId)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}

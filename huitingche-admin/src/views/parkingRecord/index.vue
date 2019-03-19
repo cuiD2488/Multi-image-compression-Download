@@ -186,12 +186,16 @@ export default {
     },
     searchFind () {
       console.log('条件搜索')
-      this.queryData = {
-        vendorId: 3
-      }
+      // console.log('value值:' + this.searchValue)
+      // this.queryData = {
+      //   vendorId: this.userInfo.vendorId
+      // }
       this.queryData[this.findeCondition] = this.searchValue
       // 如果选择全部，则列表展示原始拉取状态
-      if (this.searchValue === '0') {
+      // if(this.searchValue){}
+      if (this.findeCondition === '0') {
+        // 选择全部时 清空输入框的值
+        this.searchValue = ''
         this.queryData = {
           vendorId: this.userInfo.vendorId
         }
@@ -227,10 +231,6 @@ export default {
   mounted () {
     console.log(this.userInfo)
     console.log('vendorId:' + this.userInfo.vendorId)
-    // console.log('queryData:' + this.queryData.startTime)
-    // console.log('this.queryData:' + this.queryData)
-    // this.$refs.table.updateData()
-    // console.log(this.searchValue)
   },
   created () {
     this.queryData.vendorId = this.userInfo.vendorId
