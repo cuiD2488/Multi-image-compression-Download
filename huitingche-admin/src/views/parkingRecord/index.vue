@@ -37,7 +37,7 @@
 import tabledata from '@/components/tabledata'
 import {URLqueryPkOrder} from '@/api'
 import {mapGetters} from 'vuex'
-import { userInfo } from 'os'
+// import { userInfo } from 'os'
 export default {
   components: {
     tabledata
@@ -193,7 +193,7 @@ export default {
       // 如果选择全部，则列表展示原始拉取状态
       if (this.searchValue === '0') {
         this.queryData = {
-          vendorId: 3
+          vendorId: this.userInfo.vendorId
         }
       }
       // let order = this.queryData.orderStatus

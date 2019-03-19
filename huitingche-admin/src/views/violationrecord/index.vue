@@ -39,7 +39,7 @@
 import tabledata from '@/components/tabledata'
 import {URLqueryPkViolation} from '@/api'
 import {mapGetters} from 'vuex'
-import { userInfo } from 'os'
+// import { userInfo } from 'os'
 export default {
   components: {
     tabledata
@@ -170,7 +170,7 @@ export default {
     searchFind () {
       console.log('条件搜索')
       this.queryData = {
-        vendorId: 3
+        vendorId: this.userInfo.vendorId
       }
       this.queryData[this.findeCondition] = this.searchValue
       // 如果选择全部，则列表展示原始拉取状态
@@ -199,7 +199,7 @@ export default {
     // console.log(this.searchValue)
   },
   created () {
-    this.queryData.vendorId = this.userInfo.verdorId
+    this.queryData.vendorId = this.userInfo.vendorId
   }
 }
 </script>
