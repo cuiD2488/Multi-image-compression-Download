@@ -22,11 +22,10 @@
     ></tabledata>
     <Modal
       v-model="showViolationIMG"
-      width= 100%
       align="center"
       title="展示违停图片"
       @on-cancel="showViolationIMG = false">
-        <Carousel loop>
+        <Carousel>
           <CarouselItem v-for="item in imgArr" :key="item.id">
               <img :src="item">
           </CarouselItem>
@@ -83,10 +82,11 @@ export default {
                 on: {
                   click: () => {
                     console.log('点击查看图片')
+                    // this.showViolationIMG = true
                     let violationImage = param.row.violationImage
                     this.imgArr = violationImage.split(',')
-                    console.log(this.imgArr)
                     this.showViolationIMG = true
+                    console.log(this.imgArr)
                   }
                 }
               }, '点击查看图片')
