@@ -26,11 +26,19 @@
       align="center"
       title="展示违停图片"
       @on-cancel="showViolationIMG = false">
+<<<<<<< HEAD
+      <Carousel loop v-if="showViolationIMG">
+        <CarouselItem v-for="item in imgArr" :key="item.id">
+          <img :src="item">
+        </CarouselItem>
+      </Carousel>
+=======
         <Carousel loop v-if="showViolationIMG">
           <CarouselItem v-for="item in imgArr" :key="item.id">
             <img :src="item">
           </CarouselItem>
         </Carousel>
+>>>>>>> 3bef67b3c0f98fb0ee174979be2dfdf853eafa09
     </Modal>
   </div>
 </template>
