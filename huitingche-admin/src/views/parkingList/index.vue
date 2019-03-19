@@ -146,6 +146,10 @@ export default {
               params.row.managerName ? h('span', params.row.managerName) : h('Button', {
                 on: {
                   click: async () => {
+                    const msg = this.$Message.loading({
+                      content: '加载中...',
+                      duration: 0
+                    })
                     document.getElementById('qrCodeContent').innerHTML = ''
                     this.autherButtonShow = true
                     const data = {
@@ -160,6 +164,7 @@ export default {
                     } else {
                       this.$Message.error('获取二维码失败')
                     }
+                    setTimeout(msg, 0)
                   }
                 }
               }, '授权管理员')
