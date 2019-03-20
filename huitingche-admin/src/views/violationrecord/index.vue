@@ -47,7 +47,7 @@
             </FormItem>
             <FormItem label="车牌号" prop="numberPlate">
               <Input v-model="editViolationForm.numberPlate" placeholder="请输入车牌号"></Input>
-            </FormItem>       
+            </FormItem>
             <FormItem label="操作人" prop="managerName">
               <Input v-model="editViolationForm.reasons" placeholder="请输入违停原因"></Input>
             </FormItem>

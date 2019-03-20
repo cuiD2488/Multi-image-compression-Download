@@ -45,9 +45,9 @@
           <p><span>停车时长：</span>{{timeVal[0] + timeVal[1]}}</p>
           <p><span>费用合计：</span>{{parkingMoney}}元</p>
         </div>
-        <div>
+        <!-- <div>
           <router-link :to="{name: 'parkingRules'}">收费规则</router-link>
-        </div>
+        </div> -->
       </div>
       <div v-else class="afterParkingMessage">
         <!-- 后付费，查询钱包余额是否够一个小时，如果够则允许，超时为继续支付，就给管理人员发送消息。如果钱包不够就提示他无法后付费，并说明后付费需要满足的条件-->
