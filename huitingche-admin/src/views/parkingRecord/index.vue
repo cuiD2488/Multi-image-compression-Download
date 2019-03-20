@@ -117,7 +117,7 @@ export default {
                 style: {
                   'margin-right': '10px'
                 }
-              }, param.row.orderStatus === 1 ? '使用中' : (param.row.orderStatus === 2 ? '待补缴' : '已完成'))
+              }, param.row.orderStatus === 1 ? '使用中' : (param.row.orderStatus === 2 ? '待补缴' : (param.row.orderStatus === 3 ? '已完成' : '已删除')))
               // param.row.orderStatus === '1' ? '使用中' : '其他'
             ])
           }
@@ -186,6 +186,10 @@ export default {
         {
           key: 3,
           value: '已完成'
+        },
+        {
+          key: 6,
+          value: '已删除'
         }
       ]
     }
