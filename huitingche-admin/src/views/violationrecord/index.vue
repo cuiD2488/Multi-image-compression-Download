@@ -39,11 +39,17 @@
       @on-cancel="showEditBox = false">
       <div>
           <Form ref="formValidate" :model="editViolationForm" :rules="editViolationFormRule" :label-width="100">
+            <FormItem label="违停编号" prop="violationNumber">
+              <Input v-model="editViolationForm.reasons" placeholder="请输入违停原因"></Input>
+            </FormItem>
             <FormItem label="车位编号" prop="positionNumber">
               <Input v-model="editViolationForm.positionNumber" placeholder="请输入车位编号"></Input>
             </FormItem>
             <FormItem label="车牌号" prop="numberPlate">
               <Input v-model="editViolationForm.numberPlate" placeholder="请输入车牌号"></Input>
+            </FormItem>       
+            <FormItem label="操作人" prop="managerName">
+              <Input v-model="editViolationForm.reasons" placeholder="请输入违停原因"></Input>
             </FormItem>
             <FormItem label="违停原因" prop="reasons">
               <Input v-model="editViolationForm.reasons" placeholder="请输入违停原因"></Input>
@@ -56,7 +62,7 @@
 
 <script>
 import tabledata from '@/components/tabledata'
-import {URLqueryPkViolation, ApiDeletePkViolation} from '@/api'
+import {URLqueryPkViolation, ApiDeletePkViolation, ApiUpdatePkViolation} from '@/api'
 // , URLUpdatePkViolation, ApiupdatePkViolation, URLdeletePkViolation, ApiDeletePkViolation
 import {mapGetters} from 'vuex'
 // import { userInfo } from 'os'
@@ -89,7 +95,7 @@ export default {
         },
         {
           title: '操作人',
-          key: 'managerNumber'
+          key: 'managerName'
         },
         {
           title: '违停图片',
@@ -118,7 +124,7 @@ export default {
           key: 'reasons'
         },
         {
-          title: '订单编号',
+          title: '违停创建时间',
           key: 'violationCreateTime'
         },
         {
@@ -150,7 +156,7 @@ export default {
                   click: () => {
                     // 弹出模态框
                     // 把车位编号 车牌号 违停原因三个字段的值带过去
-                    // this.showEditBox = true
+                    this.showEditBox = true
                     // this.targetParkingLotNumber = param.row.parkingLotNumber
                   }
                 }
@@ -208,7 +214,7 @@ export default {
       // 如果选择全部，则列表展示原始拉取状态
       if (this.searchValue === '0') {
         this.queryData = {
-          vendorId: 3
+          vendorId: this.userInfo.vendorId
         }
       }
       // let order = this.queryData.orderStatus
@@ -227,9 +233,27 @@ export default {
       }
       const res = await ApiDeletePkViolation(data)
       console.log(res)
+      // 删除后更新表单
       this.$nextTick(() => {
         this.$refs.table.updateData()
       })
+    },
+    // 编辑违停记录
+    async eaditViolation (item) {
+      console.log(222222)
+      const data = {
+        positionNumber: item.positionNumber,
+        numberPlate: item.numberPlate,
+        reasons: item.reasons
+      }
+      const res = await ApiUpdatePkViolation(data)
+      if (res.Code > 0) {
+        this.$Message.success('编辑成功')
+        this.$nextTick(() => {
+          this.$refs.table.updateDate()
+        })
+        // this.eaditObj = null
+      }
     }
   },
   computed: {
