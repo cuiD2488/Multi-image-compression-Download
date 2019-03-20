@@ -42,16 +42,14 @@
           <Form ref="formValidate" :model="editViolationForm" :label-width="100">
             <FormItem label="违停编号">
                <!-- prop="violationNumber"  prop="positionNumber"  prop="numberPlate" -->
-              <Input v-model="editViolationForm.reasons" placeholder="请输入违停原因"></Input>
+              <Input v-model="editViolationForm.violationNumber" placeholder="请输入违停编号" disabled></Input>
             </FormItem>
             <FormItem label="车位编号">
               <Input v-model="editViolationForm.positionNumber" placeholder="请输入车位编号"></Input>
             </FormItem>
             <FormItem label="车牌号">
-              <Input v-model="editViolationForm.numberPlate" placeholder="请输入车牌号"></Input>
+              <Input :value="editViolationForm.abbreviation + editViolationForm.numberPlate" placeholder="请输入车牌号" disabled></Input>
             </FormItem>
-            <FormItem label="操作人">
-              <Input v-model="editViolationForm.managerName" placeholder="请输入违停原因"></Input>
             </FormItem>
             <FormItem label="违停原因">
               <Input v-model="editViolationForm.reasons" placeholder="请输入违停原因"></Input>
@@ -160,7 +158,6 @@ export default {
                     // param.row就是这一行的所有字段
                     this.editViolationForm = param.row
                     this.showEditBox = true
-                    // this.targetParkingLotNumber = param.row.parkingLotNumber
                   }
                 }
               }, '编辑')
@@ -205,11 +202,11 @@ export default {
     }
   },
   methods: {
-    editViolation () {
-      console.log('模态框点击了确定')
-      // 点击模态框的确定按钮后在这里调接口
-      // eaditViolation()
-    },
+    // editViolation () {
+    //   console.log('模态框点击了确定')
+    //   // 点击模态框的确定按钮后在这里调接口
+    //   // eaditViolation()
+    // },
     searchFind () {
       console.log('条件搜索')
       this.queryData = {
@@ -244,18 +241,26 @@ export default {
       })
     },
     // 编辑违停记录
-    async eaditViolation (item) {
-      console.log(222222)
+    async editViolation () {
       const data = {
-        positionNumber: item.positionNumber,
-        numberPlate: item.numberPlate,
-        reasons: item.reasons
+        vendorId: this.userInfo.vendorId,
+        // 车位号码
+        positionNumber: this.editViolationForm.positionNumber,
+        // 车牌
+        // numberPlate: this.editViolationForm.numberPlate,
+        // 原因
+        reasons: this.editViolationForm.reasons,
+        // 操作人
+        // managerName: this.editViolationForm.managerName,
+        // 违停编号
+        violationNumber: this.editViolationForm.violationNumber
       }
       const res = await ApiUpdatePkViolation(data)
       if (res.code === 200) {
-        this.$Message.success('编辑成功')
+        this.$Message.success('编辑提交成功')
+        this.$refs.table.updateData()
       } else {
-        this.$Message.success(res.msg)
+        this.$Message.info('编辑违停信息失败')
       }
       // 更新表格
       this.$refs.table.updateData()

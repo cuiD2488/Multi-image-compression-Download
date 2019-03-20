@@ -84,7 +84,12 @@ export default {
     }
   },
   mounted () {
-    this.getChargingRules()
+    if (this.$route.query.targetParkingLotNumber !== null) {
+      this.getChargingRules()
+    } else {
+      this.$vux.toast.text('请填写泊位编号')
+      this.$router.back(-1)
+    }
   }
 }
 </script>

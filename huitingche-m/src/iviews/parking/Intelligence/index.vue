@@ -171,7 +171,7 @@ export default {
     },
     // chakanguize
     gotorules () {
-      if (this.parkingNo) {
+      if (this.parkingNo && this.parkingNo.length === 6) {
         this.$router.push({name: 'parkingRules', query: {parkingNo: this.parkingNo}})
       } else {
         this.$vux.toast.text('请填写泊位编号')
@@ -210,6 +210,7 @@ export default {
         for (let i in this.inputList) {
           this.inputList[i].key = ''
         }
+        this.parkingNo = ''
         this.$vux.toast.text(res.msg)
         this.focusStatus = 0
         return false
