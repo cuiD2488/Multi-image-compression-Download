@@ -284,7 +284,9 @@ export default {
         }
       }
       setTimeout(loading, 500)
-      if (result.code === 200 && result.data) {
+      // 后台表单数据请求成功会返回code:200 如果查询结果有数据则正常展示,无数据显示暂无数据
+      // 添加判断条件以防其他参数返回情况导致异常
+      if (result.code === 200 && (result.data || result.data === null)) {
         this.resultData = result.data
         this.totalNum = +result.msg
         this.$router.push({query: {...this.$route.query, page}})

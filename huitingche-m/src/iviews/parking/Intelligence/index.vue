@@ -224,6 +224,7 @@ export default {
         let targetMine = this.timeVal[1].replace('分钟', '') === '00' ? 0 : 0.5
         // console.log(this.timeVal[1])
         let targetTime = Number(targetHouse) + Number(targetMine)
+        console.log(targetTime)
         this.targetTime = targetTime
         let item = res.data.pkChargingRulesVoList
         // 收费金额

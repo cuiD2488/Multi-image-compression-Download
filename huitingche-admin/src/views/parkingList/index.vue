@@ -27,6 +27,7 @@
     <Modal
       v-model="showParkingAddBox"
       title="新增停车场"
+      width="40"
       @on-ok="addParking"
       @on-cancel="showParkingAddBox = false">
       <div>
@@ -34,11 +35,41 @@
             <FormItem label="停车场名字" prop="parkingLotName">
               <Input v-model="addParkingForm.parkingLotName" placeholder="请输入停车场名字"></Input>
             </FormItem>
+            <FormItem label="省市区" prop="detailedAddress">
+              <v-distpicker :province="select.province" :city="select.city" :area="select.county" @selected="changeSelect"></v-distpicker>
+            </FormItem>
             <FormItem label="详细地址" prop="detailedAddress">
               <Input v-model="addParkingForm.detailedAddress" placeholder="请输入详细地址"></Input>
             </FormItem>
+        </Form>
+      </div>
+    </Modal>
+    <!-- 编辑停车场 -->
+    <Modal
+      v-model="editParkFlag"
+      title="编辑停车场"
+      width="40"
+      @on-ok="editPark"
+      @on-cancel="editParkFlag = false">
+      <div>
+          <Form ref="formValidate" :model="editParkInform" :rules="addParkingFormRule" :label-width="100">
+            <FormItem label="停车场名字" prop="parkingLotName">
+              <Input v-model="editParkInform.parkingLotName" placeholder="请输入停车场名字"></Input>
+            </FormItem>
+            <FormItem label="省市区" prop="detailedAddress">
+              <v-distpicker :province="select.province" :city="select.city" :area="select.county" @selected="changeSelect"></v-distpicker>
+            </FormItem>
             <FormItem label="详细地址" prop="detailedAddress">
-              <v-distpicker :province="select.province" :city="select.city" :area="select.county"></v-distpicker>
+              <Input v-model="editParkInform.detailedAddress"></Input>
+            </FormItem>
+            <FormItem label="停车场编号">
+              <Input disabled v-model="editParkInform.parkingLotNumber"></Input>
+            </FormItem>
+            <FormItem label="管理员">
+              <Input disabled v-model="editParkInform.managerName"></Input>
+            </FormItem>
+            <FormItem label="管理员联系方式">
+              <Input disabled v-model="editParkInform.phone"></Input>
             </FormItem>
         </Form>
       </div>
@@ -50,8 +81,8 @@
       align="center"
       title="授权停车场管理"
       @on-ok="autherConfrim"
-      @on-cancel="autherButtonShow = false"
-    >
+      @on-cancel="autherButtonShow = false">
+    </Modal>
     <!-- 查看规则 -->
      <Modal
       v-model="showRule"
@@ -102,15 +133,15 @@
         </Form>
       </div>
     </Modal>
-      <div id="qrCodeContent">
-      </div>
+    <div id="qrCodeContent">
+    </div>
     </Modal>
   </div>
 </template>
 
 <script>
 import tabledata from '@/components/tabledata'
-import {URLfindParkingLotByCondition, ApiAddParkingLot, ApigetQrCode, ApiAddChargingRules, ApiQueryChargingRules, ApiUpdateChargingRules, ApiDeleteParkingLot} from '@/api'
+import {URLfindParkingLotByCondition, ApiAddParkingLot, ApigetQrCode, ApiAddChargingRules, ApiQueryChargingRules, ApiUpdateChargingRules, ApiDeleteParkingLot, ApiUpdateParkingLot} from '@/api'
 import {mapGetters} from 'vuex'
 import VDistpicker from 'v-distpicker'
 export default {
@@ -179,7 +210,10 @@ export default {
         {
           title: '创建时间',
           align: 'center',
-          key: 'lotCreateTime'
+          render: (h, params) => {
+            return h('div', params.row.lotCreateTime.slice(0, params.row.lotCreateTime.length - 5))
+          }
+          // key: 'lotCreateTime'
         },
         {
           title: '操作',
@@ -217,6 +251,8 @@ export default {
                 },
                 on: {
                   click: () => {
+                    this.editParkInform = param.row
+                    this.editParkFlag = true
                   }
                 }
               }, '编辑'),
@@ -325,7 +361,11 @@ export default {
           'whiteRuleValue': ''
         }
       ],
-      targetParkingLotNumber: ''
+      targetParkingLotNumber: '',
+      // 编辑停车场信息
+      editParkFlag: false,
+      // 编辑弹窗中展示的信息
+      editParkInform: {}
     }
   },
   computed: {
@@ -465,6 +505,31 @@ export default {
         this.$Message.success(codeText)
       }
       console.log(res)
+    },
+    // 编辑停车场信息
+    async editPark () {
+      // console.log(123)
+      console.log(this.editParkInform)
+      let data = {
+        parkingLotName: this.editParkInform.parkingLotName,
+        detailedAddress: this.editParkInform.detailedAddress,
+        parkingLotNumber: this.editParkInform.parkingLotNumber,
+        vendorId: this.userInfo.vendorId,
+        ...this.select
+      }
+      const res = await ApiUpdateParkingLot(data)
+      if (res.code === 200) {
+        this.$Message.success('提交成功')
+        this.$refs.table.updateData()
+      } else {
+        this.$Message.info('编辑停车场信息失败')
+      }
+    },
+    // 修改v-distpicker地址信息
+    changeSelect (selected) {
+      this.select.county = selected.area.value // 注意参数名与组件方法的区别
+      this.select.city = selected.city.value
+      this.select.province = selected.province.value
     }
   },
   mounted () {
