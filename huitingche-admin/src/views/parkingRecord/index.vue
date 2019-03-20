@@ -71,19 +71,56 @@ export default {
         },
         {
           title: '订单总金额',
-          key: 'orderMoney'
+          // key: 'orderMoney',
+          render: (h, param) => {
+            return h('div', [
+              h('p', {
+                style: {
+                  'margin-right': '10px'
+                }
+              }, param.row.orderMoney ? (param.row.orderMoney + '元') : '')
+            ])
+          }
         },
         {
           title: '预付费金额',
-          key: 'actualPayMoney'
+          // key: 'actualPayMoney',
+          render: (h, param) => {
+            return h('div', [
+              h('p', {
+                style: {
+                  'margin-right': '10px'
+                }
+              }, param.row.actualPayMoney ? (param.row.actualPayMoney + '元') : '')
+            ])
+          }
         },
         {
           title: '购买时长',
-          key: 'buyDuration'
+          // key: 'buyDuration'
+          render: (h, param) => {
+            return h('div', [
+              h('p', {
+                style: {
+                  'margin-right': '10px'
+                }
+              }, param.row.buyDuration ? (param.row.buyDuration + '小时') : '')
+            ])
+          }
         },
         {
           title: '状态',
-          key: 'orderStatus'
+          // key: 'orderStatus'
+          render: (h, param) => {
+            return h('div', [
+              h('p', {
+                style: {
+                  'margin-right': '10px'
+                }
+              }, param.row.orderStatus === 1 ? '使用中' : (param.row.orderStatus === 2 ? '待补缴' : '已完成'))
+              // param.row.orderStatus === '1' ? '使用中' : '其他'
+            ])
+          }
         },
         {
           title: '预付费开始时间',
@@ -139,15 +176,15 @@ export default {
           value: '全部状态'
         },
         {
-          key: '1',
+          key: 1,
           value: '使用中'
         },
         {
-          key: '2',
+          key: 2,
           value: '待补缴'
         },
         {
-          key: '3',
+          key: 3,
           value: '已完成'
         }
       ]
