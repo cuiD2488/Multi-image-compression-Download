@@ -74,7 +74,7 @@ export default {
   methods: {
     async getChargingRules () {
       const data = {
-        positionNumber: this.parkingNo
+        positionNumber: this.$route.query.targetParkingLotNumber
       }
       const res = await ApiqueryChargingRules(data)
       if (res.code === 200) {
@@ -84,7 +84,12 @@ export default {
     }
   },
   mounted () {
-    this.getChargingRules()
+    if (this.$route.query.targetParkingLotNumber !== null) {
+      this.getChargingRules()
+    } else {
+      this.$vux.toast.text('请填写泊位编号')
+      this.$router.back(-1)
+    }
   }
 }
 </script>

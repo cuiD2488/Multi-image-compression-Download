@@ -251,7 +251,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.editParkInform = param.row
+                    this.editParkInform = JSON.parse(JSON.stringify(param.row))
                     this.editParkFlag = true
                   }
                 }
