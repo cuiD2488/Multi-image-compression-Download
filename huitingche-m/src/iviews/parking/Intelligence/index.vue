@@ -45,8 +45,8 @@
           <p><span>停车时长：</span>{{timeVal[0] + timeVal[1]}}</p>
           <p><span>费用合计：</span>{{parkingMoney}}元</p>
         </div>
-        <div>
-          <router-link :to="{name: 'parkingRules'}">收费规则</router-link>
+        <div @click="gotorules">
+          <span>收费规则</span>
         </div>
       </div>
       <div v-else class="afterParkingMessage">
@@ -169,6 +169,15 @@ export default {
       }
       this.getChargingRules()
     },
+    // chakanguize
+    gotorules () {
+      if (this.parkingNo) {
+        this.$router.push({name: 'parkingRules', query: {parkingNo: this.parkingNo}})
+      } else {
+        this.$vux.toast.text('请填写泊位编号')
+        return false
+      }
+    },
     // 泊位号计算
     changeInput (v) {
       if (this.inputList[this.targetIndex].key && this.inputList[this.targetIndex].key.length > 0) {
@@ -231,8 +240,11 @@ export default {
         let targetMoney = 0
         // 白名单人员字段, 计算内直接用了三目了，如果是白名单内人员则应用白名单计费标准
         let isWhite = this.userInform.vip
-        // 如果选择时段大于第一档时段 并且选择时段减去第一档剩余时段小于第二档
-        if (targetTime > (item[0].ruleEndTime - item[0].ruleStartTime) && targetTime - (item[0].ruleEndTime - item[0].ruleStartTime) < (item[1].ruleEndTime - item[1].ruleStartTime)) {
+        // 如果选择时段小于或等于第一档
+        if (targetTime === (item[0].ruleEndTime - item[0].ruleStartTime) || targetTime === (item[0].ruleEndTime - item[0].ruleStartTime)) {
+          targetMoney += (isWhite === 1 ? item[0].whiteRuleValue : item[0].ruleValue) * targetTime * 2
+        } else if (targetTime > (item[0].ruleEndTime - item[0].ruleStartTime) && targetTime - (item[0].ruleEndTime - item[0].ruleStartTime) < (item[1].ruleEndTime - item[1].ruleStartTime)) {
+          // 如果选择时段大于第一档时段 并且选择时段减去第一档剩余时段小于第二档
           // 第一档全时段
           targetMoney += (isWhite === 1 ? item[0].whiteRuleValue : item[0].ruleValue) * (item[0].ruleEndTime - item[0].ruleStartTime) * 2
           // 第二档部分时段
@@ -257,7 +269,7 @@ export default {
         this.$vux.toast.text('请填写泊位编号')
         return false
       } else if (!this.parkingMoney) {
-        this.$vux.toast.text('未查询到该泊位号')
+        this.$vux.toast.text('请选择时长')
         return false
       }
       this.clearPass()

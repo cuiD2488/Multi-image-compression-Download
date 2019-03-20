@@ -1,7 +1,7 @@
 import Axios from 'axios'
 
 export const env = process.env.NODE_ENV
-Axios.defaults.baseURL = env === 'development' ? '/api' : '/park'
+Axios.defaults.baseURL = env === 'development' ? '/api/park' : '/park'
 Axios.interceptors.response.use((response) => {
   if (response.status === 200 || response.status === 304) {
     return response.data
@@ -157,10 +157,10 @@ export const ApiUpdatePassword = async (data) => {
 }
 
 // 根据条件查询停车位信息接口
-export const URLfindPositionByCondition = '/findPositionByCondition.json'
+export const URLfindPositionByCondition = '/checkPositionNumber.json'
 export const ApifindPositionByCondition = async (data) => {
   try {
-    const res = await Axios.post(URLfindPositionByCondition, data)
+    const res = await Axios.get(URLfindPositionByCondition, {params: data})
     return res
   } catch (err) {
     console.log(err)

@@ -74,7 +74,7 @@ export default {
   methods: {
     async getChargingRules () {
       const data = {
-        positionNumber: this.parkingNo
+        positionNumber: this.$route.query.parkingNo
       }
       const res = await ApiqueryChargingRules(data)
       if (res.code === 200) {
