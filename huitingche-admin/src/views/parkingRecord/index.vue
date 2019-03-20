@@ -71,19 +71,56 @@ export default {
         },
         {
           title: '订单总金额',
-          key: 'orderMoney'
+          // key: 'orderMoney',
+          render: (h, param) => {
+            return h('div', [
+              h('p', {
+                style: {
+                  'margin-right': '10px'
+                }
+              }, param.row.orderMoney ? (param.row.orderMoney + '元') : '')
+            ])
+          }
         },
         {
           title: '预付费金额',
-          key: 'actualPayMoney'
+          // key: 'actualPayMoney',
+          render: (h, param) => {
+            return h('div', [
+              h('p', {
+                style: {
+                  'margin-right': '10px'
+                }
+              }, param.row.actualPayMoney ? (param.row.actualPayMoney + '元') : '')
+            ])
+          }
         },
         {
           title: '购买时长',
-          key: 'buyDuration'
+          // key: 'buyDuration'
+          render: (h, param) => {
+            return h('div', [
+              h('p', {
+                style: {
+                  'margin-right': '10px'
+                }
+              }, param.row.buyDuration ? (param.row.buyDuration + '小时') : '')
+              // 增加单位 如果该字段为空则都不展示
+            ])
+          }
         },
         {
           title: '状态',
-          key: 'orderStatus'
+          // key: 'orderStatus'
+          render: (h, param) => {
+            return h('div', [
+              h('p', {
+                style: {
+                  'margin-right': '10px'
+                }
+              }, param.row.orderStatus === 1 ? '使用中' : (param.row.orderStatus === 2 ? '待补缴' : (param.row.orderStatus === 3 ? '已完成' : '已删除')))
+            ])
+          }
         },
         {
           title: '预付费开始时间',
@@ -95,13 +132,7 @@ export default {
         }
       ],
       queryUrl: URLqueryPkOrder,
-      queryData: {
-        // vendorId: 3
-        // vendorId: this.userInfo.vendorId,
-        // vendorId: this.userInfo.vendorId,
-        // vendorId: this.$store.getters.userInfo.vendorId,
-        // parkingLotNumber: '000002'
-      },
+      queryData: {},
       page: 1,
       num: 10,
       type: 'json',
@@ -139,16 +170,20 @@ export default {
           value: '全部状态'
         },
         {
-          key: '1',
+          key: 1,
           value: '使用中'
         },
         {
-          key: '2',
+          key: 2,
           value: '待补缴'
         },
         {
-          key: '3',
+          key: 3,
           value: '已完成'
+        },
+        {
+          key: 6,
+          value: '已删除'
         }
       ]
     }
@@ -185,19 +220,29 @@ export default {
       console.log('handleDate触发后的startTime' + this.queryData.startTime)
     },
     searchFind () {
+      // 如果未选择下拉框
       console.log('条件搜索')
-      // console.log('value值:' + this.searchValue)
-      // this.queryData = {
-      //   vendorId: this.userInfo.vendorId
+      delete this.queryData.parkingLotNumber
+      delete this.queryData.positionNumber
+      delete this.queryData.orderNumber
+      // for循环查询当前参数
+      // for(let i = 0; i < this.queryData.length; i++){
+      //   if (this.queryData[i] !== undefined ) {
+      //   delete this.queryData[i]
+      //  }
       // }
       this.queryData[this.findeCondition] = this.searchValue
-      // 如果选择全部，则列表展示原始拉取状态
+      // 如果选择 查看全部 ，则列表展示原始拉取状态
       // if(this.searchValue){}
       if (this.findeCondition === '0') {
         // 选择全部时 清空输入框的值
         this.searchValue = ''
+        // 选择 查看全部  queryData的其他参数不变
         this.queryData = {
-          vendorId: this.userInfo.vendorId
+          vendorId: this.userInfo.vendorId,
+          orderStatus: this.queryData.orderStatus,
+          startTime: this.queryData.startTime,
+          endTime: this.queryData.endTime
         }
       }
       // let order = this.queryData.orderStatus
@@ -220,7 +265,9 @@ export default {
       // val == 每一个option对应的key值
       // this.queryData.orderStatus = val
       if (val === '0') {
-        this.queryData.orderStatus = null
+        // this.queryData.orderStatus = null
+        // 把 对属性置为null 改为 删除改属性
+        delete this.queryData.orderStatus
       } else {
         this.queryData.orderStatus = val
       }
