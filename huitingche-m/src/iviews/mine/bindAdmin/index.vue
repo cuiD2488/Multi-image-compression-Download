@@ -19,8 +19,9 @@
 </template>
 
 <script>
-import {ApiWxLogin, ApiRegisterByAdminQrCode, ApiRegisterByManageNumberQrCode, ApiFindParkingLotNumberLByLot} from '@/api'
+import {ApiWxLogin, ApiRegisterByAdminQrCode, ApiRegisterByManageNumberQrCode, ApiFindParkingLotNumberLByLot, ApiGetVerificationCode, ApiQueryPkUser} from '@/api'
 import {Loading, XInput, Group, XButton} from 'vux'
+import md5 from 'js-md5'
 
 export default {
   components: {
@@ -111,6 +112,7 @@ export default {
     },
     // 注册手机号
     async submitFn () {
+      let res = null
       if (this.password !== this.passwordAgain) {
         this.$vux.toast.text('两次输入的支付密码不同,请核对后再试')
         return
@@ -126,9 +128,9 @@ export default {
           headImageUrl: this.userInform.headImgUrl
         }
         if (this.state.slice(this.state.length - 1, this.state.length) === 1) {
-          const res = await ApiRegisterByAdminQrCode(data)
+          res = await ApiRegisterByAdminQrCode(data)
         } else {
-          const res = await ApiRegisterByManageNumberQrCode(data)
+          res = await ApiRegisterByManageNumberQrCode(data)
         }
         if (res.code === 200) {
           this.$vux.toast.text('注册成功')

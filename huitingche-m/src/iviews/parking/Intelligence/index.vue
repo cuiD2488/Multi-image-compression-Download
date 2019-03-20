@@ -98,8 +98,8 @@ export default {
       closePayKeyBoard: false,
       payFn: false,
       payVal: '1',
-      timeVal: ['1小时', '00分钟'],
-      timeList: [['1小时', '2小时', '3小时', '4小时', '5小时', '6小时', '7小时', '8小时', '9小时', '10小时', '11小时', '12小时'], ['00分钟', '30分钟']],
+      timeVal: ['0小时', '00分钟'],
+      timeList: [['0小时', '1小时', '2小时', '3小时', '4小时', '5小时', '6小时', '7小时', '8小时', '9小时', '10小时', '11小时', '12小时'], ['00分钟', '30分钟']],
       focusStatus: 0,
       items1: [
         {
@@ -222,7 +222,7 @@ export default {
         this.parkingMesaage = res.data
         let targetHouse = this.timeVal[0].replace('小时', '')
         let targetMine = this.timeVal[1].replace('分钟', '') === '00' ? 0 : 0.5
-        console.log(this.timeVal[1])
+        // console.log(this.timeVal[1])
         let targetTime = Number(targetHouse) + Number(targetMine)
         this.targetTime = targetTime
         let item = res.data.pkChargingRulesVoList
