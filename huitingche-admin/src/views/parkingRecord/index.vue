@@ -119,7 +119,6 @@ export default {
                   'margin-right': '10px'
                 }
               }, param.row.orderStatus === 1 ? '使用中' : (param.row.orderStatus === 2 ? '待补缴' : (param.row.orderStatus === 3 ? '已完成' : '已删除')))
-              // param.row.orderStatus === '1' ? '使用中' : '其他'
             ])
           }
         },
@@ -133,13 +132,7 @@ export default {
         }
       ],
       queryUrl: URLqueryPkOrder,
-      queryData: {
-        // vendorId: 3
-        // vendorId: this.userInfo.vendorId,
-        // vendorId: this.userInfo.vendorId,
-        // vendorId: this.$store.getters.userInfo.vendorId,
-        // parkingLotNumber: '000002'
-      },
+      queryData: {},
       page: 1,
       num: 10,
       type: 'json',
@@ -233,13 +226,17 @@ export default {
       //   vendorId: this.userInfo.vendorId
       // }
       this.queryData[this.findeCondition] = this.searchValue
-      // 如果选择全部，则列表展示原始拉取状态
+      // 如果选择 查看全部 ，则列表展示原始拉取状态
       // if(this.searchValue){}
       if (this.findeCondition === '0') {
         // 选择全部时 清空输入框的值
         this.searchValue = ''
+        // 选择 查看全部  queryData的其他参数不变
         this.queryData = {
-          vendorId: this.userInfo.vendorId
+          vendorId: this.userInfo.vendorId,
+          orderStatus: this.queryData.orderStatus,
+          startTime: this.queryData.startTime,
+          endTime: this.queryData.endTime
         }
       }
       // let order = this.queryData.orderStatus
@@ -262,7 +259,9 @@ export default {
       // val == 每一个option对应的key值
       // this.queryData.orderStatus = val
       if (val === '0') {
-        this.queryData.orderStatus = null
+        // this.queryData.orderStatus = null
+        // 把 对属性置为null 改为 删除改属性
+        delete this.queryData.orderStatus
       } else {
         this.queryData.orderStatus = val
       }
