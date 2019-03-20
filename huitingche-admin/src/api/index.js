@@ -177,8 +177,8 @@ export const ApiUpdatePkViolation = async (data) => {
 export const URLdeletePkViolation = '/deletePkViolation.json'
 export const ApiDeletePkViolation = async (data) => {
   try {
-    const res = await Axios.post('/deletePkViolation.json?violationNumber=' + data.violationNumber)
-    // const res = await Axios.post('/deletePkViolation.json?vendorId=' + data.vendorId + '&violationNumber=' + data.violationNumber)
+    // const res = await Axios.post('/deletePkViolation.json?violationNumber=' + data.violationNumber)
+    const res = await Axios.post(URLdeletePkViolation, data)
     return res
   } catch (error) {
     throw new Error(error)

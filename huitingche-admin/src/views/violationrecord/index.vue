@@ -32,7 +32,7 @@
           </CarouselItem>
         </Carousel>
     </Modal>
-    <Modal
+    <!-- <Modal
       v-model="showEditBox"
       title="编辑"
       @on-ok="editViolation"
@@ -50,7 +50,7 @@
             </FormItem>
         </Form>
       </div>
-    </Modal>
+    </Modal> -->
   </div>
 </template>
 
@@ -222,11 +222,14 @@ export default {
     // 删除违停记录
     async deleteViolation (item) {
       const data = {
-        vendorId: this.userInfo.vendorId,
+        // vendorId: this.userInfo.vendorId,
         violationNumber: item.violationNumber
       }
       const res = await ApiDeletePkViolation(data)
       console.log(res)
+      this.$nextTick(() => {
+        this.$refs.table.updateData()
+      })
     }
   },
   computed: {
