@@ -32,31 +32,33 @@
           </CarouselItem>
         </Carousel>
     </Modal>
-    <!-- <Modal
+    <Modal
       v-model="showEditBox"
       title="编辑"
       @on-ok="editViolation"
       @on-cancel="showEditBox = false">
       <div>
-          <Form ref="formValidate" :model="editViolationForm" :rules="editViolationFormRule" :label-width="100">
-            <FormItem label="违停编号" prop="violationNumber">
+        <!-- :rules="editViolationFormRule" -->
+          <Form ref="formValidate" :model="editViolationForm" :label-width="100">
+            <FormItem label="违停编号">
+               <!-- prop="violationNumber"  prop="positionNumber"  prop="numberPlate" -->
               <Input v-model="editViolationForm.reasons" placeholder="请输入违停原因"></Input>
             </FormItem>
-            <FormItem label="车位编号" prop="positionNumber">
+            <FormItem label="车位编号">
               <Input v-model="editViolationForm.positionNumber" placeholder="请输入车位编号"></Input>
             </FormItem>
-            <FormItem label="车牌号" prop="numberPlate">
+            <FormItem label="车牌号">
               <Input v-model="editViolationForm.numberPlate" placeholder="请输入车牌号"></Input>
             </FormItem>
-            <FormItem label="操作人" prop="managerName">
-              <Input v-model="editViolationForm.reasons" placeholder="请输入违停原因"></Input>
+            <FormItem label="操作人">
+              <Input v-model="editViolationForm.managerName" placeholder="请输入违停原因"></Input>
             </FormItem>
-            <FormItem label="违停原因" prop="reasons">
+            <FormItem label="违停原因">
               <Input v-model="editViolationForm.reasons" placeholder="请输入违停原因"></Input>
             </FormItem>
         </Form>
       </div>
-    </Modal> -->
+    </Modal>
   </div>
 </template>
 
@@ -144,7 +146,6 @@ export default {
                       title: '操作确认',
                       content: '确认删除吗？',
                       onOk: () => {
-                        // alert('删除成功')
                         this.deleteViolation(param.row)
                       }
                     })
@@ -155,7 +156,9 @@ export default {
                 on: {
                   click: () => {
                     // 弹出模态框
-                    // 把车位编号 车牌号 违停原因三个字段的值带过去
+                    // 把该行所有的字段的值带过去
+                    // param.row就是这一行的所有字段
+                    this.editViolationForm = param.row
                     this.showEditBox = true
                     // this.targetParkingLotNumber = param.row.parkingLotNumber
                   }
@@ -184,9 +187,9 @@ export default {
         }
       ],
       editViolationForm: {
-        // 携带数据
+        // 存放从param.row传递过来的数据
       },
-      showEditBox: '',
+      showEditBox: false,
       imgArr: [],
       showViolationIMG: false,
       searchValue: '',
@@ -203,7 +206,9 @@ export default {
   },
   methods: {
     editViolation () {
-      console.log('showEidtModal')
+      console.log('模态框点击了确定')
+      // 点击模态框的确定按钮后在这里调接口
+      // eaditViolation()
     },
     searchFind () {
       console.log('条件搜索')
@@ -247,13 +252,13 @@ export default {
         reasons: item.reasons
       }
       const res = await ApiUpdatePkViolation(data)
-      if (res.Code > 0) {
+      if (res.code === 200) {
         this.$Message.success('编辑成功')
-        this.$nextTick(() => {
-          this.$refs.table.updateDate()
-        })
-        // this.eaditObj = null
+      } else {
+        this.$Message.success(res.msg)
       }
+      // 更新表格
+      this.$refs.table.updateData()
     }
   },
   computed: {

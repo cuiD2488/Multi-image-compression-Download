@@ -296,6 +296,7 @@ export default {
         }
       ],
       queryUrl: URLfindParkingLotByCondition,
+      queryData: {},
       page: 1,
       num: 10,
       type: 'json',
@@ -320,7 +321,7 @@ export default {
         }
       ],
       addParkingForm: {
-        vendorId: 3,
+        vendorId: this.userInfo.vendorId,
         detailedAddress: '',
         parkingLotName: ''
       },
@@ -372,13 +373,16 @@ export default {
       editParkInform: {}
     }
   },
+  created () {
+    this.queryData.vendorId = this.userInfo.vendorId
+  },
   computed: {
-    queryData () {
-      const data = {
-        vendorId: this.userInfo.vendorId
-      }
-      return data
-    },
+    // queryData () {
+    //   const data = {
+    //     vendorId: this.userInfo.vendorId
+    //   }
+    //   return data
+    // },
     ...mapGetters(['userInfo'])
   },
   methods: {
@@ -432,6 +436,7 @@ export default {
         // 选择 查看全部  queryData的其他参数不变
         this.queryData = {
           vendorId: this.userInfo.vendorId
+          // vendorId: 3
           // orderStatus: this.queryData.orderStatus,
           // startTime: this.queryData.startTime,
           // endTime: this.queryData.endTime
@@ -515,7 +520,8 @@ export default {
     // 删除停车场
     async deleteParking (item) {
       const data = {
-        vendorId: this.userInfo.vendorId,
+        // vendorId: this.userInfo.vendorId,
+        vendorId: 3,
         parkingLotNumber: item.parkingLotNumber
       }
       const res = await ApiDeleteParkingLot(data)
