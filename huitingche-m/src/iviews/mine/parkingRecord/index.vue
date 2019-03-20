@@ -23,7 +23,7 @@
           <div>{{item.orderStatus === 0 ? '待支付' : item.orderStatus === 1 ? '支付成功' : '待补缴:' + item.orderRepairMoney + '元'}}</div>
           <div class="deleteDiv">
             <x-button v-if="item.orderStatus === 2" @click.native="payOrder(item.orderNumber, item.orderRepairMoney)" type="primary" mini text="支付" class="deleteBtn"></x-button>
-            <x-button v-else @click.native="deleteOrder(item.orderNumber)" type="primary" mini text="删除" class="deleteBtn"></x-button>
+            <x-button v-else-if="item.orderStatus === 3" @click.native="deleteOrder(item.orderNumber)" type="primary" mini text="删除" class="deleteBtn"></x-button>
           </div>
         </div>
       </div>
@@ -154,8 +154,10 @@ export default {
             data[index].outTime = data[index].outTime.substring(0, data[index].outTime.length - 5)
             this.recordList.push(data[index])
           } else {
-            data[index].enterTime = data[index].enterTime.substring(0, data[index].enterTime.length - 5)
-            data[index].outTime = data[index].outTime.substring(0, data[index].outTime.length - 5)
+            if (data[index].enterTime && data[index].outTime) {
+              data[index].enterTime = data[index].enterTime.substring(0, data[index].enterTime.length - 5)
+              data[index].outTime = data[index].outTime.substring(0, data[index].outTime.length - 5)
+            }
             this.recordList.push(data[index])
           }
         }
