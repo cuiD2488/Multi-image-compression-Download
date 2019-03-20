@@ -150,6 +150,7 @@ export default {
                     // 弹出模态框
                     // 把车位编号 车牌号 违停原因三个字段的值带过去
                     this.showEditBox = true
+                    // this.targetParkingLotNumber = param.row.parkingLotNumber
                   }
                 }
               }, '编辑')
@@ -175,7 +176,9 @@ export default {
           key: 'managerNumber'
         }
       ],
-      editViolationForm: {},
+      editViolationForm: {
+        // 携带数据
+      },
       showEditBox: '',
       imgArr: [],
       showViolationIMG: false,

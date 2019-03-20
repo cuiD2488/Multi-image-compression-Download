@@ -105,6 +105,7 @@ export default {
                   'margin-right': '10px'
                 }
               }, param.row.buyDuration ? (param.row.buyDuration + '小时') : '')
+              // 增加单位 如果该字段为空则都不展示
             ])
           }
         },
