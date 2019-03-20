@@ -26,17 +26,6 @@ export const URLqueryPkOrder = '/queryPkOrder.json'
 // 查询违停记录
 export const URLqueryPkViolation = '/queryPkViolation.json'
 
-// // 新增违停记录
-// export const URLaddPkViolation = '/addPkViolation.json'
-// export const ApiAddPkViolation = async (data) => {
-//   try {
-//     const res = await Axios.post(URLaddPkViolation, data)
-//     return res
-//   } catch (error) {
-//     throw new Error(error)
-//   }
-// }
-
 /**
  * @param {Any} data json
  */
@@ -184,6 +173,18 @@ export const ApiUpdatePkViolation = async (data) => {
     throw new Error(error)
   }
 }
+// 删除违停记录
+export const URLdeletePkViolation = '/deletePkViolation.json'
+export const ApiDeletePkViolation = async (data) => {
+  try {
+    const res = await Axios.post('/deletePkViolation.json?violationNumber=' + data.violationNumber)
+    // const res = await Axios.post('/deletePkViolation.json?vendorId=' + data.vendorId + '&violationNumber=' + data.violationNumber)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 // 查询体制内人员信息
 /**
  * 系统管理员 仅传vendorId
@@ -208,16 +209,7 @@ export const ApiaddPositionManager = async (data) => {
     throw new Error(error)
   }
 }
-// 删除违停记录
-export const URLdeletePkViolation = '/deletePkViolation.json'
-export const ApiDeletePkViolation = async (data) => {
-  try {
-    const res = await Axios.post('/deleteParkingLot.json?vendorId=' + data.vendorId)
-    return res
-  } catch (error) {
-    throw new Error(error)
-  }
-}
+
 // 停用管理员
 /**
  * vendorId 商户id

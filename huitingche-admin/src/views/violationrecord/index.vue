@@ -56,7 +56,7 @@
 
 <script>
 import tabledata from '@/components/tabledata'
-import {URLqueryPkViolation} from '@/api'
+import {URLqueryPkViolation, ApiDeletePkViolation} from '@/api'
 // , URLUpdatePkViolation, ApiupdatePkViolation, URLdeletePkViolation, ApiDeletePkViolation
 import {mapGetters} from 'vuex'
 // import { userInfo } from 'os'
@@ -138,7 +138,8 @@ export default {
                       title: '操作确认',
                       content: '确认删除吗？',
                       onOk: () => {
-                        alert('删除成功')
+                        // alert('删除成功')
+                        this.deleteViolation(param.row)
                       }
                     })
                   }
@@ -217,6 +218,15 @@ export default {
       this.$nextTick(() => {
         this.$refs.table.updateData()
       })
+    },
+    // 删除违停记录
+    async deleteViolation (item) {
+      const data = {
+        vendorId: this.userInfo.vendorId,
+        violationNumber: item.violationNumber
+      }
+      const res = await ApiDeletePkViolation(data)
+      console.log(res)
     }
   },
   computed: {
