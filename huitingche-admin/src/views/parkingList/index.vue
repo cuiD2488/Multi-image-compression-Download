@@ -267,6 +267,10 @@ export default {
       searchValue: '',
       conditionList: [
         {
+          name: '查看全部',
+          key: '0'
+        },
+        {
           name: '停车场名称',
           key: 'parkingLotName'
         },
@@ -339,12 +343,64 @@ export default {
   },
   methods: {
     // 条件查询停车场
+    // searchFind () {
+    //   console.log('条件搜索')
+    //   delete this.queryData.parkingLotName
+    //   delete this.queryData.parkingLotNumber
+    //   delete this.queryData.managerName
+    //   // this.queryData[this.findeCondition] = this.searchValue
+    //   // 注释
+    //   if (this.findeCondition === '0') {
+    //     // 选择全部时 清空输入框的值
+    //     this.searchValue = ''
+    //     // 选择 查看全部  queryData的其他参数不变
+    //     this.queryData = {
+    //       vendorId: this.userInfo.vendorId
+    //     }
+    //   }
+    //   // 注释
+    //   // this.queryData = {
+    //   //   vendorId: this.userInfo.vendorId
+    //   // }
+    //   // this.queryData[this.findeCondition] = this.searchValue
+    //   this.$nextTick(() => {
+    //     this.$refs.table.updateData()
+    //   })
+    // },
     searchFind () {
       console.log('条件搜索')
-      this.queryData = {
-        vendorId: this.userInfo.vendorId
-      }
+      // console.log('value值:' + this.searchValue)
+      // this.queryData = {
+      //   vendorId: this.userInfo.vendorId
+      // }
+      // this.queryData
+      delete this.queryData.parkingLotName
+      delete this.queryData.parkingLotNumber
+      delete this.queryData.managerName
+      // for循环查询当前参数
+      // for(let i = 0; i < this.queryData.length; i++){
+      //   if (this.queryData[i] !== undefined ) {
+      //   delete this.queryData[i]
+      //  }
+      // }
       this.queryData[this.findeCondition] = this.searchValue
+      // 如果选择 查看全部 ，则列表展示原始拉取状态
+      // if(this.searchValue){}
+      if (this.findeCondition === '0') {
+        // 选择全部时 清空输入框的值
+        this.searchValue = ''
+        // 选择 查看全部  queryData的其他参数不变
+        this.queryData = {
+          vendorId: this.userInfo.vendorId
+          // orderStatus: this.queryData.orderStatus,
+          // startTime: this.queryData.startTime,
+          // endTime: this.queryData.endTime
+        }
+      }
+      // let order = this.queryData.orderStatus
+      // 加上状态作为参数一并传到后台
+      // this.queryData.orderStatus = this.order
+      // console.log(this.queryData)
       this.$nextTick(() => {
         this.$refs.table.updateData()
       })

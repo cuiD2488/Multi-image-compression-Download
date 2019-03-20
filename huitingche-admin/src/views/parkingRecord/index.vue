@@ -220,10 +220,16 @@ export default {
       console.log('handleDate触发后的startTime' + this.queryData.startTime)
     },
     searchFind () {
+      // 如果未选择下拉框
       console.log('条件搜索')
-      // console.log('value值:' + this.searchValue)
-      // this.queryData = {
-      //   vendorId: this.userInfo.vendorId
+      delete this.queryData.parkingLotNumber
+      delete this.queryData.positionNumber
+      delete this.queryData.orderNumber
+      // for循环查询当前参数
+      // for(let i = 0; i < this.queryData.length; i++){
+      //   if (this.queryData[i] !== undefined ) {
+      //   delete this.queryData[i]
+      //  }
       // }
       this.queryData[this.findeCondition] = this.searchValue
       // 如果选择 查看全部 ，则列表展示原始拉取状态

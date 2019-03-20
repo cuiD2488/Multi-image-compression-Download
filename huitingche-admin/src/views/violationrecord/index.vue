@@ -149,7 +149,7 @@ export default {
                   click: () => {
                     // 弹出模态框
                     // 把车位编号 车牌号 违停原因三个字段的值带过去
-                    this.showEditBox = true
+                    // this.showEditBox = true
                     // this.targetParkingLotNumber = param.row.parkingLotNumber
                   }
                 }

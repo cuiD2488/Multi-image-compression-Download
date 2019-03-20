@@ -227,6 +227,10 @@ export default {
       searchValue: '',
       conditionList: [
         {
+          name: '查看全部',
+          key: '0'
+        },
+        {
           name: '车位编号',
           key: 'positionNumber'
         },
@@ -318,8 +322,11 @@ export default {
       }
     },
     searchFind () {
+      delete this.queryData.positionNumber
+      delete this.queryData.parkingLotNumber
+      delete this.queryData.managerName
       this.queryData = {
-        vendorId: 3
+        vendorId: this.userInfo.vendorId
       }
       this.queryData[this.findeCondition] = this.searchValue
       this.$nextTick(() => {
