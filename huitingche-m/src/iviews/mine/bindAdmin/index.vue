@@ -117,6 +117,8 @@ export default {
         this.$vux.toast.text('两次输入的支付密码不同,请核对后再试')
         return
       }
+      // console.log(this.userInform)
+      // console.log(this.userInform.openId)
       if (this.getCode === this.verificationCode) {
         let data = {
           parkingLotNumber: this.state.slice(0, this.state.length - 1),
@@ -127,6 +129,7 @@ export default {
           wxNickName: this.userInform.nickName,
           headImageUrl: this.userInform.headImgUrl
         }
+        // console.log(data)
         if (this.state.slice(this.state.length - 1, this.state.length) === 1) {
           res = await ApiRegisterByAdminQrCode(data)
         } else {

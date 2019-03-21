@@ -1,5 +1,6 @@
 <template>
   <div class="parkinglist">
+    <!-- 搜索栏 -->
     <div class="searchContent">
       <div>
         <Input search v-model="searchValue" @on-search="searchFind">
@@ -13,6 +14,7 @@
         <Button @click="showParkingAddBox = true" type="primary">新增停车场</Button>
       </div>
     </div>
+    <!-- 表格展示 -->
     <tabledata
       ref="table"
       page-position="center"
@@ -82,9 +84,11 @@
       title="授权停车场管理"
       @on-ok="autherConfrim"
       @on-cancel="autherButtonShow = false">
+      <div id="qrCodeContent">
+      </div>
     </Modal>
     <!-- 查看规则 -->
-     <Modal
+    <Modal
       v-model="showRule"
       title="停车场规则"
       @on-ok="ruleConfrim"
@@ -132,9 +136,6 @@
           </FormItem>
         </Form>
       </div>
-    </Modal>
-    <div id="qrCodeContent">
-    </div>
     </Modal>
   </div>
 </template>
@@ -321,7 +322,7 @@ export default {
         }
       ],
       addParkingForm: {
-        vendorId: this.userInfo.vendorId,
+        // vendorId: this.userInfo.vendorId,
         detailedAddress: '',
         parkingLotName: ''
       },
@@ -373,9 +374,6 @@ export default {
       editParkInform: {}
     }
   },
-  created () {
-    this.queryData.vendorId = this.userInfo.vendorId
-  },
   computed: {
     // queryData () {
     //   const data = {
@@ -384,6 +382,12 @@ export default {
     //   return data
     // },
     ...mapGetters(['userInfo'])
+  },
+  created () {
+    this.queryData = {
+      vendorId: this.userInfo.vendorId
+    }
+    console.log(this.queryData)
   },
   methods: {
     // 条件查询停车场
@@ -475,7 +479,7 @@ export default {
         this.aruleForm.isCharge = res.data.pkChargingTimeVoList[0].chargingDate
         // this.aruleForm = res.data
       }
-      console.log(33333333333)
+      // console.log(33333333333)
     },
     // 初始化规则输入框数据
     clarRuleAll () {
@@ -593,9 +597,6 @@ export default {
       this.select.city = selected.city.value
       this.select.province = selected.province.value
     }
-  },
-  mounted () {
-    console.log(this.userInfo)
   }
 }
 </script>
