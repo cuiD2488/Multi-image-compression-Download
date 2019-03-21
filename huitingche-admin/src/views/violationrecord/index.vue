@@ -50,7 +50,6 @@
             <FormItem label="车牌号">
               <Input :value="editViolationForm.abbreviation + editViolationForm.numberPlate" placeholder="请输入车牌号" disabled></Input>
             </FormItem>
-            </FormItem>
             <FormItem label="违停原因">
               <Input v-model="editViolationForm.reasons" placeholder="请输入违停原因"></Input>
             </FormItem>

@@ -225,3 +225,23 @@ export const ApiDisableParkingLotManager = async (data) => {
     throw new Error(error)
   }
 }
+// 删除车位
+export const URLupdateParkingPosition = '/updateParkingPosition.json'
+export const ApiUpdateParkingPosition = async (data) => {
+  try {
+    const res = await Axios.post(URLupdateParkingPosition, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+// 编辑车位
+// export const URLupdateParkingPosition = '/updateParkingPosition.json'
+// export const ApiUpdateParkingPosition = async (data) => {
+//   try {
+//     const res = await Axios.post(URLupdatePkViolation, data)
+//     return res
+//   } catch (error) {
+//     throw new Error(error)
+//   }
+// }

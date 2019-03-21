@@ -17,7 +17,10 @@
       <div v-if="userInfo.role === 1">
         <Button @click="distributionShow = true" type="primary">分配车位</Button>
         <Button @click="getAuother" type="primary">授权路段管理员</Button>
-        <Button @click="showParkingAddBox = true" type="primary">新增车位</Button>
+        <Button @click="showParkingAddBox = true" type="primary">新增停车场</Button>
+      </div>
+      <div>
+        
       </div>
     </div>
     <tabledata
@@ -79,6 +82,40 @@
         </Select>
       </div>
     </Modal>
+    <Modal
+      v-model="showEditParkingPositionBox"
+      title="编辑车位信息"
+      @on-ok="editParkingPosition"
+      @on-cancel="showEditParkingPositionBox = false">
+      <div>
+          <Form ref="formValidate" :model="editParkingPositionForm" :label-width="100">
+            <FormItem label="停车场名称">
+              <Input v-model="editParkingPositionForm.parkingLotName" placeholder="请输入停车场名称" disabled></Input>
+            </FormItem>
+            <FormItem label="停车场编号">
+              <Input v-model="editParkingPositionForm.parkingLotNumber" placeholder="请输入停车场编号" disabled></Input>
+            </FormItem>
+            <FormItem label="泊位号">
+              <Input v-model="editParkingPositionForm.positionNumber" placeholder="请输入泊位号"></Input>
+            </FormItem>
+            <FormItem label="设备编号">
+              <Input v-model="editParkingPositionForm.deviceId" placeholder="请输入设备编号"></Input>
+            </FormItem>
+            <FormItem label="地磁编号">
+              <Input v-model="editParkingPositionForm.geomagnetismNumber" placeholder="请输入地磁编号"></Input>
+            </FormItem>
+            <FormItem label="路段管理员">
+              <Input v-model="editParkingPositionForm.managerName" placeholder="请输入路段管理员" disabled></Input>
+            </FormItem>
+            <FormItem label="管理员联系方式">
+              <Input v-model="editParkingPositionForm.managerNumber" placeholder="请输入管理员联系方式" disabled></Input>
+            </FormItem>
+            <FormItem label="创建时间">
+              <Input v-model="editParkingPositionForm.createTime" placeholder="请输入创建时间" disabled></Input>
+            </FormItem>
+        </Form>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -89,7 +126,8 @@ import {
   ApiAddParkingLot,
   ApigetQrCodeByManageNumber,
   ApiQueryParkingLotManager,
-  ApiaddPositionManager
+  ApiaddPositionManager,
+  ApiUpdateParkingPosition
 } from '@/api'
 import {mapGetters} from 'vuex'
 import VDistpicker from 'v-distpicker'
@@ -131,11 +169,11 @@ export default {
           align: 'center',
           key: 'deviceId'
         },
-        // {
-        //   title: '地磁编号',
-        //   align: 'center',
-        //   key: 'geomagnetismNumber'
-        // },
+        {
+          title: '地磁编号',
+          align: 'center',
+          key: 'geomagnetismNumber'
+        },
         {
           title: '路段管理员',
           align: 'center',
@@ -200,7 +238,9 @@ export default {
                       title: '操作确认',
                       content: '确认删除吗？',
                       onOk: () => {
-                        alert('删除成功')
+                        // alert('删除成功')
+                        // console.log('hello')
+                        this.deleteParkingPosition(param.row)
                       }
                     })
                   }
@@ -209,6 +249,9 @@ export default {
               h('Button', {
                 on: {
                   click: () => {
+                    // console.log('hello')
+                    this.editParkingPositionForm = param.row
+                    this.showEditParkingPositionBox = true
                   }
                 }
               }, '编辑')
@@ -244,7 +287,8 @@ export default {
         }
       ],
       addParkingForm: {
-        vendorId: 3,
+        // vendorId: 3,
+        // vendorId: this.userInfo.vendorId,
         detailedAddress: '',
         parkingLotName: ''
       },
@@ -262,13 +306,38 @@ export default {
       distributionShow: false,
       parkingLogManagerList: null,
       targetParkingManager: '',
-      targetManagerNumberList: []
+      targetManagerNumberList: [],
+      showEditParkingPositionBox: false,
+      editParkingPositionForm: {
+        // 存放从param.row传递过来的数据
+      }
     }
   },
   computed: {
     ...mapGetters(['userInfo'])
   },
   methods: {
+    // 编辑车位
+    async editParkingPosition () {
+      const data = {
+        vendorId: this.userInfo.vendorId,
+        // 车位号码 泊位号
+        positionNumber: this.editParkingPositionForm.positionNumber,
+        // 设备号
+        deviceId: this.editParkingPositionForm.deviceId,
+        // 地磁编号
+        geomagnetismNumber: this.editParkingPositionForm.geomagnetismNumber
+      }
+      const res = await ApiUpdateParkingPosition(data)
+      if (res.code === 200) {
+        this.$Message.success('编辑提交成功')
+        this.$refs.table.updateData()
+      } else {
+        this.$Message.info('编辑违停信息失败')
+      }
+      // 更新表格
+      this.$refs.table.updateData()
+    },
     // 查询停车场管理员下的路段管理员
     async findParkingLotManager () {
       const data = {
@@ -362,6 +431,7 @@ export default {
     },
     // 新增停车场
     async addParking () {
+      console.log('新增停车场')
       let data = {...this.addParkingForm, ...this.select}
       console.log(data)
       const res = await ApiAddParkingLot(data)
@@ -371,7 +441,25 @@ export default {
         this.$Message.success(res.msg)
       }
       // 更新表格
-      this.$refs.table.updateData()
+      // this.$refs.table.updateData()
+      this.$nextTick(() => {
+        this.$refs.table.updateData()
+      })
+    },
+    // 删除车位
+    async deleteParkingPosition (item) {
+      const data = {
+        // vendorId: this.userInfo.vendorId,
+        // violationNumber: item.violationNumber
+        status: 1,
+        positionNumber: item.positionNumber
+      }
+      const res = await ApiUpdateParkingPosition(data)
+      console.log(res)
+      // 删除后更新表单
+      this.$nextTick(() => {
+        this.$refs.table.updateData()
+      })
     }
   },
   mounted () {
