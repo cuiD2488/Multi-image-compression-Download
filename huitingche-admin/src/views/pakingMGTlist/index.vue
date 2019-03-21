@@ -288,16 +288,22 @@ export default {
       addPositionForm: {
         // vendorId: 3,
         // vendorId: this.userInfo.vendorId,
-        detailedAddress: '',
-        parkingLotName: ''
+        positionNumber: '',
+        deviceId: '',
+        geomagnetismNumber: ''
+        // detailedAddress: '',
+        // parkingLotName: ''
       },
       showParkingAddBox: false,
       addPositionFormRule: {
-        parkingLotName: [
+        positionNumber: [
           { required: true, message: '请输入6位车位编号', trigger: 'blur' }
         ],
-        detailedAddress: [
+        deviceId: [
           { required: true, message: '请输入设备编号', trigger: 'blur' }
+        ],
+        geomagnetismNumber: [
+          { required: true, message: '请输入地磁编号', trigger: 'blur' }
         ]
       },
       autherButtonShow: false,
