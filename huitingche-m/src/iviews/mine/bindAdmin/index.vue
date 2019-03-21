@@ -132,7 +132,7 @@ export default {
           headImageUrl: this.userInform.headImgUrl
         }
         // console.log(data)
-        if (this.state.slice(this.state.length - 1, this.state.length) === 1) {
+        if (this.state.slice(this.state.length - 1, this.state.length) === '1') {
           res = await ApiRegisterByAdminQrCode(data)
         } else {
           res = await ApiRegisterByManageNumberQrCode(data)
