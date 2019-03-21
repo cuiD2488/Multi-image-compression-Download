@@ -31,7 +31,7 @@ router.beforeEach((to, from, next) => {
   } else if (to.name === 'home') {
     next()
   } else if (to.name === 'bindAdmin') {
-    console.log(1)
+    // console.log(1)
     next()
   } else {
     Vue.$vux.toast.text('请先登录')
