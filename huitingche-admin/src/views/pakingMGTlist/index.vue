@@ -32,7 +32,7 @@
       @on-select="onSelect"
       @on-select-all="onSelectAll"
     ></tabledata>
-    <!-- 新增停车场 -->
+    <!-- 新增车位 -->
     <Modal
       v-model="showParkingAddBox"
       title="新增车位"
@@ -46,9 +46,6 @@
             <FormItem label="设备编号" prop="deviceId">
               <Input v-model="addPositionForm.deviceId" placeholder="请输入设备编号"></Input>
             </FormItem>
-            <!-- <FormItem label="详细地址" prop="detailedAddress">
-              <v-distpicker :province="select.province" :city="select.city" :area="select.county"></v-distpicker>
-            </FormItem> -->
             <FormItem label="地磁编号" prop="geomagnetismNumber">
               <Input v-model="addPositionForm.geomagnetismNumber" placeholder="请输入地磁编号"></Input>
             </FormItem>
