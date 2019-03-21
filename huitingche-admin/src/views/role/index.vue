@@ -163,7 +163,7 @@ export default {
       vendorId: this.userInfo.vendorId
     }
     if (this.userInfo.role === 2) {
-      this.queryData.superiorNumber = this.userInfo.superiorNumber
+      this.queryData.superiorNumber = this.userInfo.managerNumber
     }
   }
 }

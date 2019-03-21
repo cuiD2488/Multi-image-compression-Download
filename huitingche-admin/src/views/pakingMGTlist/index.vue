@@ -217,9 +217,7 @@ export default {
         }
       ],
       queryUrl: URLfindPositionByCondition,
-      queryData: {
-        vendorId: 3
-      },
+      queryData: {},
       page: 1,
       num: 10,
       type: 'json',
@@ -377,6 +375,13 @@ export default {
   mounted () {
     this.findParkingLotManager()
     console.log(this.userInfo)
+  },
+  created () {
+    // 初始化查询参数
+    this.queryData.vendorId = this.userInfo.vendorId
+    if (this.userInfo.role === 2) {
+      this.queryData.superiorNumber = this.userInfo.managerNumber
+    }
   }
 }
 </script>
