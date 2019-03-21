@@ -180,7 +180,7 @@ export default {
         },
         {
           name: '操作人',
-          key: 'managerNumber'
+          key: 'managerName'
         }
       ],
       editViolationFormRule: {

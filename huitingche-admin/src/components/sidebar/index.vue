@@ -29,10 +29,10 @@
            <Icon type="heart"></Icon>
                 设备管理
         </Menu-item> -->
-        <Menu-item name="parkingChargeRecord" key="6" v-if="userInfo.role === 1 || userInfo.role === 2">
+        <!-- <Menu-item name="parkingChargeRecord" key="6" v-if="userInfo.role === 1 || userInfo.role === 2">
           <Icon type="heart-broken"></Icon>
                 停车收费记录
-        </Menu-item>
+        </Menu-item> -->
         <!-- <Menu-item name="parkingFeesReport" key="6">
           <Icon type="heart-broken"></Icon>
                 车位收费统计报表
