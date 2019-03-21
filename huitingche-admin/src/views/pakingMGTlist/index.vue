@@ -430,7 +430,14 @@ export default {
     // 新增停车场
     async addPosition () {
       console.log('新增车位')
-      let data = {...this.addPositionForm}
+      let data = {
+        // ...this.addPositionForm,
+        deviceId: this.addPositionForm.deviceId,
+        positionNumber: this.addPositionForm.positionNumber,
+        geomagnetismNumber: this.addPositionForm.geomagnetismNumber,
+        vendorId: this.userInfo.vendorId,
+        parkingLotNumber: this.userInfo.parkingLotNumber
+      }
       console.log(data)
       const res = await ApiAddParkingPosition(data)
       if (res.code === 200) {

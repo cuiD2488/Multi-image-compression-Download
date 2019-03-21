@@ -42,7 +42,8 @@ export default {
       passwordAgain: '',
       // url中state参数 最后一位为判断管理员等级用 最后一位之前为停车场编号
       state: '',
-      userInform: JSON.parse(sessionStorage.getItem('userInform')),
+      // userInform: JSON.parse(sessionStorage.getItem('userInform')),
+      userInform: null,
       // 发送验证码文字
       btnMessage: '发送验证码'
     }
@@ -74,6 +75,7 @@ export default {
         // this.userInform = res.data
         // 通过接口获取用户信息并存储至缓存中
         sessionStorage.setItem('userInform', JSON.stringify(res.data))
+        this.userInform = JSON.parse(JSON.stringify(res.data))
       } else {
         this.$vux.toast.text('微信登录失败请刷新后重试')
       }

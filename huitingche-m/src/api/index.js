@@ -350,7 +350,7 @@ export const ApMakeUpMoney = async (data) => {
 export const URLregisterByAdminQrCode = '/registerByAdminQrCode.json'
 export const ApiRegisterByAdminQrCode = async (data) => {
   try {
-    const res = await Axios.get(URLregisterByAdminQrCode, {params: data})
+    const res = await Axios.post(URLregisterByAdminQrCode, data)
     return res
   } catch (error) {
     throw new Error(error)
@@ -370,7 +370,7 @@ export const ApiRegisterByAdminQrCode = async (data) => {
 export const URLregisterByManageNumberQrCode = '/registerByManageNumberQrCode.json'
 export const ApiRegisterByManageNumberQrCode = async (data) => {
   try {
-    const res = await Axios.get(URLregisterByManageNumberQrCode, {params: data})
+    const res = await Axios.post(URLregisterByManageNumberQrCode, data)
     return res
   } catch (error) {
     throw new Error(error)
