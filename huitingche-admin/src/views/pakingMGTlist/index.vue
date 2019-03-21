@@ -14,13 +14,10 @@
           <Icon type="ios-search" slot="suffix" />
         </Input>
       </div>
-      <div v-if="userInfo.role === 1">
+      <div v-if="userInfo.role === 2">
         <Button @click="distributionShow = true" type="primary">分配车位</Button>
         <Button @click="getAuother" type="primary">授权路段管理员</Button>
-        <Button @click="showParkingAddBox = true" type="primary">新增停车场</Button>
-      </div>
-      <div>
-        
+        <Button @click="showParkingAddBox = true" type="primary">新增车位</Button>
       </div>
     </div>
     <tabledata
@@ -38,19 +35,22 @@
     <!-- 新增停车场 -->
     <Modal
       v-model="showParkingAddBox"
-      title="新增停车场"
-      @on-ok="addParking"
+      title="新增车位"
+      @on-ok="addPosition"
       @on-cancel="showParkingAddBox = false">
       <div>
-          <Form ref="formValidate" :model="addParkingForm" :rules="addParkingFormRule" :label-width="100">
-            <FormItem label="停车场名字" prop="parkingLotName">
-              <Input v-model="addParkingForm.parkingLotName" placeholder="请输入停车场名字"></Input>
+          <Form ref="formValidate" :model="addPositionForm" :rules="addPositionFormRule" :label-width="100">
+            <FormItem label="车位编号" prop="positionNumber">
+              <Input v-model="addPositionForm.positionNumber" placeholder="请输入车位编号"></Input>
             </FormItem>
-            <FormItem label="详细地址" prop="detailedAddress">
-              <Input v-model="addParkingForm.detailedAddress" placeholder="请输入详细地址"></Input>
+            <FormItem label="设备编号" prop="deviceId">
+              <Input v-model="addPositionForm.deviceId" placeholder="请输入设备编号"></Input>
             </FormItem>
-            <FormItem label="详细地址" prop="detailedAddress">
+            <!-- <FormItem label="详细地址" prop="detailedAddress">
               <v-distpicker :province="select.province" :city="select.city" :area="select.county"></v-distpicker>
+            </FormItem> -->
+            <FormItem label="地磁编号" prop="geomagnetismNumber">
+              <Input v-model="addPositionForm.geomagnetismNumber" placeholder="请输入地磁编号"></Input>
             </FormItem>
         </Form>
       </div>
@@ -123,7 +123,8 @@
 import tabledata from '@/components/tabledata'
 import {
   URLfindPositionByCondition,
-  ApiAddParkingLot,
+  // ApiAddParkingLot,
+  ApiAddParkingPosition,
   ApigetQrCodeByManageNumber,
   ApiQueryParkingLotManager,
   ApiaddPositionManager,
@@ -284,22 +285,21 @@ export default {
           key: 'managerName'
         }
       ],
-      addParkingForm: {
+      addPositionForm: {
         // vendorId: 3,
         // vendorId: this.userInfo.vendorId,
         detailedAddress: '',
         parkingLotName: ''
       },
       showParkingAddBox: false,
-      addParkingFormRule: {
+      addPositionFormRule: {
         parkingLotName: [
-          { required: true, message: '请输入停车场名字', trigger: 'blur' }
+          { required: true, message: '请输入6位车位编号', trigger: 'blur' }
         ],
         detailedAddress: [
-          { required: true, message: '请输入详细地址', trigger: 'blur' }
+          { required: true, message: '请输入设备编号', trigger: 'blur' }
         ]
       },
-      select: { province: '广东省', city: '广州市', county: '海珠区' },
       autherButtonShow: false,
       distributionShow: false,
       parkingLogManagerList: null,
@@ -428,11 +428,11 @@ export default {
       }
     },
     // 新增停车场
-    async addParking () {
-      console.log('新增停车场')
-      let data = {...this.addParkingForm, ...this.select}
+    async addPosition () {
+      console.log('新增车位')
+      let data = {...this.addPositionForm}
       console.log(data)
-      const res = await ApiAddParkingLot(data)
+      const res = await ApiAddParkingPosition(data)
       if (res.code === 200) {
         this.$Message.success('新增成功')
       } else {

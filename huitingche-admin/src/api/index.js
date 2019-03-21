@@ -245,3 +245,13 @@ export const ApiUpdateParkingPosition = async (data) => {
 //     throw new Error(error)
 //   }
 // }
+// 新增车位
+export const URLaddParkingPosition = '/addParkingPosition.json'
+export const ApiAddParkingPosition = async (data) => {
+  try {
+    const res = await Axios.post(URLaddParkingPosition, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
