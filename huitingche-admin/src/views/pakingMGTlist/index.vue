@@ -85,7 +85,7 @@
       @on-ok="editParkingPosition"
       @on-cancel="showEditParkingPositionBox = false">
       <div>
-          <Form ref="formValidate" :model="editParkingPositionForm" :label-width="100">
+          <Form ref="formValidate" :model="editParkingPositionForm" :rules="editPositionFormRule" :label-width="100">
             <FormItem label="停车场名称">
               <Input v-model="editParkingPositionForm.parkingLotName" placeholder="请输入停车场名称" disabled></Input>
             </FormItem>
@@ -292,6 +292,17 @@ export default {
         // parkingLotName: ''
       },
       showParkingAddBox: false,
+      editPositionFormRule: {
+        positionNumber: [
+          { required: true, message: '请输入6位车位编号', trigger: 'blur', len: 6 }
+        ]
+        // deviceId: [
+        //   { required: true, message: '请输入设备编号', trigger: 'blur' }
+        // ],
+        // geomagnetismNumber: [
+        //   { required: true, message: '请输入地磁编号', trigger: 'blur' }
+        // ]
+      },
       addPositionFormRule: {
         positionNumber: [
           { required: true, message: '请输入6位车位编号', trigger: 'blur', len: 6 }
