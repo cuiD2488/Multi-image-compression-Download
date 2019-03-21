@@ -294,7 +294,7 @@ export default {
       showParkingAddBox: false,
       addPositionFormRule: {
         positionNumber: [
-          { required: true, message: '请输入6位车位编号', trigger: 'blur' }
+          { required: true, message: '请输入6位车位编号', trigger: 'blur', len: 6 }
         ],
         deviceId: [
           { required: true, message: '请输入设备编号', trigger: 'blur' }
