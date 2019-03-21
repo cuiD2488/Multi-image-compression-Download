@@ -288,8 +288,11 @@ export default {
       addPositionForm: {
         // vendorId: 3,
         // vendorId: this.userInfo.vendorId,
-        detailedAddress: '',
-        parkingLotName: ''
+        positionNumber: '',
+        deviceId: '',
+        geomagnetismNumber: ''
+        // detailedAddress: '',
+        // parkingLotName: ''
       },
       showParkingAddBox: false,
       addPositionFormRule: {
