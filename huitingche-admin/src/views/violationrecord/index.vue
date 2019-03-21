@@ -39,7 +39,7 @@
       @on-cancel="showEditBox = false">
       <div>
         <!-- :rules="editViolationFormRule" -->
-          <Form ref="formValidate" :model="editViolationForm" :label-width="100">
+          <Form ref="formValidate" :model="editViolationForm" :rules="editViolationFormRule" :label-width="100">
             <FormItem label="违停编号">
                <!-- prop="violationNumber"  prop="positionNumber"  prop="numberPlate" -->
               <Input v-model="editViolationForm.violationNumber" placeholder="请输入违停编号" disabled></Input>
@@ -183,6 +183,14 @@ export default {
           key: 'managerNumber'
         }
       ],
+      editViolationFormRule: {
+        positionNumber: [
+          { required: true, message: '请输入停车场名字', trigger: 'blur' }
+        ],
+        reasons: [
+          { required: true, message: '请输入违停原因', trigger: 'blur' }
+        ]
+      },
       editViolationForm: {
         // 存放从param.row传递过来的数据
       },
