@@ -536,6 +536,8 @@ export default {
       }
       const res = await ApiDeleteParkingLot(data)
       console.log(res)
+      // 更新表格
+      this.$refs.table.updateData()
     },
     // 规则设置/编辑完成
     async ruleConfrim () {
