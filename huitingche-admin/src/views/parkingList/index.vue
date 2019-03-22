@@ -107,6 +107,9 @@
               <TimePicker :disabled="targetShowRule === 1" v-model="aruleForm.date" confirm  format="HH:mm" type="timerange" placement="bottom-end" placeholder="请选择收费时间段" style="width: 168px"></TimePicker>
             </Col>
           </FormItem>
+          <FormItem>
+            <div>规则时间与价格以半小时为单位</div>
+          </FormItem>
           <FormItem label="一档计价标准" prop="detailedAddress">
             <Input disabled v-model="valuationList[0].ruleStartTime" placeholder="起始时间" style="width:80px;"></Input>
             -
@@ -510,8 +513,11 @@ export default {
     },
     // 新增停车场
     async addParking () {
-      let data = {...this.addParkingForm, ...this.select}
-      console.log(data)
+      let data = {
+        ...this.addParkingForm,
+        ...this.select,
+        vendorId: this.userInfo.vendorId
+      }
       const res = await ApiAddParkingLot(data)
       if (res.code === 200) {
         this.$Message.success('新增成功')
@@ -536,11 +542,21 @@ export default {
       if (this.targetShowRule === 1) {
         return false
       }
+      // 将用户输入的上一档的结束时间赋值给下一档的开始时间
+      this.valuationList[1].ruleStartTime = this.valuationList[0].ruleEndTime
+      this.valuationList[2].ruleStartTime = this.valuationList[1].ruleEndTime
+      this.valuationList[2].ruleEndTime = 9999
       for (let i in this.valuationList) {
         for (let j in this.valuationList[i]) {
           if (!this.valuationList[i][j]) {
-            console.log(this.valuationList[i][j])
-            console.log(this.valuationList[i])
+            // console.log('进入判断1')
+            // console.log(i)
+            // console.log('进入判断2')
+            // console.log(j)
+            // console.log('进入判断3')
+            // console.log(this.valuationList[i][j])
+            // console.log('进入判断4')
+            // console.log(this.valuationList[i])
             this.$Message.error('规则设置不能为空')
             return false
           }
@@ -557,7 +573,7 @@ export default {
           }
         ]
       }
-      console.log(JSON.stringify(data))
+      // console.log(JSON.stringify(data))
       let res
       let codeText
       if (this.targetShowRule === 0) {
@@ -569,6 +585,8 @@ export default {
       }
       if (res.code === 200) {
         this.$Message.success(codeText)
+        // 更新表格
+        this.$refs.table.updateData()
       }
       console.log(res)
     },

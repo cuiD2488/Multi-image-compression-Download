@@ -113,7 +113,7 @@ export const ApigetQrCode = async (data) => {
 export const URLgetQrCodeByManageNumber = '/getQrCodeByManageNumber.json'
 export const ApigetQrCodeByManageNumber = async (data) => {
   try {
-    const res = await Axios.post(URLgetQrCodeByManageNumber, data)
+    const res = await Axios.get(URLgetQrCodeByManageNumber, {params: data})
     return res
   } catch (error) {
     throw new Error(error)

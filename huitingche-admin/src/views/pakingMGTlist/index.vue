@@ -471,8 +471,10 @@ export default {
     }
   },
   mounted () {
-    this.findParkingLotManager()
-    console.log(this.userInfo)
+    if (this.userInfo.role === 2) {
+      this.findParkingLotManager()
+    }
+    // console.log(this.userInfo)
   },
   created () {
     // 初始化查询参数
