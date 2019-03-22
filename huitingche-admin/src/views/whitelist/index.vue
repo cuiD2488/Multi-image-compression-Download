@@ -1,7 +1,7 @@
 <template>
   <div class="whitelist">
     <div class="whitnav">
-      <Button type="primary">新增白名单</Button>
+      <Button type="primary" @click="showWhitelistAddBox = true">新增白名单</Button>
         <Input v-model="searchValue" @on-enter="searchFind" @on-search="searchFind" placeholder="车牌号查询" class="search">
         <!-- @on-enter="searchFind" @on-search="searchFind" class="search" -->
           <Button slot="append" icon="ios-search" @click="searchFind"></Button>
@@ -20,6 +20,33 @@
     :type="type"
     border
     ></tabledata>
+    <!-- 新增白名单 -->
+    <Modal
+      v-model="showWhitelistAddBox"
+      title="新增白名单"
+      @on-ok="addWhitlist"
+      @on-cancel="showWhitelistAddBox = false">
+      <div>
+        <!-- :rules="editViolationFormRule" -->
+          <Form ref="formValidate" :model="addWhitelistForm" :rules="addWhitelistFormRule" :label-width="100">
+             <!-- :rules="editWhitlistFormRule" -->
+            <FormItem label="操作人" prop="operator" >
+               <!-- prop="violationNumber"  prop="positionNumber"  prop="numberPlate" -->
+              <Input v-model="addWhitelistForm.operator" placeholder="请输入操作人"></Input>
+            </FormItem>
+            <FormItem label="备注" prop="remark">
+              <Input v-model="addWhitelistForm.remark" placeholder="请输入备注"></Input>
+            </FormItem>
+            <FormItem label="车牌号" prop="abbreviationcarNumber">
+              <Input v-model="addWhitelistForm.abbreviationcarNumber" placeholder="请输入车牌号"></Input>
+            </FormItem>
+            <!-- <FormItem label="车牌号">
+              <Input :value="addWhitelistForm.abbreviation + addWhitelistForm.carNumber" placeholder="请输入车牌号"></Input>
+            </FormItem> -->
+        </Form>
+      </div>
+    </Modal>
+    <!-- 编辑白名单 -->
     <Modal
       v-model="showEditBox"
       title="编辑"
@@ -31,7 +58,7 @@
              <!-- :rules="editWhitlistFormRule" -->
             <FormItem label="操作人">
                <!-- prop="violationNumber"  prop="positionNumber"  prop="numberPlate" -->
-              <Input v-model="editWhitlistForm.managerName" placeholder="请输入操作人"></Input>
+              <Input v-model="editWhitlistForm.operator" placeholder="请输入操作人"></Input>
             </FormItem>
             <FormItem label="备注">
               <Input v-model="editWhitlistForm.remark" placeholder="请输入备注"></Input>
@@ -50,7 +77,7 @@
 
 <script>
 import tabledata from '@/components/tabledata'
-import {URLqueryPkWhitelist, ApiDeletePkWhitelist, ApiUpdatePkWhitelist} from '@/api'
+import {URLqueryPkWhitelist, ApiDeletePkWhitelist, ApiUpdatePkWhitelist, ApiAddPkWhitelist} from '@/api'
 import {mapGetters} from 'vuex'
 export default {
   components: {
@@ -73,7 +100,7 @@ export default {
         },
         {
           title: '操作人',
-          key: 'managerName'
+          key: 'operator'
         },
         {
           title: '备注',
@@ -123,6 +150,23 @@ export default {
           }
         }
       ],
+      showWhitelistAddBox: false,
+      addWhitelistForm: {
+        operator: '',
+        remark: '',
+        abbreviationcarNumber: ''
+      },
+      addWhitelistFormRule: {
+        operator: [
+          { required: true, message: '请输入操作人', trigger: 'blur' }
+        ],
+        remark: [
+          { required: true, message: '请输入备注', trigger: 'blur' }
+        ],
+        abbreviationcarNumber: [
+          { required: true, message: '请输入车牌号', min: 9, trigger: 'blur' }
+        ]
+      },
       searchValue: '',
       showEditBox: false,
       editWhitlistForm: {},
@@ -152,11 +196,36 @@ export default {
           carNumber: this.queryData.carNumber
         }
       } else {
-        this.$Message.info('您输入的内容有误')
+        // this.$Message.info('您输入的内容有误')
+        delete this.queryData.abbreviation
+        delete this.queryData.carNumber
+        this.queryData.vendorId = this.userInfo.vendorId
       }
       this.$nextTick(() => {
         this.$refs.table.updateData()
       })
+    },
+    // 新增白名单
+    async addWhitlist () {
+      let data = {
+        // 需要传递的参数
+        vendorId: this.userInfo.vendorId,
+        operator: this.addWhitelistForm.operator,
+        remark: this.addWhitelistForm.remark,
+        whiteCreateTime: this.addWhitelistForm.whiteCreateTime,
+        abbreviation: this.addWhitelistForm.abbreviationcarNumber.substring(0, 2),
+        carNumber: this.addWhitelistForm.abbreviationcarNumber.substring(2)
+        // abbreviation: this.addWhitelistForm.abbreviation,
+        // carNumber: this.addWhitelistForm.carNumber
+      }
+      const res = await ApiAddPkWhitelist(data)
+      if (res.code === 200) {
+        this.$Message.success('新增成功')
+      } else {
+        this.$Message.success(res.msg)
+      }
+      // 更新表格
+      this.$refs.table.updateData()
     },
     // 删除白名单
     async deleteWhiteList (item) {

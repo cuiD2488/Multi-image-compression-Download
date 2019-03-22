@@ -277,3 +277,13 @@ export const ApiUpdatePkWhitelist = async (data) => {
     throw new Error(error)
   }
 }
+// 新增白名单
+export const URLaddPkWhitelist = '/addPkWhitelist.json'
+export const ApiAddPkWhitelist = async (data) => {
+  try {
+    const res = await Axios.post(URLaddPkWhitelist, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
