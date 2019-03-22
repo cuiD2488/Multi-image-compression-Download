@@ -34,7 +34,7 @@
             <img class="lockImg" src="@/assets/lock.png">{{userInform.userId.substr(0, 3) + '****' + userInform.userId.substr(7)}}
           </span>
         </p>
-        <p v-if="+walletMsg.whetherAdmin === 1" @click="$router.push({name: 'report'})">违停举报</p>
+        <p v-if="walletMsg && +walletMsg.whetherAdmin === 1" @click="$router.push({name: 'report'})">违停举报</p>
       </div>
     </div>
   </div>
