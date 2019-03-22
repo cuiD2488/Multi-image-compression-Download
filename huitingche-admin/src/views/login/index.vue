@@ -22,7 +22,7 @@
         <!-- <div><span style="color:blue;cursor:pointer" @click="OpenAlert">忘记密码?</span></div> -->
         <FormItem style="text-align:right;width:100%;">
           <Button type="primary" @click="handleSubmit('formInline')">登录</Button>
-          <Button type="primary" @click="$router.push({name: 'regist'})">注册</Button>
+          <!-- <Button type="primary" @click="$router.push({name: 'regist'})">注册</Button> -->
           <Button type="primary" @click="showForgetPassword">忘记密码</Button>
         </FormItem>
       </Form>
@@ -68,7 +68,7 @@
 <script>
 import {ApiManagerLogin} from '@/api'
 // import changePassword from '@/components/changePassword'
-import md5 from 'js-md5'
+// import md5 from 'js-md5'
 export default {
   components: {
     // changePassword
@@ -115,8 +115,8 @@ export default {
       this.$Message.loading('登录中...')
       const data = {
         phone: this.formInline.user,
-        // password: this.formInline.password
-        password: md5(this.formInline.password)
+        password: this.formInline.password
+        // password: md5(this.formInline.password)
       }
       const res = await ApiManagerLogin(data)
       console.log(res)
