@@ -8,9 +8,10 @@
     font-size: .45rem;">
       举报违停
     </div>
-    <XInput class="input" placeholder="车位编号" v-model="formData.positionNumber"></XInput>
-    <XInput class="input" placeholder="车牌号" v-model="formData.orderNumber"></XInput>
-    <XInput class="input" placeholder="管理员编号" v-model="formData.managerNumber"></XInput>
+    <XInput class="input" placeholder="车位编号" v-model="formData.positionNumber" :min="6" :max="6" required :show-clear="false"></XInput>
+    <XInput class="input" placeholder="车牌号简称(前两位)" v-model="formData.abbreviation" :min="2" :max="8" required :show-clear="false"></XInput>
+    <XInput class="input" placeholder="车牌号后5/6位" v-model="formData.numberPlate" :min="5" :max="6" required :show-clear="false"></XInput>
+    <XInput class="input" placeholder="管理员编号" v-model="formData.managerNumber" :show-clear="false"></XInput>
     <x-textarea class="input" :max="20" v-model="formData.reasons" placeholder="请输入违章原因" @on-focus="onEvent('focus')" @on-blur="onEvent('blur')"></x-textarea>
     <div class="inputImte">
       <p>上传证据</p>
@@ -54,7 +55,8 @@ export default {
       },
       formData: {
         positionNumber: '',
-        orderNumber: '',
+        abbreviation: '',
+        numberPlate: '',
         reasons: '',
         violationImage: '',
         managerNumber: ''
@@ -112,6 +114,10 @@ export default {
     },
     // 提交
     async getBindTel () {
+      // if (this.formData.positionNumber.length !== 6) {
+      //   this.$vux.toast.text('车位编号为6位,请检查后重试')
+      //   return
+      // }
       const data = this.formData
       const res = await ApiAddPkViolation(data)
       console.log(res)
