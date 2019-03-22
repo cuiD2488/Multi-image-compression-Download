@@ -12,15 +12,16 @@
         <div class="location">{{item.city + item.county + item.detailedAddress + item.parkingLotName}}</div>
         <div class="date">
           <span>停车时间：</span>
-          <span>{{item.enterTime}}<span v-if="item.outTime"> 至 {{item.outTime}}</span></span>
+          <span v-if="item.enterTime || item.outTime">{{item.enterTime}}<span v-if="item.outTime"> 至 {{item.outTime}}</span></span>
+          <span v-else>暂无停车时间</span>
         </div>
         <div class="date">
           <div v-if="item.orderStatus === 2">订单金额：<span style="color:#000">{{item.orderMoney}}元</span></div>
-          <div v-else>预付金额：<span style="color:#000">{{item.orderMoney}}元</span></div>
+          <div v-else-if="item.orderMoney">预付金额：<span style="color:#000">{{item.orderMoney}}元</span></div>
           <div>实付金额：<span style="color:#000">{{item.actualPayMoney}}元</span></div>
         </div>
         <div class="delLine">
-          <div>{{item.orderStatus === 0 ? '待支付' : item.orderStatus === 1 ? '支付成功' : '待补缴:' + item.orderRepairMoney + '元'}}</div>
+          <div>{{item.orderStatus === 1 ? '支付成功' : item.orderStatus === 2 ? '待补缴:' + item.orderRepairMoney + '元' : '已完成'}}</div>
           <div class="deleteDiv">
             <x-button v-if="item.orderStatus === 2" @click.native="payOrder(item.orderNumber, item.orderRepairMoney)" type="primary" mini text="支付" class="deleteBtn"></x-button>
             <x-button v-else-if="item.orderStatus === 3" @click.native="deleteOrder(item.orderNumber)" type="primary" mini text="删除" class="deleteBtn"></x-button>
@@ -312,7 +313,7 @@ export default {
 }
 .parkingRecordContent{
   text-align: left;
-  padding: 20px 0;
+  padding-top: 20px 0;
   font-size: 28px;
   >div {
     margin-bottom: 20px;

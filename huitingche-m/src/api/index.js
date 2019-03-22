@@ -275,13 +275,13 @@ export const ApiAddPkViolation = async (data) => {
 }
 
 // 图片上传
-export const URLaddPictures = 'http://cyc8.cn/addPictures.json'
-export const ApiAaddPictures = async (data) => {
+export const URLuploadBanner = 'http://cyc8.cn/uploadBanner.json'
+export const ApiUploadBanner = async (data) => {
   const config = {
     headers: {'Content-Type': 'multipart/form-data'}
   }
   try {
-    const res = await Axios.post(URLaddPictures, data, config)
+    const res = await Axios.post(URLuploadBanner, data, config)
     return res
   } catch (err) {
     console.log(err)
@@ -394,5 +394,35 @@ export const ApiFindParkingLotNumberLByLot = async (data) => {
     return res
   } catch (error) {
     throw new Error(error)
+  }
+}
+
+// 使用管理员编号获取vendorId
+/**
+ * managerNumber 管理员编号
+ */
+export const URLqueryParkingLotManager = '/queryParkingLotManager.json'
+export const ApiQueryParkingLotManager = async (data) => {
+  try {
+    const res = await Axios.post(URLqueryParkingLotManager, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+// 上传图片
+export const UPLOADPIC = 'https://test.cyc8.cn/addPictures.json'
+// export const API_UPLOADPIC = env === 'development' ? `${UPLOADPIC}` : `/pdShop${UPLOADPIC}`
+
+export const ApiAddPictures = async (data) => {
+  const config = {
+    headers: {'Content-Type': 'multipart/form-data'}
+  }
+  try {
+    const res = await Axios.post(UPLOADPIC, data, config)
+    return res
+  } catch (err) {
+    console.log(err)
   }
 }

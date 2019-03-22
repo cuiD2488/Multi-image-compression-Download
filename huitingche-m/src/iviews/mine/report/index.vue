@@ -31,7 +31,8 @@
 </template>
 <script>
 import { AlertModule, XTextarea, Spinner, Group, Cell, XInput, XButton, Toast, XAddress, ChinaAddressV4Data, Value2nameFilter as value2name } from 'vux'
-import {ApiAaddPictures, ApiAddPkViolation} from '@/api'
+import {ApiAddPkViolation, ApiAddPictures} from '@/api'
+// ApiUploadBanner,
 export default {
   components: {
     XInput,
@@ -90,10 +91,12 @@ export default {
       let file = fileDocument.files[0]
       let param = new FormData()
       param.append('image', file)
-      param.append('imgType', 'file')
+      // param.append('imgType', 'file')
       console.log(param.get('file'))
-      const res = await ApiAaddPictures(param)
-      this.targetImg[name].push(res.imgPath)
+      // const res = await ApiUploadBanner(param)
+      const res1 = await ApiAddPictures(param)
+      console.log(res1)
+      // this.targetImg[name].push(res.imgPath)
       // 把图片数组转成字符串赋值给需要上传的时传的参数变量
       this.formData.violationImage = this.targetImg[name].join(',')
       // 获取bease64本地预览 笔记

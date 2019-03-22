@@ -1,6 +1,6 @@
 <template>
   <div class="layout-default">
-    <transition name="fade" mode="out-in">
+    <transition name="fade" class="page" mode="out-in">
       <router-view></router-view>
     </transition>
     <m-tabbar id="foot"></m-tabbar>
