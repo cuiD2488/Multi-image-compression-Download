@@ -216,8 +216,9 @@ export default {
         },
         {
           title: '创建时间',
-          align: 'center',
-          key: 'createTime'
+          render: (h, params) => {
+            return h('div', params.row.createTime.slice(0, params.row.createTime.length - 5))
+          }
         },
         {
           title: '操作',
@@ -393,7 +394,8 @@ export default {
         return false
       }
       const data = {
-        parkingLotNumber: '000002',
+        // parkingLotNumber: '000002',
+        parkingLotNumber: this.userInfo.parkingLotNumber,
         managerNumber: this.targetParkingManager,
         positionNumberList: this.targetManagerNumberList.toString()
       }

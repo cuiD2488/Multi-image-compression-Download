@@ -126,9 +126,15 @@ export default {
           title: '预付费开始时间',
           key: 'buyStartTime'
         },
+        // {
+        //   title: '创建时间',
+        //   key: 'orderCreateTime'
+        // }
         {
           title: '创建时间',
-          key: 'orderCreateTime'
+          render: (h, params) => {
+            return h('div', params.row.orderCreateTime.slice(0, params.row.orderCreateTime.length - 5))
+          }
         }
       ],
       queryUrl: URLqueryPkOrder,

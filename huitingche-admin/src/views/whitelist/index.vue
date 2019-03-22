@@ -81,7 +81,9 @@ export default {
         },
         {
           title: '创建时间',
-          key: 'whiteCreateTime'
+          render: (h, params) => {
+            return h('div', params.row.whiteCreateTime.slice(0, params.row.whiteCreateTime.length - 5))
+          }
         },
         {
           title: '操作',

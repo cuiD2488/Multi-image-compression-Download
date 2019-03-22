@@ -123,8 +123,10 @@ export default {
           key: 'reasons'
         },
         {
-          title: '违停创建时间',
-          key: 'violationCreateTime'
+          title: '创建时间',
+          render: (h, params) => {
+            return h('div', params.row.violationCreateTime.slice(0, params.row.violationCreateTime.length - 5))
+          }
         },
         {
           title: '操作',
