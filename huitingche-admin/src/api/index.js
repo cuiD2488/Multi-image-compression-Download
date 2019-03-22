@@ -255,3 +255,25 @@ export const ApiAddParkingPosition = async (data) => {
     throw new Error(error)
   }
 }
+// 查询白名单
+export const URLqueryPkWhitelist = '/queryPkWhitelist.json'
+// 删除白名单
+export const URLdeletePkWhitelist = '/deletePkWhitelist.json'
+export const ApiDeletePkWhitelist = async (data) => {
+  try {
+    const res = await Axios.post(URLdeletePkWhitelist, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+// 编辑白名单 /updatePkWhitelist.json
+export const URLupdatePkWhitelist = '/updatePkWhitelist.json'
+export const ApiUpdatePkWhitelist = async (data) => {
+  try {
+    const res = await Axios.post(URLupdatePkWhitelist, data)
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}

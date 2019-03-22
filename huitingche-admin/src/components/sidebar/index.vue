@@ -53,10 +53,10 @@
           <Icon type="heart-broken"></Icon>
           体制内人员管理
         </Menu-item>
-         <!-- <Menu-item name="chargerules" key="10">
+         <Menu-item name="whitelist" key="10">
             <Icon type="heart-broken"></Icon>
-                停车场收费规则
-        </Menu-item> -->
+                白名单
+        </Menu-item>
         <!-- <Menu-item name="merchant" key="13">
             <Icon type="heart-broken"></Icon>
                 子商户管理

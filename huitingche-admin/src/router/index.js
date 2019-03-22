@@ -56,14 +56,14 @@ export default new Router({
           },
           component: reslove => { require(['../views/unpaid'], reslove) }
         },
-        // {
-        //   path: 'parkingChargeRecord',
-        //   name: 'parkingChargeRecord',
-        //   meta: {
-        //     title: '停车收费记录'
-        //   },
-        //   component: reslove => { require(['../views/parkingChargeRecord'], reslove) }
-        // },
+        {
+          path: 'whitelist',
+          name: 'whitelist',
+          meta: {
+            title: '白名单'
+          },
+          component: reslove => { require(['../views/whitelist'], reslove) }
+        },
         {
           path: 'role',
           name: 'role',
