@@ -61,6 +61,15 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/web/ystc-m/',
 
+    // 智慧停车打包参数
+    // Template for index.html
+    // index: path.resolve(__dirname, '../zhtc-m/index.html'),
+
+    // Paths
+    // assetsRoot: path.resolve(__dirname, '../zhtc-m'),
+    // assetsSubDirectory: 'static',
+    // assetsPublicPath: '/web/zhtc-m/',
+
     /**
      * Source Maps
      */
