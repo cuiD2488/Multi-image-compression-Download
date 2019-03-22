@@ -164,7 +164,7 @@ export default {
           { required: true, message: '请输入备注', trigger: 'blur' }
         ],
         abbreviationcarNumber: [
-          { required: true, message: '请输入车牌号', min: 9, trigger: 'blur' }
+          { required: true, message: '请输入车牌号（9位）', min: 9, trigger: 'blur' }
         ]
       },
       searchValue: '',

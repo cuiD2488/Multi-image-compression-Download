@@ -113,11 +113,11 @@
           <FormItem label="一档计价标准" prop="detailedAddress">
             <Input disabled v-model="valuationList[0].ruleStartTime" placeholder="起始时间" style="width:80px;"></Input>
             -
-            <Input :disabled="targetShowRule === 1" v-model="valuationList[0].ruleEndTime" placeholder="截止时间" :type="number" style="width:80px;"></Input>
+            <Input :disabled="targetShowRule === 1" v-model="valuationList[0].ruleEndTime" placeholder="截止时间" type="number" style="width:80px;"></Input>
             -
-            <Input :disabled="targetShowRule === 1" v-model="valuationList[0].ruleValue" placeholder="普通单价价格" :type="number" style="width:100px;"></Input>
+            <Input :disabled="targetShowRule === 1" v-model="valuationList[0].ruleValue" placeholder="普通单价价格" type="number" style="width:100px;"></Input>
             -
-            <Input :disabled="targetShowRule === 1" v-model="valuationList[0].whiteRuleValue" placeholder="白名单单价" :type="number" style="width:100px;"></Input>
+            <Input :disabled="targetShowRule === 1" v-model="valuationList[0].whiteRuleValue" placeholder="白名单单价" type="number" style="width:100px;"></Input>
           </FormItem>
            <FormItem label="二档计价标准" prop="detailedAddress">
             <Input :disabled="targetShowRule === 1" v-model="valuationList[0].ruleEndTime" placeholder="起始时间" :type="number" style="width:80px;"></Input>
@@ -536,6 +536,8 @@ export default {
       }
       const res = await ApiDeleteParkingLot(data)
       console.log(res)
+      // 更新表格
+      this.$refs.table.updateData()
     },
     // 规则设置/编辑完成
     async ruleConfrim () {
