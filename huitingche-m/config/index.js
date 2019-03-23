@@ -14,6 +14,7 @@ module.exports = {
       '/api': {
         // target: 'http://localhost:8093',
         target: 'https://test.cyc8.cn',
+        // target: 'https://cyc8.cn',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''
