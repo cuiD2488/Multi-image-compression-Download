@@ -275,7 +275,7 @@ export const ApiAddPkViolation = async (data) => {
 }
 
 // 图片上传
-export const URLaddPictures = 'http://cyc8.cn/addPictures.json'
+export const URLaddPictures = '/addPictures.json'
 export const ApiAaddPictures = async (data) => {
   const config = {
     headers: {'Content-Type': 'multipart/form-data'}

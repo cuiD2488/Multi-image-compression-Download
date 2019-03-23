@@ -46,7 +46,7 @@
           <p><span>费用合计：</span>{{parkingMoney}}元</p>
         </div>
         <div @click="gotorules">
-          <span>收费规则</span>
+          <span v-if="parkingLotNumber">收费规则</span>
         </div>
       </div>
       <div v-else class="afterParkingMessage">
@@ -146,7 +146,8 @@ export default {
       title: '请输入支付密码, 用于支付验证',
       payPassFirst: '',
       loadingShow: false,
-      targetIndex: 0
+      targetIndex: 0,
+      parkingLotNumber: null
     }
   },
   directives: {
@@ -171,10 +172,10 @@ export default {
     },
     // chakanguize
     gotorules () {
-      if (this.parkingNo && this.parkingNo.length === 6) {
-        this.$router.push({name: 'parkingRules', query: {parkingNo: this.parkingNo}})
+      if (this.parkingLotNumber) {
+        this.$router.push({name: 'parkingRules', query: {parkingLotNumber: this.parkingLotNumber}})
       } else {
-        this.$vux.toast.text('请填写泊位编号')
+        this.$vux.toast.text('请输入正确的泊位编号')
         return false
       }
     },
@@ -214,6 +215,8 @@ export default {
         this.$vux.toast.text(res.msg)
         this.focusStatus = 0
         return false
+      } else {
+        this.parkingLotNumber = res.data.parkingLotNumber
       }
     },
     // 获取时间停车时间
