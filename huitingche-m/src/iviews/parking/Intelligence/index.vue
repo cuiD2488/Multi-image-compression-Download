@@ -56,7 +56,7 @@
       </div>
       <x-button type="primary" @click.native="openKeyPssword" class="defaultClass btn">确认</x-button>
     </div>
-    <popup hide-on-blur v-model="closePayKeyBoard" height="270px" is-transparent @on-hide="deletePass">
+    <popup v-if="deletePass" hide-on-blur v-model="closePayKeyBoard" height="270px" is-transparent @on-hide="deletePass">
       <div  class="payKeyboard">
         <div class="title" @click.stop="stop" v-text="title"></div>
         <ul class="password" @click.stop="stop">

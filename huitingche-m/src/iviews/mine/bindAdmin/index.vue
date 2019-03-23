@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import {ApiWxLogin, ApiRegisterByAdminQrCode, ApiRegisterByManageNumberQrCode, ApiFindParkingLotNumberLByLot, ApiGetVerificationCode, ApiQueryPkUser} from '@/api'
+import {ApiWxLogin, ApiRegisterByAdminQrCode, ApiRegisterByManageNumberQrCode, ApiFindParkingLotNumberLByLot, ApiGetVerificationCode, ApiQueryPkUser, ApiQueryParkingLotManager} from '@/api'
 import {Loading, XInput, Group, XButton} from 'vux'
 import md5 from 'js-md5'
 
@@ -50,15 +50,29 @@ export default {
   },
   methods: {
     // 获取vendorId
-    async getVendorId (code, state) {
-      let data = {
-        parkingLotNumber: state.slice(0, state.length - 1)
-      }
-      const res = await ApiFindParkingLotNumberLByLot(data)
-      if (res.code === 200) {
-        this.wxLogin(code, res.data.vendorId)
+    async getVendorId (code, state, flag) {
+      if (flag === '1') {
+        // 如果末尾标识值为1,则为系统管理员授权停车场管理员
+        let data = {
+          parkingLotNumber: state.slice(0, state.length - 1)
+        }
+        const res = await ApiFindParkingLotNumberLByLot(data)
+        if (res.code === 200) {
+          this.wxLogin(code, res.data.vendorId)
+        } else {
+          this.$vux.toast.text('请求错误')
+        }
       } else {
-        this.$vux.toast.text('请求错误')
+        // 如果末尾标识值为2,则为停车场管理员授权路段管理员
+        let data = {
+          managerNumber: state.slice(0, state.length - 1)
+        }
+        const res = await ApiQueryParkingLotManager(data)
+        if (res.code === 200) {
+          this.wxLogin(code, res.data.vendorId)
+        } else {
+          this.$vux.toast.text('请求错误')
+        }
       }
     },
     // 微信登录接口
@@ -176,7 +190,8 @@ export default {
       }
     }
     // 根据url中的参数获取用户信息
-    this.getVendorId(theRequest.code, theRequest.state)
+    let flag = theRequest.state.slice(theRequest.state.length - 1, theRequest.state.length)
+    this.getVendorId(theRequest.code, theRequest.state, flag)
     this.state = theRequest.state
     // 获取页面原始高度
     sessionStorage.setItem('windowHeight', JSON.stringify(document.documentElement.clientHeight))
