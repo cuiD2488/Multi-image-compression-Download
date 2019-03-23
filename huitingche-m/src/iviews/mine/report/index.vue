@@ -89,6 +89,7 @@ export default {
       this.loding.businessLicense = true
       const fileDocument = this.$refs[name]
       let file = fileDocument.files[0]
+      alert(1)
       let param = new FormData()
       param.append('image', file)
       // param.append('imgType', 'file')
@@ -96,9 +97,11 @@ export default {
       // const res = await ApiUploadBanner(param)
       const res1 = await ApiAddPictures(param)
       console.log(res1)
-      // this.targetImg[name].push(res.imgPath)
+      this.targetImg[name].push(res1.imgPath)
+      console.log(this.targetImg)
       // 把图片数组转成字符串赋值给需要上传的时传的参数变量
       this.formData.violationImage = this.targetImg[name].join(',')
+      console.log(this.formData.violationImage)
       // 获取bease64本地预览 笔记
       // let file = this.$refs[name]
       // this.targetReader[name] = new FileReader()
