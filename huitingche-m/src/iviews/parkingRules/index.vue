@@ -74,12 +74,14 @@ export default {
   methods: {
     async getChargingRules () {
       const data = {
-        positionNumber: this.$route.query.parkingNo
+        parkingLotNumber: this.$route.query.parkingLotNumber
       }
       const res = await ApiqueryChargingRules(data)
       if (res.code === 200) {
         this.dataRules = res.data
         this.percent = ((res.data.freeParkingSpace / +res.data.parkingSpaceTotal) * 100)
+      } else {
+        this.$vux.toast.text('未查询到该停车场的收费规则')
       }
     }
   },
@@ -87,7 +89,7 @@ export default {
     if (this.$route.query.targetParkingLotNumber !== null) {
       this.getChargingRules()
     } else {
-      this.$vux.toast.text('请填写泊位编号')
+      this.$vux.toast.text('未查询到该停车场编号')
       this.$router.back(-1)
     }
   }

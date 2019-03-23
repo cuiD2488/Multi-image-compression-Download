@@ -21,7 +21,7 @@
           <span style="position: absolute;right: 8px;top:5px" @click="show15 = false">
             X
           </span>
-          <span style="position: absolute;right: 8px;top:30px;color: #5dbeb0;" @click="$router.push({name: 'parkingRules', query: {...$route.query, ...{'targetParkingLotNumber': targetParkingLotNumber}}})">
+          <span style="position: absolute;right: 8px;top:30px;color: #5dbeb0;" @click="$router.push({name: 'parkingRules', query: {...$route.query, ...{'parkingLotNumber': targetParkingLotNumber}}})">
             查看收费规则
           </span>
           <div class="popupNav_title">
