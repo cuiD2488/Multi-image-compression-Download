@@ -4,9 +4,9 @@
     <div class="searchContent">
       <div>
         <Input search v-model="searchValue" @on-search="searchFind">
-          <Select v-model="findeCondition" slot="prepend" style="width: 120px">
+          <!-- <Select v-model="findeCondition" slot="prepend" style="width: 120px">
             <Option v-for="item in conditionList" :value="item.key" :key="item.key">{{ item.name }}</Option>
-          </Select>
+          </Select> -->
           <Button slot="append" icon="ios-search" @click="searchFind"></Button>
         </Input>
       </div>
@@ -120,22 +120,22 @@
             <Input :disabled="targetShowRule === 1" v-model="valuationList[0].whiteRuleValue" placeholder="白名单单价" type="number" style="width:100px;"></Input>
           </FormItem>
            <FormItem label="二档计价标准" prop="detailedAddress">
-            <Input :disabled="targetShowRule === 1" v-model="valuationList[0].ruleEndTime" placeholder="起始时间" :type="number" style="width:80px;"></Input>
+            <Input :disabled="targetShowRule === 1" v-model="valuationList[0].ruleEndTime" placeholder="起始时间" type="number" style="width:80px;"></Input>
             -
-            <Input :disabled="targetShowRule === 1" v-model="valuationList[1].ruleEndTime" placeholder="截止时间" :type="number" style="width:80px;"></Input>
+            <Input :disabled="targetShowRule === 1" v-model="valuationList[1].ruleEndTime" placeholder="截止时间" type="number" style="width:80px;"></Input>
             -
-            <Input :disabled="targetShowRule === 1" v-model="valuationList[1].ruleValue" placeholder="普通单价价格" :type="number" style="width:100px;"></Input>
+            <Input :disabled="targetShowRule === 1" v-model="valuationList[1].ruleValue" placeholder="普通单价价格" type="number" style="width:100px;"></Input>
             -
-            <Input :disabled="targetShowRule === 1" v-model="valuationList[1].whiteRuleValue" placeholder="白名单单价" :type="number" style="width:100px;"></Input>
+            <Input :disabled="targetShowRule === 1" v-model="valuationList[1].whiteRuleValue" placeholder="白名单单价" type="number" style="width:100px;"></Input>
           </FormItem>
            <FormItem label="三档计价标准" prop="detailedAddress">
-            <Input :disabled="targetShowRule === 1" v-model="valuationList[1].ruleEndTime" placeholder="起始时间" :type="number" style="width:80px;"></Input>
+            <Input :disabled="targetShowRule === 1" v-model="valuationList[1].ruleEndTime" placeholder="起始时间" type="number" style="width:80px;"></Input>
             -
-            <Input disabled v-model="valuationList[2].ruleEndTime" placeholder="截止时间" :type="number" style="width:80px;"></Input>
+            <Input disabled v-model="valuationList[2].ruleEndTime" placeholder="截止时间" type="number" style="width:80px;"></Input>
             -
-            <Input :disabled="targetShowRule === 1" v-model="valuationList[2].ruleValue" :type="number" placeholder="普通单价价格" style="width:100px;"></Input>
+            <Input :disabled="targetShowRule === 1" v-model="valuationList[2].ruleValue" type="number" placeholder="普通单价价格" style="width:100px;"></Input>
             -
-            <Input :disabled="targetShowRule === 1" v-model="valuationList[2].whiteRuleValue" :type="number" placeholder="白名单单价" style="width:100px;"></Input>
+            <Input :disabled="targetShowRule === 1" v-model="valuationList[2].whiteRuleValue" type="number" placeholder="白名单单价" style="width:100px;"></Input>
           </FormItem>
         </Form>
       </div>

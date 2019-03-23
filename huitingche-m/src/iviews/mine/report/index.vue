@@ -60,7 +60,7 @@ export default {
         numberPlate: '',
         reasons: '',
         violationImage: '',
-        managerNumber: ''
+        managerNumber: JSON.parse(sessionStorage.getItem('userInform')).managerNumber
       },
       loding: {
         identityCardFront: true
