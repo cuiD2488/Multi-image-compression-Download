@@ -69,7 +69,7 @@ export default {
         }
         const res = await ApiQueryParkingLotManager(data)
         if (res.code === 200) {
-          this.wxLogin(code, res.data.vendorId)
+          this.wxLogin(code, res.data[0].vendorId)
         } else {
           this.$vux.toast.text('请求错误')
         }
