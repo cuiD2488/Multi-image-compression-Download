@@ -405,7 +405,7 @@ export default {
         this.searchValue = ''
         // 选择 查看全部  queryData的其他参数不变
         this.queryData = {
-          vendorId: this.userInfo.vendorId,
+          vendorId: this.userInfo.vendorId
         }
       }
       this.$nextTick(() => {
