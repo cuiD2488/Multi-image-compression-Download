@@ -63,11 +63,15 @@ export default {
         },
         {
           title: '进车时间',
-          key: 'enterTime'
+          render: (h, params) => {
+            return h('div', params.row.enterTime.slice(0, params.row.enterTime.length - 5))
+          }
         },
         {
           title: '出车时间',
-          key: 'outTime'
+          render: (h, params) => {
+            return h('div', params.row.outTime.slice(0, params.row.outTime.length - 5))
+          }
         },
         {
           title: '订单总金额',
@@ -124,12 +128,10 @@ export default {
         },
         {
           title: '预付费开始时间',
-          key: 'buyStartTime'
+          render: (h, params) => {
+            return h('div', params.row.buyStartTime.slice(0, params.row.buyStartTime.length - 5))
+          }
         },
-        // {
-        //   title: '创建时间',
-        //   key: 'orderCreateTime'
-        // }
         {
           title: '创建时间',
           render: (h, params) => {

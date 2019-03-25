@@ -1,6 +1,6 @@
 <template>
   <div class="whitelist">
-    <div class="whitnav">
+    <div class="whitenav">
       <Button type="primary" @click="showWhitelistAddBox = true">新增白名单</Button>
         <Input v-model="searchValue" @on-enter="searchFind" @on-search="searchFind" placeholder="车牌号查询" class="search">
         <!-- @on-enter="searchFind" @on-search="searchFind" class="search" -->
@@ -24,21 +24,20 @@
     <Modal
       v-model="showWhitelistAddBox"
       title="新增白名单"
-      @on-ok="addWhitlist"
+      @on-ok="addWhitelist"
       @on-cancel="showWhitelistAddBox = false">
       <div>
         <!-- :rules="editViolationFormRule" -->
           <Form ref="formValidate" :model="addWhitelistForm" :rules="addWhitelistFormRule" :label-width="100">
              <!-- :rules="editWhitlistFormRule" -->
-            <FormItem label="操作人" prop="operator" >
-               <!-- prop="violationNumber"  prop="positionNumber"  prop="numberPlate" -->
+            <!-- <FormItem label="操作人" prop="operator" >
               <Input v-model="addWhitelistForm.operator" placeholder="请输入操作人"></Input>
+            </FormItem> -->
+            <FormItem label="车牌号(非必传)" prop="abbreviationcarNumber">
+              <Input v-model="addWhitelistForm.abbreviationcarNumber" placeholder="请输入车牌号"></Input>
             </FormItem>
             <FormItem label="备注" prop="remark">
               <Input v-model="addWhitelistForm.remark" placeholder="请输入备注"></Input>
-            </FormItem>
-            <FormItem label="车牌号" prop="abbreviationcarNumber">
-              <Input v-model="addWhitelistForm.abbreviationcarNumber" placeholder="请输入车牌号"></Input>
             </FormItem>
             <!-- <FormItem label="车牌号">
               <Input :value="addWhitelistForm.abbreviation + addWhitelistForm.carNumber" placeholder="请输入车牌号"></Input>
@@ -50,25 +49,27 @@
     <Modal
       v-model="showEditBox"
       title="编辑"
-      @on-ok="editWhitlist"
+      @on-ok="editWhitelist"
       @on-cancel="showEditBox = false">
       <div>
         <!-- :rules="editViolationFormRule" -->
-          <Form ref="formValidate" :model="editWhitlistForm" :label-width="100">
+          <Form ref="formValidate" :model="editWhitelistForm" :label-width="100">
              <!-- :rules="editWhitlistFormRule" -->
             <FormItem label="操作人">
-               <!-- prop="violationNumber"  prop="positionNumber"  prop="numberPlate" -->
-              <Input v-model="editWhitlistForm.operator" placeholder="请输入操作人"></Input>
-            </FormItem>
-            <FormItem label="备注">
-              <Input v-model="editWhitlistForm.remark" placeholder="请输入备注"></Input>
+              <Input v-model="editWhitelistForm.operator" placeholder="请输入操作人" disabled></Input>
             </FormItem>
             <FormItem label="车牌号">
-              <Input :value="editWhitlistForm.abbreviation + editWhitlistForm.carNumber" placeholder="请输入车牌号" disabled></Input>
+              <Input :value="editWhitelistForm.abbreviation + editWhitelistForm.carNumber" placeholder="请输入车牌号"></Input>
+            </FormItem>
+            <FormItem label="备注">
+              <Input v-model="editWhitelistForm.remark" placeholder="请输入备注"></Input>
             </FormItem>
             <FormItem label="创建时间">
-              <Input v-model="editWhitlistForm.whiteCreateTime" placeholder="创建时间"></Input>
+              <Input v-model="editWhitelistForm.whiteCreateTime" placeholder="创建时间" disabled></Input>
             </FormItem>
+            <!-- <FormItem label="创建时间">
+              <Input :value="editWhitlistForm.whiteCreateTime.slice(0, editWhitlistForm.whiteCreateTime.length-5)" placeholder="创建时间"></Input>
+            </FormItem> -->
         </Form>
       </div>
     </Modal>
@@ -141,7 +142,8 @@ export default {
                     // 弹出模态框
                     // 把该行所有的字段的值带过去
                     // param.row就是这一行的所有字段
-                    this.editWhitlistForm = param.row
+                    this.editWhitelistForm = param.row
+                    this.editWhitelistForm.whiteCreateTime = param.row.whiteCreateTime.slice(0, param.row.whiteCreateTime.length - 5)
                     this.showEditBox = true
                   }
                 }
@@ -157,19 +159,24 @@ export default {
         abbreviationcarNumber: ''
       },
       addWhitelistFormRule: {
-        operator: [
-          { required: true, message: '请输入操作人', trigger: 'blur' }
-        ],
+        // operator: [
+        //   { required: true, message: '请输入操作人', trigger: 'blur' }
+        // ],
         remark: [
           { required: true, message: '请输入备注', trigger: 'blur' }
         ],
+        // 车牌号非必传
         abbreviationcarNumber: [
-          { required: true, message: '请输入车牌号（9位）', min: 9, trigger: 'blur' }
+          // { required: true, message: '请输入车牌号（10位）', min: 6, max: 10, trigger: 'blur' }
+          { required: true, message: '请输入车牌号', trigger: 'blur' }
+          // { }
         ]
       },
       searchValue: '',
       showEditBox: false,
-      editWhitlistForm: {},
+      editWhitelistForm: {
+        abbreviationcarNumber: ''
+      },
       queryUrl: URLqueryPkWhitelist,
       queryData: {},
       page: 1,
@@ -206,11 +213,14 @@ export default {
       })
     },
     // 新增白名单
-    async addWhitlist () {
+    async addWhitelist () {
+      // console.log(this.userInfo)
+      // console.log(325)
+      console.log(this.addWhitelistForm.abbreviationcarNumber)
       let data = {
         // 需要传递的参数
         vendorId: this.userInfo.vendorId,
-        operator: this.addWhitelistForm.operator,
+        managerNumber: this.userInfo.managerNumber,
         remark: this.addWhitelistForm.remark,
         whiteCreateTime: this.addWhitelistForm.whiteCreateTime,
         abbreviation: this.addWhitelistForm.abbreviationcarNumber.substring(0, 2),
@@ -243,15 +253,20 @@ export default {
       })
     },
     // 编辑白名单
-    async editWhitlist () {
+    async editWhitelist () {
+      // console.log(this.editWhitelistForm.abbreviationcarNumber)
+      console.log(11212)
+      // console.log(this.editWhitwelistForm.abbreviationcarNumber)
+      // console.log(typeof (this.editWhitlistForm.abbreviationcarNumber))
       const data = {
         vendorId: this.userInfo.vendorId,
         // 白名单id
-        id: this.editWhitlistForm.id
+        id: this.editWhitelistForm.id,
         // 车牌
-        // numberPlate: this.editWhitlistForm.numberPlate,
+        abbreviation: this.editWhitlistForm.abbreviation,
+        carNumber: this.editWhitelistForm.carNumber,
         // 备注
-        // remark: this.editWhitlistForm.reasons,
+        remark: this.editWhitelistForm.remark
         // // 操作人
         // managerName: this.editWhitlistForm.managerName
       }
@@ -274,6 +289,7 @@ export default {
   },
   created () {
     this.queryData.vendorId = this.userInfo.vendorId
+    // typeof (this.editWhitlistForm.abbreviationcarNumber)
   }
 }
 </script>
@@ -288,7 +304,7 @@ export default {
   left: 260px;
   height: 250px;
   width: 1100px;
-  .whitnav{
+  .whitenav{
     display: flex;
     justify-content: space-between;
     .search{

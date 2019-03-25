@@ -3,10 +3,13 @@
     <!-- 搜索栏 -->
     <div class="searchContent">
       <div>
-        <Input search v-model="searchValue" @on-search="searchFind">
-          <!-- <Select v-model="findeCondition" slot="prepend" style="width: 120px">
+        <!-- <Input search v-model="searchValue" @on-search="searchFind">
+          <Button slot="append" icon="ios-search" @click="searchFind"></Button>
+        </Input> -->
+        <Input v-model="searchValue" @on-enter="searchFind" @on-search="searchFind" class="search">
+          <Select v-model="findeCondition" slot="prepend" style="width: 100px" placeholder="请选择" >
             <Option v-for="item in conditionList" :value="item.key" :key="item.key">{{ item.name }}</Option>
-          </Select> -->
+          </Select>
           <Button slot="append" icon="ios-search" @click="searchFind"></Button>
         </Input>
       </div>
@@ -317,10 +320,6 @@ export default {
           key: 'parkingLotName'
         },
         {
-          name: '停车场编号',
-          key: 'parkingLotNumber'
-        },
-        {
           name: '管理员',
           key: 'managerName'
         }
@@ -394,47 +393,11 @@ export default {
     console.log(this.queryData)
   },
   methods: {
-    // 条件查询停车场
-    // searchFind () {
-    //   console.log('条件搜索')
-    //   delete this.queryData.parkingLotName
-    //   delete this.queryData.parkingLotNumber
-    //   delete this.queryData.managerName
-    //   // this.queryData[this.findeCondition] = this.searchValue
-    //   // 注释
-    //   if (this.findeCondition === '0') {
-    //     // 选择全部时 清空输入框的值
-    //     this.searchValue = ''
-    //     // 选择 查看全部  queryData的其他参数不变
-    //     this.queryData = {
-    //       vendorId: this.userInfo.vendorId
-    //     }
-    //   }
-    //   // 注释
-    //   // this.queryData = {
-    //   //   vendorId: this.userInfo.vendorId
-    //   // }
-    //   // this.queryData[this.findeCondition] = this.searchValue
-    //   this.$nextTick(() => {
-    //     this.$refs.table.updateData()
-    //   })
-    // },
     searchFind () {
+      // 如果未选择下拉框
       console.log('条件搜索')
-      // console.log('value值:' + this.searchValue)
-      // this.queryData = {
-      //   vendorId: this.userInfo.vendorId
-      // }
-      // this.queryData
-      delete this.queryData.parkingLotName
       delete this.queryData.parkingLotNumber
-      delete this.queryData.managerName
-      // for循环查询当前参数
-      // for(let i = 0; i < this.queryData.length; i++){
-      //   if (this.queryData[i] !== undefined ) {
-      //   delete this.queryData[i]
-      //  }
-      // }
+      delete this.queryData.positionName
       this.queryData[this.findeCondition] = this.searchValue
       // 如果选择 查看全部 ，则列表展示原始拉取状态
       // if(this.searchValue){}
@@ -444,21 +407,29 @@ export default {
         // 选择 查看全部  queryData的其他参数不变
         this.queryData = {
           vendorId: this.userInfo.vendorId
-          // vendorId: 3
-          // orderStatus: this.queryData.orderStatus,
-          // startTime: this.queryData.startTime,
-          // endTime: this.queryData.endTime
         }
       }
-      // let order = this.queryData.orderStatus
-      // 加上状态作为参数一并传到后台
-      // this.queryData.orderStatus = this.order
-      // console.log(this.queryData)
       this.$nextTick(() => {
         this.$refs.table.updateData()
       })
     },
-    // 授权完成
+    // 条件查询停车场
+    // searchFind () {
+    //   console.log('条件搜索')
+    //   // console.log(this.conditionList)
+    //   // delete this.queryData.parkingLotName
+    //   // delete this.queryData.managerName
+    //   this.queryData[this.findeCondition] = this.searchValue
+    //   // console.log(this.searchValue)
+    //   if (this.findeCondition === '0') {
+    //     // 选择全部时 清空输入框的值
+    //     this.searchValue = ''
+    //     // 选择 查看全部  queryData的其他参数不变
+    //     this.queryData = {
+    //       vendorId: this.userInfo.vendorId
+    //     }
+    //   }
+    // },
     autherConfrim () {
       this.autherButtonShow = false
       this.$refs.table.updateData()
@@ -602,6 +573,8 @@ export default {
         detailedAddress: this.editParkInform.detailedAddress,
         parkingLotNumber: this.editParkInform.parkingLotNumber,
         vendorId: this.userInfo.vendorId,
+        // id
+        id: this.editParkInform.id,
         ...this.select
       }
       const res = await ApiUpdateParkingLot(data)
