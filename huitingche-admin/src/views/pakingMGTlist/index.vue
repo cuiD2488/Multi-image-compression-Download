@@ -375,8 +375,10 @@ export default {
     },
     // 选择全部
     onSelectAll (selection) {
-      console.log(selection)
-      // this.targetManagerNumberList = selection
+      this.targetManagerNumberList = []
+      for (let i in selection) {
+        this.targetManagerNumberList.push(selection[i].positionNumber)
+      }
     },
     // 改变table单页查询总条数
     changeTableNum () {
