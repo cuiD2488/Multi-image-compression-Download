@@ -7,11 +7,11 @@
       </div>
       <div class="phoneEdit" v-show="showPhone">
         <group>
-          <x-input title="新手机号" class="weui-vcode" v-model="phoneNo">
+          <x-input title="新手机号" class="weui-vcode" v-model="phoneNo" :show-clear="false">
           </x-input>
           <!-- <x-input title="手机号" class="weui-vcode" v-model="phoneNo">
           </x-input> -->
-          <x-input title="验证码" class="weui-vcode" v-model="verificationCode">
+          <x-input title="验证码" class="weui-vcode" v-model="verificationCode" :show-clear="false">
             <x-button slot="right" @click.native="sendCode" type="primary" mini >发送验证码</x-button>
           </x-input>
           <!-- <x-input v-show="newPhoneInput" title="新手机号" class="weui-vcode" v-model="phoneNoNew">
@@ -25,12 +25,12 @@
       </div>
       <div class="passwordEdit" v-show="showPassword">
         <group>
-          <x-input title="手机号" class="weui-vcode" v-model="phoneNo">
+          <x-input title="手机号" class="weui-vcode" v-model="phoneNo" :show-clear="false">
           </x-input>
-          <x-input title="验证码" class="weui-vcode" v-model="verificationCode">
+          <x-input title="验证码" class="weui-vcode" v-model="verificationCode" :show-clear="false">
             <x-button slot="right" @click.native="sendCode" type="primary" mini :text="btnMessage"></x-button>
           </x-input>
-          <x-input v-show="newPayCodeInput" title="新支付密码" class="weui-vcode" v-model="newPayCode">
+          <x-input v-show="newPayCodeInput" title="新支付密码" class="weui-vcode" :show-clear="false" :type="password" v-model="newPayCode">
           </x-input>
         </group>
         <x-button type="primary" class="sureBtn" @click.native="submitFn">确定</x-button>
@@ -213,6 +213,11 @@ export default {
           // 清空所有输入的数据
           this.phoneNo = null
           this.verificationCode = null
+          // 修改成功将手机号重写至缓存
+          let userInform = JSON.parse(sessionStorage.getItem('userInform'))
+          userInform.userId = this.phoneNo
+          sessionStorage.removeItem('userInform')
+          sessionStorage.setItem('userInform', JSON.stringify(userInform))
           this.$vux.toast.text('修改成功')
           this.$router.push({name: 'mine'})
         } else {

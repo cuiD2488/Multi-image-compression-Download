@@ -215,7 +215,7 @@ export default {
       this.$emit('on-select-cancel', selection, row)
     },
     onSelectAll (selection) {
-      console.log(selection)
+      // console.log(selection)
       this.$emit('on-select-all', selection)
     },
     onSelectionChange (selection) {

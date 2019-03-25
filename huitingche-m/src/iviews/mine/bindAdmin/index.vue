@@ -149,6 +149,7 @@ export default {
         if (this.state.slice(this.state.length - 1, this.state.length) === '1') {
           res = await ApiRegisterByAdminQrCode(data)
         } else {
+          data['manageNumber'] = this.state.slice(0, this.state.length - 1)
           res = await ApiRegisterByManageNumberQrCode(data)
         }
         if (res.code === 200) {

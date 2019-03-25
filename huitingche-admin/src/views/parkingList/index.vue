@@ -108,7 +108,8 @@
           </FormItem>
           <FormItem label="收费时段" prop="date">
             <Col span="12">
-              <TimePicker :disabled="targetShowRule === 1" v-model="aruleForm.date" confirm  format="HH:mm" type="timerange" placement="bottom-end" placeholder="请选择收费时间段" style="width: 168px"></TimePicker>
+              <!-- 添加时间间隔 -->
+              <TimePicker :disabled="targetShowRule === 1" v-model="aruleForm.date" confirm :steps="[1, 30]" format="HH:mm" type="timerange" placement="bottom-end" placeholder="请选择收费时间段" style="width: 168px"></TimePicker>
             </Col>
           </FormItem>
           <FormItem>
