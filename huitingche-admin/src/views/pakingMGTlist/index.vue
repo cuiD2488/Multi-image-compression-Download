@@ -333,6 +333,7 @@ export default {
     // 编辑车位
     async editParkingPosition () {
       const data = {
+        id: this.editParkingPositionForm.id,
         vendorId: this.userInfo.vendorId,
         // 车位号码 泊位号
         positionNumber: this.editParkingPositionForm.positionNumber,
@@ -373,9 +374,9 @@ export default {
       }
     },
     // 选择全部
-    onSelectAll (v, i) {
-      console.log(v)
-      console.log(i)
+    onSelectAll (selection) {
+      console.log(selection)
+      // this.targetManagerNumberList = selection
     },
     // 改变table单页查询总条数
     changeTableNum () {
@@ -472,6 +473,7 @@ export default {
       const data = {
         // vendorId: this.userInfo.vendorId,
         // violationNumber: item.violationNumber
+        id: item.id,
         status: 1,
         positionNumber: item.positionNumber
       }
