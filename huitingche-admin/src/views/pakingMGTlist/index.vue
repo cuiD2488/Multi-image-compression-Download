@@ -493,7 +493,8 @@ export default {
     // 初始化查询参数
     this.queryData.vendorId = this.userInfo.vendorId
     if (this.userInfo.role === 2) {
-      this.queryData.superiorNumber = this.userInfo.managerNumber
+      this.queryData.parkingLotNumber = this.userInfo.parkingLotNumber
+      // this.queryData.superiorNumber = this.userInfo.managerNumber
     }
   }
 }
