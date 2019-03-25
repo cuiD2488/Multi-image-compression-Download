@@ -168,7 +168,7 @@ export default {
         // 车牌号非必传
         abbreviationcarNumber: [
           // { required: true, message: '请输入车牌号（10位）', min: 6, max: 10, trigger: 'blur' }
-          { required: true, message: '请输入车牌号', trigger: 'blur' }
+          { required: true, message: '请输入车牌号', min: 6, max: 10, trigger: 'blur' }
           // { }
         ]
       },
@@ -254,10 +254,6 @@ export default {
     },
     // 编辑白名单
     async editWhitelist () {
-      // console.log(this.editWhitelistForm.abbreviationcarNumber)
-      console.log(11212)
-      // console.log(this.editWhitwelistForm.abbreviationcarNumber)
-      // console.log(typeof (this.editWhitlistForm.abbreviationcarNumber))
       const data = {
         vendorId: this.userInfo.vendorId,
         // 白名单id
