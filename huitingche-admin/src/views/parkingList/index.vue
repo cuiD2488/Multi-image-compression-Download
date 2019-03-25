@@ -62,6 +62,7 @@
               <Input v-model="editParkInform.parkingLotName" placeholder="请输入停车场名字"></Input>
             </FormItem>
             <FormItem label="省市区" prop="detailedAddress">
+              <!-- <v-distpicker :province="select.province" :city="select.city" :area="select.county" @selected="changeSelect"></v-distpicker> -->
               <v-distpicker :province="select.province" :city="select.city" :area="select.county" @selected="changeSelect"></v-distpicker>
             </FormItem>
             <FormItem label="详细地址" prop="detailedAddress">
@@ -260,6 +261,9 @@ export default {
                   click: () => {
                     this.editParkInform = JSON.parse(JSON.stringify(param.row))
                     this.editParkFlag = true
+                    this.select.province = param.row.province
+                    this.select.city = param.row.city
+                    this.select.county = param.row.county
                   }
                 }
               }, '编辑'),
@@ -342,7 +346,12 @@ export default {
           { required: true, message: '请选择时间', trigger: 'blur' }
         ]
       },
-      select: { province: '广东省', city: '广州市', county: '海珠区' },
+      // select: { province: '广东省', city: '广州市', county: '海珠区' },
+      select: {
+        province: '',
+        city: '',
+        county: ''
+      },
       autherButtonShow: false,
       showRule: false,
       aruleForm: {
@@ -484,11 +493,18 @@ export default {
     },
     // 新增停车场
     async addParking () {
+      console.log('add')
+      // 设置省市选择为空
+      // 循环设置对象里面的属性为空
+      // for (let i = 0; i < this.select.length; i++) {
+      //   this.select[i] = ''
+      // }
       let data = {
         ...this.addParkingForm,
         ...this.select,
         vendorId: this.userInfo.vendorId
       }
+      console.log(this.select)
       const res = await ApiAddParkingLot(data)
       if (res.code === 200) {
         this.$Message.success('新增成功')
@@ -497,6 +513,18 @@ export default {
       }
       // 更新表格
       this.$refs.table.updateData()
+      // 清缓存
+      this.select.province = ''
+      this.select.city = ''
+      this.select.county = ''
+      // for (let i = 0; i < this.select.length; i++) {
+      //   this.select[i] = ''
+      // }
+      // for (let i = 0; i < this.addParkingForm.length; i++) {
+      //   this.addParkingForm[i] = ''
+      // }
+      this.addParkingForm.parkingLotName = ''
+      this.addParkingForm.detailedAddress = ''
     },
     // 删除停车场
     async deleteParking (item) {
@@ -565,7 +593,6 @@ export default {
     },
     // 编辑停车场信息
     async editPark () {
-      // console.log(123)
       console.log(this.editParkInform)
       let data = {
         parkingLotName: this.editParkInform.parkingLotName,
@@ -574,6 +601,7 @@ export default {
         vendorId: this.userInfo.vendorId,
         // id
         id: this.editParkInform.id,
+        // this.select 拿到当前选择的省市
         ...this.select
       }
       const res = await ApiUpdateParkingLot(data)
