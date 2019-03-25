@@ -572,6 +572,8 @@ export default {
         detailedAddress: this.editParkInform.detailedAddress,
         parkingLotNumber: this.editParkInform.parkingLotNumber,
         vendorId: this.userInfo.vendorId,
+        // id
+        id: this.editParkInform.id,
         ...this.select
       }
       const res = await ApiUpdateParkingLot(data)
