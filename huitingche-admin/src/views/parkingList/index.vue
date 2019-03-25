@@ -113,7 +113,8 @@
             </Col>
           </FormItem>
           <FormItem>
-            <div>规则时间与价格以半小时为单位</div>
+            <div style="color: red;">填写规则:</div>
+            <div style="color: red; line-height: 1.5;">例: 0 - 1 - 1 - 0 表示1在收费时间段内停车1小时,普通用户1元/半小时,白名单用户为0元/半小时</div>
           </FormItem>
           <FormItem label="一档计价标准" prop="detailedAddress">
             <Input disabled v-model="valuationList[0].ruleStartTime" placeholder="起始时间" style="width:80px;"></Input>
@@ -542,6 +543,12 @@ export default {
     // 规则设置/编辑完成
     async ruleConfrim () {
       if (this.targetShowRule === 1) {
+        this.$Message.error('规则设置不能为空')
+        return false
+      }
+      console.log(this.aruleForm.data)
+      if (!this.aruleForm.data) {
+        this.$Message.error('收费时段不能为空')
         return false
       }
       // 将用户输入的上一档的结束时间赋值给下一档的开始时间
