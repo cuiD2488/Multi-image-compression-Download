@@ -168,7 +168,7 @@ export default {
         // 车牌号非必传
         abbreviationcarNumber: [
           // { required: true, message: '请输入车牌号（10位）', min: 6, max: 10, trigger: 'blur' }
-          { required: true, message: '请输入车牌号', min: 6, max: 10, trigger: 'blur' }
+          { required: true, message: '请输入车牌号', min: 8, max: 10, trigger: 'blur' }
           // { }
         ]
       },
