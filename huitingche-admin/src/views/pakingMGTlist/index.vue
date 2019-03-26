@@ -93,7 +93,7 @@
               <Input v-model="editParkingPositionForm.parkingLotNumber" placeholder="请输入停车场编号" disabled></Input>
             </FormItem>
             <FormItem label="泊位号">
-              <Input v-model="editParkingPositionForm.positionNumber" placeholder="请输入泊位号"></Input>
+              <Input v-model="editParkingPositionForm.positionNumber" placeholder="请输入泊位号" maxlength="6"></Input>
             </FormItem>
             <FormItem label="设备编号">
               <Input v-model="editParkingPositionForm.deviceId" placeholder="请输入设备编号"></Input>

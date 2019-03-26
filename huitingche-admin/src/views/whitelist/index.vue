@@ -33,8 +33,8 @@
             <!-- <FormItem label="操作人" prop="operator" >
               <Input v-model="addWhitelistForm.operator" placeholder="请输入操作人"></Input>
             </FormItem> -->
-            <FormItem label="车牌号(非必传)" prop="abbreviationcarNumber">
-              <Input v-model="addWhitelistForm.abbreviationcarNumber" placeholder="请输入车牌号"></Input>
+            <FormItem label="车牌号" prop="abbreviationcarNumber">
+              <Input v-model="addWhitelistForm.abbreviationcarNumber" placeholder="请输入车牌号" maxlength="10"></Input>
             </FormItem>
             <FormItem label="备注" prop="remark">
               <Input v-model="addWhitelistForm.remark" placeholder="请输入备注"></Input>
@@ -168,7 +168,7 @@ export default {
         // 车牌号非必传
         abbreviationcarNumber: [
           // { required: true, message: '请输入车牌号（10位）', min: 6, max: 10, trigger: 'blur' }
-          { required: true, message: '请输入车牌号', min: 8, max: 10, trigger: 'blur' }
+          { required: true, message: '请输入车牌号', min: 6, max: 10, trigger: 'blur' }
           // { }
         ]
       },
