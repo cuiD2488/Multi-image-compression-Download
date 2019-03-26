@@ -214,8 +214,6 @@ export default {
     },
     // 新增白名单
     async addWhitelist () {
-      // console.log(this.userInfo)
-      // console.log(325)
       console.log(this.addWhitelistForm.abbreviationcarNumber)
       let data = {
         // 需要传递的参数
@@ -263,8 +261,6 @@ export default {
         carNumber: this.editWhitelistForm.carNumber,
         // 备注
         remark: this.editWhitelistForm.remark
-        // // 操作人
-        // managerName: this.editWhitlistForm.managerName
       }
       const res = await ApiUpdatePkWhitelist(data)
       if (res.code === 200) {
@@ -276,16 +272,12 @@ export default {
       // 更新表格
       this.$refs.table.updateData()
     }
-    // searchFind () {
-    //   console.log(1)
-    // }
   },
   computed: {
     ...mapGetters(['userInfo'])
   },
   created () {
     this.queryData.vendorId = this.userInfo.vendorId
-    // typeof (this.editWhitlistForm.abbreviationcarNumber)
   }
 }
 </script>
