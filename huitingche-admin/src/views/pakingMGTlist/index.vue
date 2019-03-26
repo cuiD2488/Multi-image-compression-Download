@@ -57,7 +57,7 @@
       v-model="autherButtonShow"
       width="220"
       align="center"
-      title="授权停车场管理"
+      title="授权路段管理员"
       @on-ok="autherButtonShow = false"
       @on-cancel="autherButtonShow = false"
     >
