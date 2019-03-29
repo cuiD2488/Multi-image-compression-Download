@@ -45,7 +45,7 @@
               <Input v-model="editViolationForm.violationNumber" placeholder="请输入违停编号" disabled></Input>
             </FormItem>
             <FormItem label="车位编号">
-              <Input v-model="editViolationForm.positionNumber" placeholder="请输入车位编号"></Input>
+              <Input v-model="editViolationForm.positionNumber" placeholder="请输入车位编号" :maxlength=6></Input>
             </FormItem>
             <FormItem label="车牌号">
               <Input :value="editViolationForm.abbreviation + editViolationForm.numberPlate" placeholder="请输入车牌号" disabled></Input>

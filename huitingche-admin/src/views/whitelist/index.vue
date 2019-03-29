@@ -34,7 +34,7 @@
               <Input v-model="addWhitelistForm.operator" placeholder="请输入操作人"></Input>
             </FormItem> -->
             <FormItem label="车牌号" prop="abbreviationcarNumber">
-              <Input v-model="addWhitelistForm.abbreviationcarNumber" placeholder="请输入车牌号" maxlength="8"></Input>
+              <Input v-model="addWhitelistForm.abbreviationcarNumber" placeholder="请输入车牌号" :maxlength="8"></Input>
             </FormItem>
             <FormItem label="备注" prop="remark">
               <Input v-model="addWhitelistForm.remark" placeholder="请输入备注"></Input>

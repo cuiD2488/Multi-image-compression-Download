@@ -233,12 +233,6 @@ export default {
       delete this.queryData.parkingLotNumber
       delete this.queryData.positionNumber
       delete this.queryData.orderNumber
-      // for循环查询当前参数
-      // for(let i = 0; i < this.queryData.length; i++){
-      //   if (this.queryData[i] !== undefined ) {
-      //   delete this.queryData[i]
-      //  }
-      // }
       this.queryData[this.findeCondition] = this.searchValue
       // 如果选择 查看全部 ，则列表展示原始拉取状态
       // if(this.searchValue){}
@@ -286,6 +280,7 @@ export default {
   mounted () {
     console.log(this.userInfo)
     console.log('vendorId:' + this.userInfo.vendorId)
+    // console.log(params.row.buyStartTime' + params.row.buyStartTime)
   },
   created () {
     this.queryData.vendorId = this.userInfo.vendorId
