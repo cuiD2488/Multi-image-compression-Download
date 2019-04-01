@@ -352,6 +352,7 @@ export default {
       }
     }
   }
+  // 弹出层样式
   .popoupNav_operation{
     display: flex;
     justify-content: space-between;
@@ -371,9 +372,9 @@ export default {
       }
     }
     >div:nth-child(2){
-        border-left: 1px solid #ddd;
-        border-right: 1px solid #ddd;
-      }
+      border-left: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+    }
   }
 }
 // 地图

@@ -109,7 +109,9 @@ export default {
       // 输入新支付密码的输入框
       newPayCodeInput: false,
       // 发送验证码文字
-      btnMessage: '发送验证码'
+      btnMessage: '发送验证码',
+      // 模板id
+      modelId: ''
     }
   },
   methods: {
@@ -146,7 +148,9 @@ export default {
         return
       }
       let data = {
-        phone: this.phoneNo
+        phone: this.phoneNo,
+        // 增加模板id参数
+        modelId: 146613
       }
       if (this.btnMessage === '发送验证码' || this.btnMessage === '重新获取') {
         // 调用发送短信接口

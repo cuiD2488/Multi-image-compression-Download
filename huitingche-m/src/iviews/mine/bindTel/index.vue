@@ -51,7 +51,9 @@ export default {
       payCode: '',
       payCodeAgain: '',
       // 发送验证码文字
-      btnMessage: '发送验证码'
+      btnMessage: '发送验证码',
+      // 模板id
+      modelId: ''
     }
   },
   methods: {
@@ -62,7 +64,8 @@ export default {
         return
       }
       const data = {
-        phone: this.phoneNo
+        phone: this.phoneNo,
+        modelId: 146613
         // verificationCode: this.verificationCode
       }
       if (this.btnMessage === '发送验证码' || this.btnMessage === '重新获取') {
