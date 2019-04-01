@@ -64,6 +64,7 @@ export default {
         {
           title: '进车时间',
           render: (h, params) => {
+            // 增加判断 如果该值为null则设置为'' 不然的话null不可以使用slice方法
             return h('div', params.row.enterTime ? (params.row.enterTime.slice(0, params.row.enterTime.length - 5)) : '')
             // return h('div', params.row.enterTime.slice(0, params.row.enterTime.length - 5))
           }
@@ -72,6 +73,7 @@ export default {
           title: '出车时间',
           render: (h, params) => {
             // return h('div', params.row.outTime.slice(0, params.row.outTime.length - 5))
+            // 增加判断 如果该值为null则设置为'' 不然的话null不可以使用slice方法
             return h('div', params.row.outTime ? (params.row.outTime.slice(0, params.row.outTime.length - 5)) : '')
           }
         },
