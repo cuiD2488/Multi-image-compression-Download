@@ -145,6 +145,7 @@ export default {
                     // 把该行所有的字段的值带过去
                     // param.row就是这一行的所有字段
                     this.editWhitelistForm = param.row
+                    // console.log('hello' + this.editWhitelistForm.abbreviation)
                     this.editWhitelistForm.whiteCreateTime = param.row.whiteCreateTime.slice(0, param.row.whiteCreateTime.length - 5)
                     this.showEditBox = true
                   }
@@ -265,7 +266,7 @@ export default {
         // 白名单id
         id: this.editWhitelistForm.id,
         // 车牌
-        abbreviation: this.editWhitlistForm.abbreviation,
+        abbreviation: this.editWhitelistForm.abbreviation,
         carNumber: this.editWhitelistForm.carNumber,
         // 备注
         remark: this.editWhitelistForm.remark
