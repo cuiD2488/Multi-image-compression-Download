@@ -70,9 +70,6 @@
             <FormItem label="创建时间">
               <Input v-model="editWhitelistForm.whiteCreateTime" placeholder="创建时间" disabled></Input>
             </FormItem>
-            <!-- <FormItem label="创建时间">
-              <Input :value="editWhitlistForm.whiteCreateTime.slice(0, editWhitlistForm.whiteCreateTime.length-5)" placeholder="创建时间"></Input>
-            </FormItem> -->
         </Form>
       </div>
     </Modal>
