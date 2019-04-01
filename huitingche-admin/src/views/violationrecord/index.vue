@@ -2,7 +2,7 @@
   <div class="violationrecord">
     <div class="searchContent">
       <Input v-model="searchValue" @on-enter="searchFind" @on-search="searchFind" class="search">
-        <Select v-model="findeCondition" slot="prepend" style="width: 100px" placeholder="请选择" >
+        <Select v-model="findeCondition" slot="prepend" style="width: 100px" placeholder="请先选择" >
           <Option v-for="item in conditionList" :value="item.key" :key="item.key">{{ item.name }}</Option>
         </Select>
         <Button slot="append" icon="ios-search" @click="searchFind"></Button>
@@ -233,8 +233,8 @@ export default {
       // this.searchValue = this.searchValue.replace(/\s*/g, '')
       // this.queryData[this.findeCondition] = this.searchValue
       console.log(this.searchValue)
-      // 如果选择全部，则列表展示原始拉取状态
-      if (this.findeCondition === '0') {
+      // 如果选择全部或者从未点击下拉框就输入，则列表展示原始拉取状态
+      if (this.findeCondition === '0' || this.findeCondition === '') {
         this.searchValue = ''
         this.queryData = {
           vendorId: this.userInfo.vendorId
