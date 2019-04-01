@@ -213,11 +213,6 @@ export default {
     }
   },
   methods: {
-    // editViolation () {
-    //   console.log('模态框点击了确定')
-    //   // 点击模态框的确定按钮后在这里调接口
-    //   // eaditViolation()
-    // },
     searchFind () {
       console.log('条件搜索')
       console.log(this.searchValue)
