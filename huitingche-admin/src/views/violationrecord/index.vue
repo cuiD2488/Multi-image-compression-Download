@@ -226,7 +226,8 @@ export default {
       this.queryData = {
         vendorId: this.userInfo.vendorId
       }
-      this.queryData[this.findeCondition] = this.searchValue
+      // 增加.trim()
+      this.queryData[this.findeCondition] = this.searchValue.trim()
       // 如果选择全部，则列表展示原始拉取状态
       if (this.findeCondition === '0') {
         this.searchValue = ''
@@ -234,10 +235,6 @@ export default {
           vendorId: this.userInfo.vendorId
         }
       }
-      // let order = this.queryData.orderStatus
-      // 加上状态作为参数一并传到后台
-      // this.queryData.orderStatus = this.order
-      // console.log(this.queryData)
       this.$nextTick(() => {
         this.$refs.table.updateData()
       })

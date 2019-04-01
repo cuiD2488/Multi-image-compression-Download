@@ -422,7 +422,8 @@ export default {
       console.log('条件搜索')
       delete this.queryData.parkingLotNumber
       delete this.queryData.positionName
-      this.queryData[this.findeCondition] = this.searchValue
+      // 增加.trim()方法去除两边空格
+      this.queryData[this.findeCondition] = this.searchValue.trim()
       // 如果选择 查看全部 ，则列表展示原始拉取状态
       // if(this.searchValue){}
       if (this.findeCondition === '0') {

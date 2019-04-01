@@ -58,8 +58,11 @@
             <FormItem label="操作人">
               <Input v-model="editWhitelistForm.operator" placeholder="请输入操作人" disabled></Input>
             </FormItem>
-            <FormItem label="车牌号">
+            <!-- <FormItem label="车牌号">
               <Input :value="editWhitelistForm.abbreviation + editWhitelistForm.carNumber" placeholder="请输入车牌号"></Input>
+            </FormItem> -->
+            <FormItem label="车牌号">
+              <Input v-model="editWhitelistForm.abbreviationcarNumber" placeholder="请输入车牌号" :maxlength="8"></Input>
             </FormItem>
             <FormItem label="备注">
               <Input v-model="editWhitelistForm.remark" placeholder="请输入备注"></Input>
@@ -145,6 +148,11 @@ export default {
                     // 把该行所有的字段的值带过去
                     // param.row就是这一行的所有字段
                     this.editWhitelistForm = param.row
+                    console.log(this.editWhitelistForm)
+                    this.editWhitelistForm.abbreviationcarNumber = this.editWhitelistForm.abbreviation + this.editWhitelistForm.carNumber
+                    // this.editWhitelistForm.
+                    // this.editWhitelistForm.abbreviationcar = this.editWhitelistForm.abbreviationcarNumber.substring(0, 2)
+                    // console.log('hello' + this.editWhitelistForm.abbreviationcar)
                     // console.log('hello' + this.editWhitelistForm.abbreviation)
                     this.editWhitelistForm.whiteCreateTime = param.row.whiteCreateTime.slice(0, param.row.whiteCreateTime.length - 5)
                     this.showEditBox = true
@@ -178,7 +186,9 @@ export default {
       searchValue: '',
       showEditBox: false,
       editWhitelistForm: {
-        abbreviationcarNumber: ''
+        // abbreviationcarNumber: ''
+        abbreviation: '',
+        carNumber: ''
       },
       queryUrl: URLqueryPkWhitelist,
       queryData: {},
@@ -224,8 +234,8 @@ export default {
         managerNumber: this.userInfo.managerNumber,
         remark: this.addWhitelistForm.remark,
         whiteCreateTime: this.addWhitelistForm.whiteCreateTime,
-        abbreviation: this.addWhitelistForm.abbreviationcarNumber.substring(0, 2),
-        carNumber: this.addWhitelistForm.abbreviationcarNumber.substring(2)
+        abbreviation: this.addWhitelistForm.abbreviationcarNumber.substring(0, 2).trim(),
+        carNumber: this.addWhitelistForm.abbreviationcarNumber.substring(2).trim()
         // abbreviation: this.addWhitelistForm.abbreviation,
         // carNumber: this.addWhitelistForm.carNumber
       }
@@ -266,8 +276,8 @@ export default {
         // 白名单id
         id: this.editWhitelistForm.id,
         // 车牌
-        abbreviation: this.editWhitelistForm.abbreviation,
-        carNumber: this.editWhitelistForm.carNumber,
+        abbreviation: this.editWhitelistForm.abbreviationcarNumber.substring(0, 2),
+        carNumber: this.editWhitelistForm.abbreviationcarNumber.substring(2),
         // 备注
         remark: this.editWhitelistForm.remark
       }
@@ -279,7 +289,10 @@ export default {
         this.$Message.info('编辑违停信息失败')
       }
       // 更新表格
-      this.$refs.table.updateData()
+      // this.$refs.table.updateData()
+      // this.$nextTick(() => {
+      //   this.$refs.table.updateData()
+      // })
     }
   },
   computed: {

@@ -414,7 +414,8 @@ export default {
       this.queryData = {
         vendorId: this.userInfo.vendorId
       }
-      this.queryData[this.findeCondition] = this.searchValue
+      // 增加.trim()方法去除两边空格
+      this.queryData[this.findeCondition] = this.searchValue.trim()
       this.$nextTick(() => {
         this.$refs.table.updateData()
       })
