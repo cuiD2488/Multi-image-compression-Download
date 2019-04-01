@@ -56,7 +56,7 @@
           <Form ref="formValidate" :model="editWhitelistForm" :label-width="100">
              <!-- :rules="editWhitlistFormRule" -->
             <FormItem label="操作人">
-              <Input v-model="editWhitelistForm.operator" placeholder="请输入操作人" disabled></Input>
+              <Input v-model="editWhitelistForm.managerName" placeholder="请输入操作人" disabled></Input>
             </FormItem>
             <!-- <FormItem label="车牌号">
               <Input :value="editWhitelistForm.abbreviation + editWhitelistForm.carNumber" placeholder="请输入车牌号"></Input>
@@ -104,7 +104,7 @@ export default {
         },
         {
           title: '操作人',
-          key: 'operator'
+          key: 'managerName'
         },
         {
           title: '备注',
