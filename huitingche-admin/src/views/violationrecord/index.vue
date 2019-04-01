@@ -220,12 +220,16 @@ export default {
     // },
     searchFind () {
       console.log('条件搜索')
+      // delete this.queryData.numberPlate
+      // delete this.queryData.positionNumber
+      // delete this.queryData.managerName
       this.queryData = {
         vendorId: this.userInfo.vendorId
       }
       this.queryData[this.findeCondition] = this.searchValue
       // 如果选择全部，则列表展示原始拉取状态
-      if (this.searchValue === '0') {
+      if (this.findeCondition === '0') {
+        this.searchValue = ''
         this.queryData = {
           vendorId: this.userInfo.vendorId
         }
