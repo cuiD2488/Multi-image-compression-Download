@@ -55,21 +55,21 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../ystc-m/index.html'),
+    // index: path.resolve(__dirname, '../ystc-m/index.html'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../ystc-m'),
-    assetsSubDirectory: 'static',
-    assetsPublicPath: '/web/ystc-m/',
+    // assetsRoot: path.resolve(__dirname, '../ystc-m'),
+    // assetsSubDirectory: 'static',
+    // assetsPublicPath: '/web/ystc-m/',
 
     // 智慧停车打包参数
     // Template for index.html
-    // index: path.resolve(__dirname, '../zhtc-m/index.html'),
+    index: path.resolve(__dirname, '../zhtc-m/index.html'),
 
     // Paths
-    // assetsRoot: path.resolve(__dirname, '../zhtc-m'),
-    // assetsSubDirectory: 'static',
-    // assetsPublicPath: '/web/zhtc-m/',
+    assetsRoot: path.resolve(__dirname, '../zhtc-m'),
+    assetsSubDirectory: 'static',
+    assetsPublicPath: '/web/zhtc-m/',
 
     /**
      * Source Maps

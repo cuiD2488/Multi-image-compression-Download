@@ -1,5 +1,6 @@
 <template>
   <div class="page">
+    <!-- 授权注册表单 -->
     <group>
       <x-input title="管理员姓名" class="weui-vcode" v-model="manageName">
       </x-input>
@@ -45,7 +46,8 @@ export default {
       // userInform: JSON.parse(sessionStorage.getItem('userInform')),
       userInform: null,
       // 发送验证码文字
-      btnMessage: '发送验证码'
+      btnMessage: '发送验证码',
+      modelId: ''
     }
   },
   methods: {
@@ -102,7 +104,8 @@ export default {
         return
       }
       const data = {
-        phone: this.phoneNo
+        phone: this.phoneNo,
+        modelId: 146613
       }
       if (this.btnMessage === '发送验证码' || this.btnMessage === '重新获取') {
         // 调用发送短信接口
