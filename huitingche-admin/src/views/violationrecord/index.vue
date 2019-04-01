@@ -111,7 +111,7 @@ export default {
                     this.showViolationIMG = true
                     let violationImage = param.row.violationImage
                     this.imgArr = violationImage.split(',')
-                    console.log(this.imgArr)
+                    // console.log(this.imgArr)
                   }
                 }
               }, '点击查看图片')
@@ -214,8 +214,8 @@ export default {
   },
   methods: {
     searchFind () {
-      console.log('条件搜索')
-      console.log(this.searchValue)
+      // console.log('条件搜索')
+      // console.log(this.searchValue)
       // delete this.queryData.numberPlate
       // delete this.queryData.positionNumber
       // delete this.queryData.managerName
@@ -227,7 +227,7 @@ export default {
       // 去除所有空格
       // this.searchValue = this.searchValue.replace(/\s*/g, '')
       // this.queryData[this.findeCondition] = this.searchValue
-      console.log(this.searchValue)
+      // console.log(this.searchValue)
       // 如果选择全部或者从未点击下拉框就输入，则列表展示原始拉取状态
       if (this.findeCondition === '0' || this.findeCondition === '') {
         this.searchValue = ''
@@ -282,8 +282,8 @@ export default {
     ...mapGetters(['userInfo'])
   },
   mounted () {
-    console.log(this.userInfo)
-    console.log('vendorId:' + this.userInfo.vendorId)
+    // console.log(this.userInfo)
+    // console.log('vendorId:' + this.userInfo.vendorId)
     // console.log('this.queryData:' + this.queryData)
     // this.$refs.table.updateData()
     // console.log(this.searchValue)

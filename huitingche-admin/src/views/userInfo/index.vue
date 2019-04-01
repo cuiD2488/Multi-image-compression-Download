@@ -70,8 +70,17 @@ export default {
           }
         },
         {
-          title: '余额 (元)',
-          key: 'balance'
+          title: '金额（元）',
+          key: 'balance',
+          render: (h, param) => {
+            return h('div', [
+              h('p', {
+                style: {
+                  'margin-right': '10px'
+                }
+              }, param.row.balance ? param.row.balance : 0)
+            ])
+          }
         },
         {
           title: '是否管理员',

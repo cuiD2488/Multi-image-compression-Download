@@ -78,7 +78,7 @@ export default {
           }
         },
         {
-          title: '订单总金额',
+          title: '订单总金额（元）',
           // key: 'orderMoney',
           render: (h, param) => {
             return h('div', [
@@ -86,12 +86,12 @@ export default {
                 style: {
                   'margin-right': '10px'
                 }
-              }, param.row.orderMoney ? (param.row.orderMoney + '元') : '')
+              }, param.row.orderMoney ? param.row.orderMoney : 0)
             ])
           }
         },
         {
-          title: '预付费金额',
+          title: '预付费金额（元）',
           // key: 'actualPayMoney',
           render: (h, param) => {
             return h('div', [
@@ -99,7 +99,7 @@ export default {
                 style: {
                   'margin-right': '10px'
                 }
-              }, param.row.actualPayMoney ? (param.row.actualPayMoney + '元') : '')
+              }, param.row.actualPayMoney ? param.row.actualPayMoney : 0)
             ])
           }
         },
