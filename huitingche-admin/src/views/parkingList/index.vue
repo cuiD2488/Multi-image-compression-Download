@@ -57,15 +57,19 @@
       @on-ok="editPark"
       @on-cancel="editParkFlag = false">
       <div>
-          <Form ref="formValidate" :model="editParkInform" :rules="addParkingFormRule" :label-width="100">
+          <Form ref="formValidate" :model="editParkInform" :rules="editParkingFormRule" :label-width="100">
+            <!--  -->
             <FormItem label="停车场名字" prop="parkingLotName">
+              <!--  -->
               <Input v-model="editParkInform.parkingLotName" placeholder="请输入停车场名字"></Input>
             </FormItem>
-            <FormItem label="省市区" prop="detailedAddress">
+            <FormItem label="省市区">
+              <!--  -->
               <!-- <v-distpicker :province="select.province" :city="select.city" :area="select.county" @selected="changeSelect"></v-distpicker> -->
               <v-distpicker :province="select.province" :city="select.city" :area="select.county" @selected="changeSelect"></v-distpicker>
             </FormItem>
             <FormItem label="详细地址" prop="detailedAddress">
+              <!--  -->
               <Input v-model="editParkInform.detailedAddress"></Input>
             </FormItem>
             <FormItem label="停车场编号">
@@ -119,29 +123,29 @@
           <FormItem label="一档计价标准" prop="detailedAddress">
             <Input disabled v-model="valuationList[0].ruleStartTime" placeholder="起始时间" style="width:80px;"></Input>
             -
-            <Input :disabled="targetShowRule === 1" v-model="valuationList[0].ruleEndTime" placeholder="截止时间" type="number" style="width:80px;"></Input>
+            <Input :disabled="targetShowRule === 1" v-model="valuationList[0].ruleEndTime" placeholder="截止时间" style="width:80px;" number></Input>
             -
-            <Input :disabled="targetShowRule === 1" v-model="valuationList[0].ruleValue" placeholder="普通单价价格" type="number" style="width:100px;"></Input>
+            <Input :disabled="targetShowRule === 1" v-model="valuationList[0].ruleValue" placeholder="普通单价价格" style="width:100px;" number></Input>
             -
-            <Input :disabled="targetShowRule === 1" v-model="valuationList[0].whiteRuleValue" placeholder="白名单单价" type="number" style="width:100px;"></Input>
+            <Input :disabled="targetShowRule === 1" v-model="valuationList[0].whiteRuleValue" placeholder="白名单单价" style="width:100px;" number></Input>
           </FormItem>
            <FormItem label="二档计价标准" prop="detailedAddress">
-            <Input :disabled="targetShowRule === 1" v-model="valuationList[0].ruleEndTime" placeholder="起始时间" type="number" style="width:80px;"></Input>
+            <Input :disabled="targetShowRule === 1" v-model="valuationList[0].ruleEndTime" placeholder="起始时间" style="width:80px;" number></Input>
             -
-            <Input :disabled="targetShowRule === 1" v-model="valuationList[1].ruleEndTime" placeholder="截止时间" type="number" style="width:80px;"></Input>
+            <Input :disabled="targetShowRule === 1" v-model="valuationList[1].ruleEndTime" placeholder="截止时间" style="width:80px;" number></Input>
             -
-            <Input :disabled="targetShowRule === 1" v-model="valuationList[1].ruleValue" placeholder="普通单价价格" type="number" style="width:100px;"></Input>
+            <Input :disabled="targetShowRule === 1" v-model="valuationList[1].ruleValue" placeholder="普通单价价格" style="width:100px;" number></Input>
             -
-            <Input :disabled="targetShowRule === 1" v-model="valuationList[1].whiteRuleValue" placeholder="白名单单价" type="number" style="width:100px;"></Input>
+            <Input :disabled="targetShowRule === 1" v-model="valuationList[1].whiteRuleValue" placeholder="白名单单价" style="width:100px;" number></Input>
           </FormItem>
            <FormItem label="三档计价标准" prop="detailedAddress">
-            <Input :disabled="targetShowRule === 1" v-model="valuationList[1].ruleEndTime" placeholder="起始时间" type="number" style="width:80px;"></Input>
+            <Input :disabled="targetShowRule === 1" v-model="valuationList[1].ruleEndTime" placeholder="起始时间" style="width:80px;" number></Input>
             -
-            <Input disabled v-model="valuationList[2].ruleEndTime" placeholder="截止时间" type="number" style="width:80px;"></Input>
+            <Input disabled v-model="valuationList[2].ruleEndTime" placeholder="截止时间" style="width:80px;"></Input>
             -
-            <Input :disabled="targetShowRule === 1" v-model="valuationList[2].ruleValue" type="number" placeholder="普通单价价格" style="width:100px;"></Input>
+            <Input :disabled="targetShowRule === 1" v-model="valuationList[2].ruleValue" placeholder="普通单价价格" style="width:100px;" number></Input>
             -
-            <Input :disabled="targetShowRule === 1" v-model="valuationList[2].whiteRuleValue" type="number" placeholder="白名单单价" style="width:100px;"></Input>
+            <Input :disabled="targetShowRule === 1" v-model="valuationList[2].whiteRuleValue" placeholder="白名单单价" style="width:100px;" number></Input>
           </FormItem>
         </Form>
       </div>
@@ -337,6 +341,14 @@ export default {
         parkingLotName: ''
       },
       showParkingAddBox: false,
+      editParkingFormRule: {
+        parkingLotName: [
+          { required: true, message: '请输入停车场名字', trigger: 'blur' }
+        ],
+        detailedAddress: [
+          { required: true, message: '请输入详细地址', trigger: 'blur' }
+        ]
+      },
       addParkingFormRule: {
         parkingLotName: [
           { required: true, message: '请输入停车场名字', trigger: 'blur' }
