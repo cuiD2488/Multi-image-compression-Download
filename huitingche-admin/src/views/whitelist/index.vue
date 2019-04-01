@@ -150,11 +150,6 @@ export default {
                     this.editWhitelistForm = param.row
                     console.log(this.editWhitelistForm)
                     this.editWhitelistForm.abbreviationcarNumber = this.editWhitelistForm.abbreviation + this.editWhitelistForm.carNumber
-                    // this.editWhitelistForm.
-                    // this.editWhitelistForm.abbreviationcar = this.editWhitelistForm.abbreviationcarNumber.substring(0, 2)
-                    // console.log('hello' + this.editWhitelistForm.abbreviationcar)
-                    // console.log('hello' + this.editWhitelistForm.abbreviation)
-                    this.editWhitelistForm.whiteCreateTime = param.row.whiteCreateTime.slice(0, param.row.whiteCreateTime.length - 5)
                     this.showEditBox = true
                   }
                 }
