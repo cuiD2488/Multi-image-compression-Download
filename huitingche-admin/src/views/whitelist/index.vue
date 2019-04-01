@@ -110,7 +110,9 @@ export default {
         {
           title: '创建时间',
           render: (h, params) => {
-            return h('div', params.row.whiteCreateTime.slice(0, params.row.whiteCreateTime.length - 5))
+            // 增加为null判断
+            return h('div', params.row.whiteCreateTime ? (params.row.whiteCreateTime.slice(0, params.row.whiteCreateTime.length - 5)) : '')
+            // return h('div', params.row.whiteCreateTime.slice(0, params.row.whiteCreateTime.length - 5))
           }
         },
         {

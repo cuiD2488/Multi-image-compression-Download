@@ -221,7 +221,9 @@ export default {
           title: '创建时间',
           align: 'center',
           render: (h, params) => {
-            return h('div', params.row.lotCreateTime.slice(0, params.row.lotCreateTime.length - 5))
+            // 增加判断
+            return h('div', params.row.lotCreateTime ? (params.row.lotCreateTime.slice(0, params.row.lotCreateTime.length - 5)) : '')
+            // return h('div', params.row.lotCreateTime.slice(0, params.row.lotCreateTime.length - 5))
           }
           // key: 'lotCreateTime'
         },
