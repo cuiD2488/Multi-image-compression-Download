@@ -34,7 +34,7 @@
               <Input v-model="addWhitelistForm.operator" placeholder="请输入操作人"></Input>
             </FormItem> -->
             <FormItem label="车牌号" prop="abbreviationcarNumber">
-              <Input v-model="addWhitelistForm.abbreviationcarNumber" placeholder="请输入车牌号" maxlength="10"></Input>
+              <Input v-model="addWhitelistForm.abbreviationcarNumber" placeholder="请输入车牌号" :maxlength="8"></Input>
             </FormItem>
             <FormItem label="备注" prop="remark">
               <Input v-model="addWhitelistForm.remark" placeholder="请输入备注"></Input>
@@ -234,6 +234,12 @@ export default {
       }
       // 更新表格
       this.$refs.table.updateData()
+      // 清缓存
+      for (let i in this.addWhitelistForm) {
+        this.addWhitelistForm[i] = ''
+      }
+      // this.addWhitelistForm.abbreviationcarNumber = ''
+      // this.addWhitelistForm.remark = ''
     },
     // 删除白名单
     async deleteWhiteList (item) {

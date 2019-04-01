@@ -516,23 +516,23 @@ export default {
       // 更新表格
       this.$refs.table.updateData()
       // 清缓存
-      this.select.province = ''
-      this.select.city = ''
-      this.select.county = ''
-      // for (let i = 0; i < this.select.length; i++) {
-      //   this.select[i] = ''
-      // }
-      // for (let i = 0; i < this.addParkingForm.length; i++) {
-      //   this.addParkingForm[i] = ''
-      // }
-      this.addParkingForm.parkingLotName = ''
-      this.addParkingForm.detailedAddress = ''
+      // this.select.province = ''
+      // this.select.city = ''
+      // this.select.county = ''
+      // this.addParkingForm.parkingLotName = ''
+      // this.addParkingForm.detailedAddress = ''
+      for (let i in this.select) {
+        this.select[i] = ''
+      }
+      for (let i in this.addParkingForm) {
+        this.addParkingForm[i] = ''
+      }
     },
     // 删除停车场
     async deleteParking (item) {
       const data = {
         // vendorId: this.userInfo.vendorId,
-        vendorId: 3,
+        vendorId: this.userInfo.vendorId,
         parkingLotNumber: item.parkingLotNumber
       }
       const res = await ApiDeleteParkingLot(data)
