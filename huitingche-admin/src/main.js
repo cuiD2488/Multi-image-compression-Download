@@ -12,6 +12,7 @@ Vue.use(iView)
 Vue.prototype.utils = utils
 Vue.config.productionTip = false
 
+// 全局登录控制 路由守卫
 router.beforeEach((to, from, next) => {
   iView.LoadingBar.start()
   window.document.title = to.meta.title || '云尚停车商户管理'
