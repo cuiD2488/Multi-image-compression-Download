@@ -64,7 +64,7 @@ export default {
         {
           title: '进车时间',
           render: (h, params) => {
-            // 增加判断 如果该值为null则设置为'' 不然的话null不可以使用slice方法
+            // 增加判断 如果该值为null则设置为'' 不然的话null不可以使用slice方法导致报错
             return h('div', params.row.enterTime ? (params.row.enterTime.slice(0, params.row.enterTime.length - 5)) : '')
             // return h('div', params.row.enterTime.slice(0, params.row.enterTime.length - 5))
           }
@@ -104,7 +104,7 @@ export default {
           }
         },
         {
-          title: '购买时长',
+          title: '购买时长（小时）',
           // key: 'buyDuration'
           render: (h, param) => {
             return h('div', [
@@ -112,7 +112,8 @@ export default {
                 style: {
                   'margin-right': '10px'
                 }
-              }, param.row.buyDuration ? (param.row.buyDuration + '小时') : '')
+              }, param.row.buyDuration ? param.row.buyDuration : 0)
+              // param.row.buyDuration ? (param.row.buyDuration + '小时') : ''
               // 增加单位 如果该字段为空则都不展示
             ])
           }
