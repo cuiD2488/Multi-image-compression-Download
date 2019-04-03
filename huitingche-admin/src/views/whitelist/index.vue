@@ -53,7 +53,7 @@
       @on-cancel="showEditBox = false">
       <div>
         <!-- :rules="editViolationFormRule" -->
-          <Form ref="formValidate" :model="editWhitelistForm" :label-width="100">
+          <Form ref="formValidate" :model="editWhitelistForm" :rules="editWhitelistFormRule" :label-width="100">
              <!-- :rules="editWhitlistFormRule" -->
             <FormItem label="操作人">
               <Input v-model="editWhitelistForm.managerName" placeholder="请输入操作人" disabled></Input>
@@ -61,7 +61,7 @@
             <!-- <FormItem label="车牌号">
               <Input :value="editWhitelistForm.abbreviation + editWhitelistForm.carNumber" placeholder="请输入车牌号"></Input>
             </FormItem> -->
-            <FormItem label="车牌号">
+            <FormItem label="车牌号" prop="abbreviationcarNumber">
               <Input v-model="editWhitelistForm.abbreviationcarNumber" placeholder="请输入车牌号" :maxlength="8"></Input>
             </FormItem>
             <FormItem label="备注">
@@ -160,6 +160,11 @@ export default {
         operator: '',
         remark: '',
         abbreviationcarNumber: ''
+      },
+      editWhitelistFormRule: {
+        abbreviationcarNumber: [
+          { required: true, message: '请输入6-8位车牌号', trigger: 'blur' }
+        ]
       },
       addWhitelistFormRule: {
         // operator: [
