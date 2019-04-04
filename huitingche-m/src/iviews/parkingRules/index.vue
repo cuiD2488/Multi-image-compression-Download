@@ -22,7 +22,7 @@
       <div class="title">收费时段</div>
       <div class="tiemsSectionTable">
         <div>
-          <span>工作日</span>
+          <span>{{dataRules.pkChargingTimeVoList[0].chargingDate}}</span>
         </div>
         <div v-if="dataRules && dataRules.pkChargingTimeVoList">
           <div>
