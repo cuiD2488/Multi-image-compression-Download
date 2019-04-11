@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+  <div id="content">
+      替代内容
+  </div>
+    <canvas id="box" style="border: 1px solid #ddd;" width="200" height="200">
+      替代内容
+    </canvas>
+</body>
+</html>
+<script>
+  try{
+    document.createElement('canvas').getContext('2d')
+    console.log(123)
+    document.getElementById('content').innerHTML = '您的浏览器支持cavans'
+  } catch {
+    document.getElementById('content').innerHTML = '您的浏览器不支持cavans'
+  }
+  
+  function test () {
+    var canvas = document.getElementById('box')
+    var ctx = canvas.getContext('2d')
+    ctx.beginPath()
+    ctx.moveTo(70, 140)
+    ctx.lineTo(140, 70)
+    ctx.stroke()
+  }
+  window.addEventListener('load', test, true)
+
+</script>

@@ -129,7 +129,7 @@ export default {
         this.$vux.toast.text('提交成功')
         this.$router.push({name: 'mine'})
       } else {
-        this.$vux.toast.text('提交失败，请确保网络正常')
+        this.$vux.toast.text(res.msg)
       }
     }
   }

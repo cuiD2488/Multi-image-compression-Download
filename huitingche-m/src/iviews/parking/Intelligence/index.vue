@@ -245,7 +245,7 @@ export default {
         // 白名单人员字段, 计算内直接用了三目了，如果是白名单内人员则应用白名单计费标准
         let isWhite = this.userInform.vip
         // 如果选择时段小于或等于第一档
-        if (targetTime === (item[0].ruleEndTime - item[0].ruleStartTime) || targetTime === (item[0].ruleEndTime - item[0].ruleStartTime)) {
+        if (targetTime === (item[0].ruleEndTime - item[0].ruleStartTime) || targetTime < (item[0].ruleEndTime - item[0].ruleStartTime)) {
           targetMoney += (isWhite === 1 ? item[0].whiteRuleValue : item[0].ruleValue) * targetTime * 2
         } else if (targetTime > (item[0].ruleEndTime - item[0].ruleStartTime) && targetTime - (item[0].ruleEndTime - item[0].ruleStartTime) < (item[1].ruleEndTime - item[1].ruleStartTime)) {
           // 如果选择时段大于第一档时段 并且选择时段减去第一档剩余时段小于第二档
