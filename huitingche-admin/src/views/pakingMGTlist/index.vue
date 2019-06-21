@@ -104,8 +104,8 @@
             <FormItem label="路段管理员">
               <Input v-model="editParkingPositionForm.managerName" placeholder="请输入路段管理员" disabled></Input>
             </FormItem>
-            <FormItem label="管理员联系方式">
-              <Input v-model="editParkingPositionForm.managerNumber" placeholder="请输入管理员联系方式" disabled></Input>
+            <FormItem label="联系方式">
+              <Input v-model="editParkingPositionForm.phone" placeholder="请输入管理员联系方式" disabled></Input>
             </FormItem>
             <FormItem label="创建时间">
               <Input v-model="editParkingPositionForm.createTime" placeholder="请输入创建时间" disabled></Input>
