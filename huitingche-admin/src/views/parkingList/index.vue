@@ -36,16 +36,16 @@
       @on-ok="addParking"
       @on-cancel="showParkingAddBox = false">
       <div>
-          <Form ref="formValidate" :model="addParkingForm" :rules="addParkingFormRule" :label-width="100">
-            <FormItem label="停车场名字" prop="parkingLotName">
-              <Input v-model="addParkingForm.parkingLotName" placeholder="请输入停车场名字"></Input>
-            </FormItem>
-            <FormItem label="省市区" prop="detailedAddress">
-              <v-distpicker :province="select.province" :city="select.city" :area="select.county" @selected="changeSelect"></v-distpicker>
-            </FormItem>
-            <FormItem label="详细地址" prop="detailedAddress">
-              <Input v-model="addParkingForm.detailedAddress" placeholder="请输入详细地址"></Input>
-            </FormItem>
+        <Form ref="formValidate" :model="addParkingForm" :rules="addParkingFormRule" :label-width="100">
+          <FormItem label="停车场名字" prop="parkingLotName">
+            <Input v-model="addParkingForm.parkingLotName" placeholder="请输入停车场名字"></Input>
+          </FormItem>
+          <FormItem label="省市区" prop="detailedAddress">
+            <v-distpicker :province="select.province" :city="select.city" :area="select.county" @selected="changeSelect"></v-distpicker>
+          </FormItem>
+          <FormItem label="详细地址" prop="detailedAddress">
+            <Input v-model="addParkingForm.detailedAddress" placeholder="请输入详细地址"></Input>
+          </FormItem>
         </Form>
       </div>
     </Modal>
