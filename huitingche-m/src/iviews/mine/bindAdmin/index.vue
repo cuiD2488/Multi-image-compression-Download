@@ -105,7 +105,7 @@ export default {
       }
       const data = {
         phone: this.phoneNo,
-        modelId: 146613
+        modelId: 50734
       }
       if (this.btnMessage === '发送验证码' || this.btnMessage === '重新获取') {
         // 调用发送短信接口
