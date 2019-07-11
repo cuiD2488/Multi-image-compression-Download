@@ -137,6 +137,7 @@ export default {
             // 关闭loading
             _this.$vux.loading.hide()
             _this.onComplete(result)
+            // console.log(result)
             _this.center = result.position
             // 查询周边
             AMap.service(['AMap.PlaceSearch'], function () {

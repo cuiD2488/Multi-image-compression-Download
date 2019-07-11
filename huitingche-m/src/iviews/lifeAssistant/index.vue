@@ -172,14 +172,21 @@ export default {
 
 <style>
 .searchLine{
-  height: 58px;
+  background-color: #e9e9ee;
+  padding: 10px 0;
   font-size: 24px !important;
+  text-align: left;
 }
 .searchLine form input, .searchLine form i{
     font-size: 24px !important;
 }
 .searchLine form .weui-search-bar__label span{
-   font-size: 24px !important;
+   font-size: 28px !important;
+}
+.searchLine form .weui-search-bar__label{
+  text-align: left !important;
+  /* line-height: 58px !important;
+  height: 58px !important; */
 }
 .weui-search-bar__box{
     padding-left: 0.6rem !important;
@@ -188,6 +195,6 @@ export default {
   line-height: 0.6rem !important;
 }
 .weui-search-bar__box .weui-icon-search{
-      top: .1rem !important;
+  top: .1rem !important;
 }
 </style>

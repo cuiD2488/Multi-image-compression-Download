@@ -16,6 +16,7 @@ import billingDetail from '@/iviews/mine/billingDetail'
 import report from '@/iviews/mine/report'
 import bindAdmin from '@/iviews/mine/bindAdmin'
 import lifeAssistant from '@/iviews/lifeAssistant'
+import aroundServer from '@/iviews/aroundServer'
 // const home = () => import('@/iviews/home')
 
 Vue.use(Router)
@@ -147,6 +148,14 @@ export default new Router({
             title: '生活助手'
           },
           component: lifeAssistant
+        },
+        {
+          path: 'aroundServer',
+          name: 'aroundServer',
+          meta: {
+            title: '周边服务'
+          },
+          component: aroundServer
         }
       ]
     }

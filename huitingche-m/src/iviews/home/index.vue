@@ -14,7 +14,12 @@
       @on-focus="onFocus"
       @on-cancel="onCancel"
       @on-submit="onSubmit"
-      ref="search"></search>
+      ref="search">
+        <div slot="left">
+          <div v-if="nowLocal" class="picWord"><img src="../../assets/navigation.png" alt=""><span>{{nowLocal}}</span></div>
+          <div v-else class="picWord"><img src="../../assets/navigation.png" alt="">获取中</div>
+        </div>
+      </search>
     </div>
     <div>
       <!-- 广告图 -->
@@ -66,6 +71,7 @@
   </div>
 </template>
 <script>
+import AMap from 'AMap'
 import {ApiWxLogin, ApiQueryBill} from '@/api'
 import {Search, Loading} from 'vux'
 
@@ -114,7 +120,7 @@ export default {
         {
           icon: require('../../assets/aroundSever.png'),
           text: '周边服务',
-          routeName: null,
+          routeName: 'aroundServer',
           url: null
         },
         {
@@ -133,7 +139,9 @@ export default {
       noticeList: [
       ],
       // loading展示标识
-      showLoading: true
+      showLoading: true,
+      // 展示地理位置
+      nowLocal: null
     }
   },
   methods: {
@@ -187,7 +195,40 @@ export default {
     onSubmit () {
     },
     resultClick () {
+    },
+    // 获取用户地理位置
+    getLocation () {
+      let _this = this
+      this.$vux.loading.show({
+        text: '获取定位...'
+      })
+      AMap.plugin('AMap.Geolocation', function () {
+        var geolocation = new AMap.Geolocation({
+          enableHighAccuracy: true,
+          timeout: 10000,
+          showCircle: true,
+          buttonPosition: 'LB', // 定位按钮的停靠位置
+          buttonOffset: new AMap.Pixel(10, 350), // 定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+          zoomToAccuracy: false // 定位成功后是否自动调整地图视野到定位点
+        })
+        // 获取用户当前的精确位置信息，当回调函数中的status为complete的时候表示定位成功，result为GeolocationResult对象;
+        // 当回调函数中的status为error的时候表示定位失败，result为GeolocationError对象；
+        geolocation.getCurrentPosition(function (status, result) {
+          if (status === 'complete') {
+            // 关闭loading
+            _this.$vux.loading.hide()
+            // console.log(result)
+            _this.nowLocal = result.addressComponent.district
+          } else {
+            _this.$vux.loading.hide()
+            _this.$vux.toast.text('定位失败')
+          }
+        })
+      })
     }
+  },
+  mounted () {
+    this.getLocation()
   },
   created () {
     // 从字符串中截取相关参数
@@ -221,8 +262,9 @@ export default {
   padding-bottom: 120px;
 }
 .searchLine{
-  height: 58px;
-  // padding: 20px 0;
+  // height: 102px;
+  background-color: #e9e9ee;
+  padding: 15px 0;
 }
 .bannerContent{
   height: 274px;
@@ -315,7 +357,10 @@ export default {
     font-size: 24px !important;
 }
 .searchLine form .weui-search-bar__label span{
-   font-size: 24px !important;
+   font-size: 28px !important;
+}
+.searchLine form .weui-search-bar__label{
+  line-height: 58px !important;
 }
 .weui-search-bar__box{
     padding-left: 0.6rem !important;
@@ -324,6 +369,21 @@ export default {
   line-height: 0.6rem !important;
 }
 .weui-search-bar__box .weui-icon-search{
-      top: .1rem !important;
+  top: .1rem !important;
+}
+.picWord{
+  display: inline-block;
+  height: 58px;
+  font-size: 32px;
+}
+.picWord img{
+  width: 40px;
+  height: 50px;
+  vertical-align: text-top;
+}
+.picWord span{
+  display: inline-block;
+  vertical-align: text-top;
+  margin: 0 10px;
 }
 </style>
