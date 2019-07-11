@@ -17,7 +17,7 @@
       ref="search">
         <div slot="left">
           <div v-if="nowLocal" class="picWord"><img src="../../assets/navigation.png" alt=""><span>{{nowLocal}}</span></div>
-          <div v-else class="picWord"><img src="../../assets/navigation.png" alt="">获取中</div>
+          <div v-else class="picWord"><img src="../../assets/navigation.png" alt=""><span>获取中</span></div>
         </div>
       </search>
     </div>
