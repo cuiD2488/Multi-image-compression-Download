@@ -89,31 +89,31 @@ export default {
           routeName: 'Intelligence'
         },
         {
-          icon: require('../../assets/wash.png'),
-          text: '洗车',
-          routeName: null
-        },
-        {
-          icon: require('../../assets/violation.png'),
-          text: '违章查询',
-          routeName: null,
-          url: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx6bfe76eabcf9e5e3&redirect_uri=http%3A%2F%2Fweixin.checar.cn%2Fweixin%2Fembed%2FtwoindexAction%21weixin.action&response_type=code&scope=snsapi_base&state=73920#wechat_redirect'
-        },
-        {
           icon: require('../../assets/fiyting.png'),
           text: '优惠加油',
           routeName: null,
           url: null
         },
         {
-          icon: require('../../assets/booking.png'),
-          text: '订票助手',
-          routeName: null,
-          url: 'http://m.ctrip.com/html5/?allianceid=834861&sid=1399502&popup=close&autoawaken=close'
+          icon: require('../../assets/wash.png'),
+          text: '车辆服务',
+          routeName: null
         },
         {
-          icon: require('../../assets/route.png'),
-          text: '路线优化',
+          icon: require('../../assets/violation.png'),
+          text: '违章查缴',
+          routeName: null,
+          url: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx6bfe76eabcf9e5e3&redirect_uri=http%3A%2F%2Fweixin.checar.cn%2Fweixin%2Fembed%2FtwoindexAction%21weixin.action&response_type=code&scope=snsapi_base&state=73920#wechat_redirect'
+        },
+        {
+          icon: require('../../assets/shoppingMall.png'),
+          text: '本地优选',
+          routeName: null,
+          url: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8ad03862eab34cf0&redirect_uri=http://cyc8.cn/getOpenIdByYSSHWxMenu.json?appid=wx8ad03862eab34cf0&response_type=code&scope=snsapi_base&state=13#wechat_redirect'
+        },
+        {
+          icon: require('../../assets/aroundSever.png'),
+          text: '周边服务',
           routeName: null,
           url: null
         },
@@ -124,10 +124,10 @@ export default {
           url: null
         },
         {
-          icon: require('../../assets/shoppingMall.png'),
-          text: '云尚甄品',
-          routeName: null,
-          url: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8ad03862eab34cf0&redirect_uri=http://cyc8.cn/getOpenIdByYSSHWxMenu.json?appid=wx8ad03862eab34cf0&response_type=code&scope=snsapi_base&state=13#wechat_redirect'
+          icon: require('../../assets/booking.png'),
+          text: '生活助手',
+          routeName: 'lifeAssistant'
+          // url: 'http://m.ctrip.com/html5/?allianceid=834861&sid=1399502&popup=close&autoawaken=close'
         }
       ],
       noticeList: [
