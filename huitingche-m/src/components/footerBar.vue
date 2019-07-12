@@ -7,7 +7,7 @@
       </tabbar-item>
       <tabbar-item :link="{name: 'location'}">
          <img slot="icon" :src="tabVal === 1 ? require('../assets/locationRight.png') : require('../assets/navigation.png')">
-        <span slot="label">附近</span>
+        <span slot="label">找车位</span>
       </tabbar-item>
       <tabbar-item :link="{name: 'mine'}">
         <img slot="icon" :src="tabVal === 2 ? require('../assets/userRight.png') : require('../assets/user.png')">

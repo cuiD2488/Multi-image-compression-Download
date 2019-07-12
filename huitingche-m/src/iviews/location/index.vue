@@ -1,18 +1,16 @@
 <template>
   <div class="amap-page-container">
-    <div class="searchLine2">
-      <div style="height: 30px;">
-        <search
-        class="searchClass"
-        @result-click="resultClick"
-        @on-change="getResult"
-        :results="results"
-        v-model="values"
-        position="absolute"
-        auto-scroll-to-top
-        top="46px"
-        ref="search"></search>
-      </div>
+    <div class="searchLine">
+      <search
+      class="searchClass"
+      @result-click="resultClick"
+      @on-focus="getResult"
+      @on-change="getResult"
+      :results="results"
+      v-model="values"
+      position="absolute"
+      auto-scroll-to-top
+      ref="search"></search>
     </div>
     <div id="container" class="map"></div>
     <div v-transfer-dom>
@@ -394,6 +392,4 @@ export default {
   right: 10px;
   width: 200px;
 }
-</style>
-<style>
 </style>

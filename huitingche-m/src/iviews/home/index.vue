@@ -261,11 +261,7 @@ export default {
 .homePage{
   padding-bottom: 120px;
 }
-.searchLine{
-  // height: 102px;
-  background-color: #e9e9ee;
-  padding: 15px 0;
-}
+
 .bannerContent{
   height: 274px;
   img{
@@ -351,6 +347,8 @@ export default {
 </style>
 <style>
 .searchLine{
+  background-color: #e9e9ee;
+  /* padding: 15px 0; */
   font-size: 24px !important;
 }
 .searchLine form input, .searchLine form i{
@@ -363,13 +361,23 @@ export default {
   line-height: 58px !important;
 }
 .weui-search-bar__box{
-    padding-left: 0.6rem !important;
+  padding-left: 0.6rem !important;
 }
 .weui-search-bar__cancel-btn{
-  line-height: 0.6rem !important;
+  margin-top: 5px !important;
+  line-height: 58px !important;
 }
 .weui-search-bar__box .weui-icon-search{
   top: .1rem !important;
+}
+.weui-search-bar__box .weui-search-bar__input, .weui-search-bar__box i{
+  font-size: 28px !important;
+  height: 58px !important;
+  line-height: 58px !important;
+}
+.vux-search-box{
+  padding: 10px 0 !important;
+  background: #EFEFF4 !important;
 }
 .picWord{
   display: inline-block;

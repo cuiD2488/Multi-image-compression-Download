@@ -1,32 +1,3 @@
-<style>
-.searchLine{
-  background-color: #e9e9ee;
-  padding: 10px 0;
-  font-size: 24px !important;
-  text-align: left;
-}
-.searchLine form input, .searchLine form i{
-    font-size: 24px !important;
-}
-.searchLine form .weui-search-bar__label span{
-   font-size: 28px !important;
-}
-.searchLine form .weui-search-bar__label{
-  text-align: left !important;
-}
-.weui-search-bar__box{
-    padding-left: 0.6rem !important;
-}
-.weui-search-bar__cancel-btn{
-  line-height: 0.6rem !important;
-}
-.weui-search-bar__box .weui-icon-search{
-  top: .1rem !important;
-}
-.weui-search-bar {
-  height: 1rem !important;
-}
-</style>
 <template>
   <div class="lifeAssistant">
     <div class="searchLine">
